@@ -4,4 +4,7 @@
 
     <string name="ids_menu_fill_device">Fill device</string>
     <string name="ids_menu_clear">Clear fill</string>
+    <string name="ids_title_filling">Filling files&#8230;</string>
+    <string name="ids_message_free_space">Free space: %1$s</string>
+    <string name="ids_message_calculating">Calculating free space&#8230;</string>
 </resources>

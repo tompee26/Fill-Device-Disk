@@ -3,6 +3,8 @@ package com.tompee.utilities.filldevicespace.controller.task;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +28,7 @@ public class FillDiskTask extends AsyncTask<Void, Void, Void> {
             try {
                 copyAssetsFile(mContext, ASSET_FILE_NAME, ASSET_FILE_NAME + mFileCount);
                 mFileCount++;
+                publishProgress();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -33,21 +36,24 @@ public class FillDiskTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        mListener.onProgressUpdate();
+    }
+
     private void copyAssetsFile(Context context, String assetsFileName,
                                 String outputFileName) throws IOException {
         InputStream inputStream = context.getAssets().open(assetsFileName);
-        String outputPath = context.getFilesDir().getPath();
+        String outputPath = StorageUtility.getFilesDirectory(mContext);
         //noinspection ResultOfMethodCallIgnored
         new java.io.File(outputPath).mkdirs();
         OutputStream outputStream =
                 new FileOutputStream(new java.io.File(outputPath, outputFileName));
-
         byte data[] = new byte[BLOCK_SIZE];
         int count;
         while ((count = inputStream.read(data)) != -1) {
             outputStream.write(data, 0, count);
         }
-
         outputStream.flush();
         outputStream.close();
         inputStream.close();
@@ -58,7 +64,16 @@ public class FillDiskTask extends AsyncTask<Void, Void, Void> {
         mListener.onFillDiskSpaceComplete();
     }
 
+    @Override
+    protected void onCancelled() {
+        mListener.onCancelled();
+    }
+
     public interface OnFillDiskSpaceListener {
         void onFillDiskSpaceComplete();
+
+        void onProgressUpdate();
+
+        void onCancelled();
     }
 }
