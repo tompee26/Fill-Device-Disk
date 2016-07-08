@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Fill Device Disk</string>
+    <string name="default_content_description">Content description</string>
+
+    <string name="ids_menu_fill_device">Fill device</string>
+    <string name="ids_menu_clear">Clear fill</string>
+</resources>

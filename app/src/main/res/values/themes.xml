@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Branded Launch Theme -->
+    <style name="BrandedLaunch">
+        <!--<item name="android:windowBackground">@drawable/minniesda_launcher</item>-->
+    </style>
+
+    <!-- Application Theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:actionMenuTextColor">@color/light_text</item>
+        <item name="actionMenuTextColor">@drawable/selector_action_menu</item>
+        <item name="android:textColorSecondary">@color/light_text</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
+</resources>
