@@ -1,5 +1,6 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -28,11 +29,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         setToolbar(R.id.toolbar, false);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
-
-        View view = findViewById(R.id.easy_fill);
-        view.setOnClickListener(this);
-        view = findViewById(R.id.delete);
-        view.setOnClickListener(this);
     }
 
     @Override
@@ -42,8 +38,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 showProgressDialog();
                 startDiskTask();
                 break;
+            case R.id.advance_fill:
+                break;
+            case R.id.check_storage:
+                showCheckStorageDialog();
+                break;
             case R.id.delete:
-                StorageUtility.deleteFiles(this);
+                showClearFillDialog();
         }
     }
 
@@ -65,6 +66,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     }
                 });
         mProgressDialog.show();
+    }
+
+    private void showCheckStorageDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.ids_title_available_space));
+        builder.setMessage(String.format(getString(R.string.ids_message_free_space),
+                Formatter.formatShortFileSize(this, StorageUtility.getAvailableStorageSize(this))));
+        builder.setPositiveButton(R.string.ids_lbl_ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showClearFillDialog() {
+        long before = StorageUtility.getAvailableStorageSize(this);
+        StorageUtility.deleteFiles(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.ids_lbl_clear));
+        builder.setMessage(String.format(getString(R.string.ids_message_cleared_space),
+                Formatter.formatShortFileSize(this, StorageUtility.
+                        getAvailableStorageSize(this) - before)));
+        builder.setPositiveButton(R.string.ids_lbl_ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void cancelDiskFillTask() {

@@ -8,8 +8,9 @@ import java.io.File;
 
 public class StorageUtility {
 
-    public static long getAvailableStorageSize(String path) {
+    public static long getAvailableStorageSize(Context context) {
         long availableSize;
+        String path = getFilesDirectory(context);
         StatFs statFs = new StatFs(path);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) { //API 18
             //noinspection deprecation

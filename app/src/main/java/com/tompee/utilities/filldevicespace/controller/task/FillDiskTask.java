@@ -28,8 +28,7 @@ public class FillDiskTask extends AsyncTask<Void, Long, Void> {
     public FillDiskTask(Context context, OnFillDiskSpaceListener listener) {
         mContext = context;
         mListener = listener;
-        mInitialDiskSpace = StorageUtility.getAvailableStorageSize(StorageUtility.
-                getFilesDirectory(mContext));
+        mInitialDiskSpace = StorageUtility.getAvailableStorageSize(mContext);
     }
 
     @Override
@@ -40,8 +39,7 @@ public class FillDiskTask extends AsyncTask<Void, Long, Void> {
             try {
                 copyAssetsFile(mContext, currentAsset, currentAsset + fileCount);
                 fileCount++;
-                long current = StorageUtility.getAvailableStorageSize(StorageUtility.
-                        getFilesDirectory(mContext));
+                long current = StorageUtility.getAvailableStorageSize(mContext);
                 float progress = ((float) (mInitialDiskSpace - current) /
                         (float) mInitialDiskSpace * PERCENT);
                 publishProgress(current, (long) (progress));
