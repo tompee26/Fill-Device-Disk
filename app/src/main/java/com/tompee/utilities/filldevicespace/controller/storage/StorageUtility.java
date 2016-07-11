@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StatFs;
 
+import java.io.File;
+
 public class StorageUtility {
 
     public static long getAvailableStorageSize(String path) {
@@ -22,5 +24,15 @@ public class StorageUtility {
 
     public static String getFilesDirectory(Context context) {
         return context.getFilesDir().getAbsolutePath();
+    }
+
+    public static int getFileCount(Context context) {
+        return context.getFilesDir().listFiles().length;
+    }
+
+    public static void deleteFiles(Context context) {
+        for (File file : context.getFilesDir().listFiles()) {
+            file.delete();
+        }
     }
 }

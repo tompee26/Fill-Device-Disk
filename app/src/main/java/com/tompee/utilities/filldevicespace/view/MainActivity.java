@@ -1,5 +1,6 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
 
-        View view = findViewById(R.id.fill);
+        View view = findViewById(R.id.easy_fill);
         view.setOnClickListener(this);
         view = findViewById(R.id.delete);
         view.setOnClickListener(this);
@@ -37,32 +38,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fill:
+            case R.id.easy_fill:
                 showProgressDialog();
                 startDiskTask();
                 break;
             case R.id.delete:
+                StorageUtility.deleteFiles(this);
         }
     }
 
     private void showProgressDialog() {
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setTitle(R.string.ids_title_filling);
-        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setIndeterminate(false);
         mProgressDialog.setMessage(getString(R.string.ids_message_calculating));
-        mProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (mProgressDialog != null) {
-                    mProgressDialog = null;
-                }
-                if (mFillDiskTask != null) {
-                    mFillDiskTask.cancel(true);
-                }
-            }
-        });
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setProgressNumberFormat(null);
+        mProgressDialog.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.ids_lbl_cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        cancelDiskFillTask();
+                        dialog.dismiss();
+                    }
+                });
         mProgressDialog.show();
+    }
+
+    private void cancelDiskFillTask() {
+        if (mProgressDialog != null) {
+            mProgressDialog = null;
+        }
+        if (mFillDiskTask != null) {
+            mFillDiskTask.cancel(true);
+        }
     }
 
     private void startDiskTask() {
@@ -74,14 +85,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onFillDiskSpaceComplete() {
+        mProgressDialog.dismiss();
+        mProgressDialog = null;
+        mFillDiskTask = null;
     }
 
     @Override
-    public void onProgressUpdate() {
+    public void onProgressUpdate(long current, int progress) {
         if (mProgressDialog != null) {
             mProgressDialog.setMessage(String.format(getString(R.string.ids_message_free_space),
-                    Formatter.formatShortFileSize(this, StorageUtility.
-                            getAvailableStorageSize(StorageUtility.getFilesDirectory(this)))));
+                    Formatter.formatShortFileSize(this, current)));
+            mProgressDialog.setProgress(progress);
         }
     }
 
@@ -89,5 +103,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     public void onCancelled() {
         Log.d(TAG, "Fill cancelled");
         mFillDiskTask = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelDiskFillTask();
     }
 }

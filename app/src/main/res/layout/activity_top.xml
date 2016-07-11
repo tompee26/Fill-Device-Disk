@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/fill"
+            android:id="@+id/easy_fill"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_menu_fill_device"
+                android:text="@string/ids_lbl_easy_fill"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/dark_text" />
         </LinearLayout>
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_menu_clear"
+                android:text="@string/ids_lbl_clear"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/dark_text" />
         </LinearLayout>
