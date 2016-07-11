@@ -22,4 +22,41 @@
         <item name="android:paddingBottom">@dimen/toolbar_print_title_bottompadding</item>
     </style>
 
+    <style name="HorizontalMenuParentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:splitMotionEvents">false</item>
+    </style>
+
+    <style name="TopMenuParentStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">@dimen/shape_menu_padding</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:background">@drawable/selector_menu_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">onClick</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/shape_menu_padding</item>
+    </style>
+
+    <style name="TopMenuDrawableStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal|bottom</item>
+    </style>
+
+    <style name="TopMenuTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal|top</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/dark_text</item>
+    </style>
+
 </resources>

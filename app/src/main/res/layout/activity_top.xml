@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -7,138 +8,120 @@
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/easy_fill"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/shape_menu_padding"
-            android:layout_weight="0.5"
-            android:background="@drawable/selector_menu_item"
-            android:clickable="true"
-            android:onClick="onClick"
             android:orientation="vertical"
-            android:padding="@dimen/shape_menu_padding">
+            android:splitMotionEvents="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@drawable/ic_easy_fill"
-                android:contentDescription="@string/default_content_description" />
+            <LinearLayout
+                style="@style/HorizontalMenuParentStyle"
+                android:baselineAligned="false">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_lbl_easy_fill"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/dark_text" />
+                <LinearLayout
+                    android:id="@+id/easy_fill"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_easy_fill"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_easy_fill" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/advance_fill"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_advance_fill"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_advance_fill" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/HorizontalMenuParentStyle"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:id="@+id/check_storage"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_storage"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_check_storage" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/delete"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_delete"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_clear" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/HorizontalMenuParentStyle"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:id="@+id/settings"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_settings"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_settings" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/help"
+                    style="@style/TopMenuParentStyle"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        style="@style/TopMenuDrawableStyle"
+                        android:background="@drawable/ic_help"
+                        android:contentDescription="@string/default_content_description" />
+
+                    <TextView
+                        style="@style/TopMenuTextStyle"
+                        android:text="@string/ids_lbl_help" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/advance_fill"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/shape_menu_padding"
-            android:layout_weight="0.5"
-            android:background="@drawable/selector_menu_item"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:orientation="vertical"
-            android:padding="@dimen/shape_menu_padding">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@drawable/ic_advance_fill"
-                android:contentDescription="@string/default_content_description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_lbl_advance_fill"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/dark_text" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/check_storage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/shape_menu_padding"
-            android:layout_weight="0.5"
-            android:background="@drawable/selector_menu_item"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:orientation="vertical"
-            android:padding="@dimen/shape_menu_padding">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@drawable/ic_storage"
-                android:contentDescription="@string/default_content_description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_lbl_check_storage"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/dark_text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/shape_menu_padding"
-            android:layout_weight="0.5"
-            android:background="@drawable/selector_menu_item"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:orientation="vertical"
-            android:padding="@dimen/shape_menu_padding">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@drawable/ic_delete"
-                android:contentDescription="@string/default_content_description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                android:text="@string/ids_lbl_clear"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/dark_text" />
-        </LinearLayout>
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

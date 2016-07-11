@@ -65,7 +65,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         dialog.dismiss();
                     }
                 });
+        mProgressDialog.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.ids_lbl_ok),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mProgressDialog.dismiss();
+                        mProgressDialog = null;
+                        mFillDiskTask = null;
+                    }
+                });
         mProgressDialog.show();
+        mProgressDialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
     }
 
     private void showCheckStorageDialog() {
@@ -109,9 +119,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onFillDiskSpaceComplete() {
-        mProgressDialog.dismiss();
-        mProgressDialog = null;
-        mFillDiskTask = null;
+        mProgressDialog.setMessage("Done!");
+        mProgressDialog.setProgress(100);
+        mProgressDialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
     }
 
     @Override
