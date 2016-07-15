@@ -2,7 +2,6 @@ package com.tompee.utilities.filldevicespace.controller.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
@@ -11,24 +10,36 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FillDiskTask extends AsyncTask<Void, Long, Void> {
-    private static final String TAG = "FillDiskTask";
+public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     private static final String ASSET_NULL = "";
+    private static final int ASSET_NULL_SIZE = 0;
     private static final String ASSET_5MB = "filler_5MB";
+    private static final int ASSET_5MB_SIZE = 5242880;
     private static final String ASSET_1MB = "filler_1MB";
+    private static final int ASSET_1MB_SIZE = 1048576;
     private static final String ASSET_100KB = "filler_100KB";
+    private static final int ASSET_100KB_SIZE = 102400;
     private static final String ASSET_8KB = "filler_8KB";
+    private static final int ASSET_8KB_SIZE = 8192;
     private static final String ASSET_1KB = "filler_1KB";
+    private static final int ASSET_1KB_SIZE = 1024;
     private static final int BLOCK_SIZE = 1024;
     private static final int PERCENT = 100;
+    private static final float SPEED_FACTOR = 953.67431640625f;
+    private static final float FILL_FACTOR = 1073741824;
     private final Context mContext;
     private final OnFillDiskSpaceListener mListener;
-    private final long mInitialDiskSpace;
+    private long mTotalDiskSpace;
 
     public FillDiskTask(Context context, OnFillDiskSpaceListener listener) {
         mContext = context;
         mListener = listener;
-        mInitialDiskSpace = StorageUtility.getAvailableStorageSize(mContext);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        mTotalDiskSpace = StorageUtility.getTotalStorageSize(mContext);
+        mListener.onPreExecuteUpdate(mTotalDiskSpace);
     }
 
     @Override
@@ -37,21 +48,42 @@ public class FillDiskTask extends AsyncTask<Void, Long, Void> {
         String currentAsset = determineAsset(ASSET_NULL);
         while (!isCancelled()) {
             try {
+                long start = System.nanoTime();
                 copyAssetsFile(mContext, currentAsset, currentAsset + fileCount);
+                long timeElapsed = System.nanoTime() - start;
                 fileCount++;
                 long current = StorageUtility.getAvailableStorageSize(mContext);
-                float progress = ((float) (mInitialDiskSpace - current) /
-                        (float) mInitialDiskSpace * PERCENT);
-                publishProgress(current, (long) (progress));
+                float totalProgress = ((float) (mTotalDiskSpace - current) /
+                        (float) mTotalDiskSpace * PERCENT);
+                publishProgress(totalProgress, (((float) determineAssetSize(currentAsset) /
+                        (float) timeElapsed)), (float) StorageUtility.getFillSize(mContext) /
+                        FILL_FACTOR, (float) (mTotalDiskSpace - StorageUtility.getAvailableStorageSize(mContext)) / FILL_FACTOR);
             } catch (IOException e) {
                 currentAsset = determineAsset(currentAsset);
-                Log.d(TAG, "current asset: " + currentAsset);
                 if (currentAsset == null) {
                     break;
                 }
             }
         }
         return null;
+    }
+
+    private long determineAssetSize(String currentAsset) {
+        switch (currentAsset) {
+            case ASSET_NULL:
+                return ASSET_NULL_SIZE;
+            case ASSET_5MB:
+                return ASSET_5MB_SIZE;
+            case ASSET_1MB:
+                return ASSET_1MB_SIZE;
+            case ASSET_100KB:
+                return ASSET_100KB_SIZE;
+            case ASSET_8KB:
+                return ASSET_8KB_SIZE;
+            case ASSET_1KB:
+                break;
+        }
+        return ASSET_1KB_SIZE;
     }
 
     private String determineAsset(String currentAsset) {
@@ -73,8 +105,8 @@ public class FillDiskTask extends AsyncTask<Void, Long, Void> {
     }
 
     @Override
-    protected void onProgressUpdate(Long... values) {
-        mListener.onProgressUpdate(values[0], values[1].intValue());
+    protected void onProgressUpdate(Float... values) {
+        mListener.onProgressUpdate(values[0].intValue(), values[1] * SPEED_FACTOR, values[2], values[3]);
     }
 
     private void copyAssetsFile(Context context, String assetsFileName,
@@ -108,7 +140,9 @@ public class FillDiskTask extends AsyncTask<Void, Long, Void> {
     public interface OnFillDiskSpaceListener {
         void onFillDiskSpaceComplete();
 
-        void onProgressUpdate(long current, int progress);
+        void onPreExecuteUpdate(long total);
+
+        void onProgressUpdate(int totalProgress, float speed, float fillSize, float currentSize);
 
         void onCancelled();
     }

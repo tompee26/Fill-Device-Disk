@@ -8,10 +8,17 @@
     <dimen name="toolbar_print_title_rightpadding">16dp</dimen>
     <dimen name="toolbar_print_title_toppadding">0dp</dimen>
     <dimen name="toolbar_print_title_bottompadding">0dp</dimen>
-    <dimen name="toolbar_title_actionmode_textSize">18sp</dimen>
 
     <!-- Menu shape dimensions-->
     <dimen name="shape_menu_padding">8dp</dimen>
     <dimen name="shape_menu_radius">12dp</dimen>
+
+    <!-- Progress bar dimensions-->
+    <dimen name="progressbar_radius">0dp</dimen>
+    <dimen name="progressbar_height">3dp</dimen>
+
+    <!-- Dialog dimensions -->
+    <dimen name="dialog_margin">24dp</dimen>
+    <dimen name="dialog_padding">8dp</dimen>
 
 </resources>

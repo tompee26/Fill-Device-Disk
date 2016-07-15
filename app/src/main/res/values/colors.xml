@@ -11,4 +11,8 @@
     <color name="dark_text_disable">#32000000</color>
 
     <color name="background">#FFFFFF</color>
+
+    <color name="chart_speed">#536DFE</color>
+    <color name="chart_fill">#D84315</color>
+
 </resources>

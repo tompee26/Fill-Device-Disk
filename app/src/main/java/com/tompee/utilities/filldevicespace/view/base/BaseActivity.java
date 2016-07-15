@@ -1,13 +1,13 @@
 package com.tompee.utilities.filldevicespace.view.base;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
     private AppCompatDelegate mDelegate;
 
     @Override
