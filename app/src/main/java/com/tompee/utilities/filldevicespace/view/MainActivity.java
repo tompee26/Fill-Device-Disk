@@ -1,5 +1,6 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -39,6 +40,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.delete:
                 showClearFillDialog();
+                break;
+            case R.id.settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
         }
     }
 

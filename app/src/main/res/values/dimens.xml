@@ -3,6 +3,23 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- List view dimensions-->
+    <dimen name="list_height">56dp</dimen>
+    <dimen name="list_icon">30dp</dimen>
+    <dimen name="list_icon_rightpadding">16dp</dimen>
+    <dimen name="list_icon_leftpadding">8dp</dimen>
+    <dimen name="list_icon_toppadding">8dp</dimen>
+    <dimen name="list_icon_bottompadding">8dp</dimen>
+    <dimen name="list_singletext_toppadding">0dp</dimen>
+    <dimen name="list_singletext_bottompadding">0dp</dimen>
+    <dimen name="list_singletext_leftpadding">16dp</dimen>
+    <dimen name="list_singletext_rightpadding">16dp</dimen>
+    <dimen name="list_multilinetext_toppadding">8dp</dimen>
+    <dimen name="list_multilinetext_bottompadding">8dp</dimen>
+    <dimen name="list_border_width">1dp</dimen>
+    <dimen name="list_no_border_width">-2dp</dimen>
+    <dimen name="list_header_vertical_margin">4dp</dimen>
+
     <!-- Toolbar dimensions -->
     <dimen name="toolbar_print_title_leftpadding">16dp</dimen>
     <dimen name="toolbar_print_title_rightpadding">16dp</dimen>

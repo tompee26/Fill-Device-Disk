@@ -1,7 +1,9 @@
 package com.tompee.utilities.filldevicespace.view.dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
+import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 
 public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskSpaceListener,
         DialogInterface.OnClickListener {
@@ -45,18 +48,27 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
     private TextView mTotalDataTextView;
     private LineChart mLineChartView;
     private float mPreviousSpeed;
+    private boolean mIsChartEnabled;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SettingsActivity.
+                SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        mIsChartEnabled = sharedPreferences.getBoolean(SettingsActivity.TAG_FILL_CHART, false);
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.dialog_easy_fill, null);
         mTotalTextView = (TextView) view.findViewById(R.id.total_message);
         mTotalProgress = (ProgressBar) view.findViewById(R.id.total_progressbar);
         mTotalDataTextView = (TextView) view.findViewById(R.id.total_data);
         mLineChartView = (LineChart) view.findViewById(R.id.chart);
-        setChartProperties();
-        setAxisProperties();
+        if (mIsChartEnabled) {
+            setChartProperties();
+            setAxisProperties();
+        } else {
+            mLineChartView.setVisibility(View.GONE);
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.ids_title_easy_fill);
@@ -204,18 +216,19 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
 
     @Override
     public void onProgressUpdate(int totalProgress, float speed, float fillSize, float free) {
-        if (mPreviousSpeed == 0) {
+        if (mIsChartEnabled) {
+            if (mPreviousSpeed == 0) {
+                mPreviousSpeed = speed;
+            }
+            float newSpeed = (mPreviousSpeed + speed) / 2;
             mPreviousSpeed = speed;
+            addEntry(INDEX_SPEED, newSpeed);
+            addEntry(INDEX_FILL_SIZE, fillSize);
+            addEntry(INDEX_FREE_SIZE, free);
+            mLineChartView.notifyDataSetChanged();
+            mLineChartView.setVisibleXRangeMaximum(MAX_VISIBLE_RANGE);
+            mLineChartView.moveViewTo(mLineChartView.getData().getEntryCount() - 7, 50f, AxisDependency.LEFT);
         }
-        float newSpeed = (mPreviousSpeed + speed) / 2;
-        mPreviousSpeed = speed;
-        addEntry(INDEX_SPEED, newSpeed);
-        addEntry(INDEX_FILL_SIZE, fillSize);
-        addEntry(INDEX_FREE_SIZE, free);
-        mLineChartView.notifyDataSetChanged();
-        mLineChartView.setVisibleXRangeMaximum(MAX_VISIBLE_RANGE);
-        mLineChartView.moveViewTo(mLineChartView.getData().getEntryCount() - 7, 50f, AxisDependency.LEFT);
-
         mTotalProgress.setProgress(totalProgress);
         mTotalDataTextView.setText(String.format(getString(R.string.
                 ids_message_easy_fill_total_data), totalProgress));

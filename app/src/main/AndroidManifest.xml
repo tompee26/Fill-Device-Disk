@@ -18,6 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.SettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name="com.tompee.utilities.filldevicespace.view.base.BaseActivity" />
     </application>
 
