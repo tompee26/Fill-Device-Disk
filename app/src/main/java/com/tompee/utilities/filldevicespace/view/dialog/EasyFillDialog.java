@@ -189,7 +189,7 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
     private void startDiskTask() {
         if (mFillDiskTask == null) {
             mFillDiskTask = new FillDiskTask(getContext(), this);
-            mFillDiskTask.execute();
+            mFillDiskTask.execute(mIsChartEnabled);
         }
     }
 
@@ -229,6 +229,11 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
             mLineChartView.setVisibleXRangeMaximum(MAX_VISIBLE_RANGE);
             mLineChartView.moveViewTo(mLineChartView.getData().getEntryCount() - 7, 50f, AxisDependency.LEFT);
         }
+        onProgressUpdate(totalProgress);
+    }
+
+    @Override
+    public void onProgressUpdate(int totalProgress) {
         mTotalProgress.setProgress(totalProgress);
         mTotalDataTextView.setText(String.format(getString(R.string.
                 ids_message_easy_fill_total_data), totalProgress));

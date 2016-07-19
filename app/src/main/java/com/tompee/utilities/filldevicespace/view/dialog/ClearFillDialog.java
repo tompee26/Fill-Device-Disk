@@ -28,6 +28,7 @@ public class ClearFillDialog extends BaseDialog implements DialogInterface.OnCli
     @Override
     public void onStart() {
         super.onStart();
+        ((AlertDialog)getDialog()).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
         ClearFillTask task = new ClearFillTask(getContext(), this);
         task.execute();
     }
@@ -42,5 +43,6 @@ public class ClearFillDialog extends BaseDialog implements DialogInterface.OnCli
         AlertDialog dialog = (AlertDialog) getDialog();
         dialog.setMessage(String.format(getString(R.string.ids_message_cleared_space),
                 Formatter.formatShortFileSize(getContext(), clearedSpace)));
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
     }
 }

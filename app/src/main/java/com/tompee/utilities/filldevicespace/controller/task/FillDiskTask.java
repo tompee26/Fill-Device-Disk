@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FillDiskTask extends AsyncTask<Void, Float, Void> {
+public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
     private static final String TAG = "FillDiskTask";
     private static final String ASSET_NULL = "";
     private static final int ASSET_NULL_SIZE = 0;
@@ -47,7 +47,7 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Void doInBackground(Boolean... params) {
         int fileCount = StorageUtility.getFileCount(mContext);
         String currentAsset = determineAsset(ASSET_NULL);
         while (!isCancelled()) {
@@ -63,10 +63,14 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
                 long current = StorageUtility.getAvailableStorageSize(mContext);
                 float totalProgress = ((float) (mTotalDiskSpace - current) /
                         (float) mTotalDiskSpace * PERCENT);
-                publishProgress(totalProgress, (((float) determineAssetSize(currentAsset) /
-                        (float) timeElapsed)), (float) StorageUtility.getFillSize(mContext) /
-                        FILL_FACTOR, (float) (StorageUtility.getAvailableStorageSize(mContext))
-                        / FILL_FACTOR);
+                if (params[0]) {
+                    publishProgress(totalProgress, (((float) determineAssetSize(currentAsset) /
+                            (float) timeElapsed)), (float) StorageUtility.getFillSize(mContext) /
+                            FILL_FACTOR, (float) (StorageUtility.getAvailableStorageSize(mContext))
+                            / FILL_FACTOR);
+                } else {
+                    publishProgress(totalProgress);
+                }
             } catch (IOException e) {
                 currentAsset = determineAsset(currentAsset);
                 if (currentAsset == null) {
@@ -117,7 +121,12 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
 
     @Override
     protected void onProgressUpdate(Float... values) {
-        mListener.onProgressUpdate(values[0].intValue(), values[1] * SPEED_FACTOR, values[2], values[3]);
+        if (values.length > 1) {
+            mListener.onProgressUpdate(values[0].intValue(), values[1] * SPEED_FACTOR,
+                    values[2], values[3]);
+        } else {
+            mListener.onProgressUpdate(values[0].intValue());
+        }
     }
 
     private void copyAssetsFile(Context context, String assetsFileName,
@@ -166,6 +175,8 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
         void onPreExecuteUpdate(long total);
 
         void onProgressUpdate(int totalProgress, float speed, float fillSize, float free);
+
+        void onProgressUpdate(int totalProgress);
 
         void onCancelled();
     }
