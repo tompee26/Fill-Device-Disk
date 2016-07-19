@@ -2,13 +2,71 @@ package com.tompee.utilities.filldevicespace.controller.storage;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 public class StorageUtility {
+    private static final String SECONDARY_STORAGE_TAG = "SECONDARY_STORAGE";
+
+    public static String getRemovableStorage(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            String secondaryStorage = System.getenv(SECONDARY_STORAGE_TAG);
+            if (secondaryStorage != null) {
+                final String[] paths = secondaryStorage.split(":");
+                for (String path : paths) {
+                    File file = new File(path);
+                    if (file.listFiles() != null) {
+                        //noinspection ConstantConditions
+                        path = path + context.getExternalFilesDir(null).getAbsolutePath().
+                                replace(Environment.getExternalStorageDirectory().getAbsolutePath(), "");
+                        File fileInstance = new File(path);
+                        if (!fileInstance.exists()) {
+                            if (!fileInstance.mkdirs()) {
+                                return null;
+                            }
+                        }
+                        return path;
+                    }
+                }
+            }
+        } else {
+            File[] extDirs = context.getExternalFilesDirs(null);
+            File primary = Environment.getExternalStorageDirectory();
+            for (File file : extDirs) {
+                if (file == null) {
+                    continue;
+                }
+                if (!file.exists()) {
+                    continue;
+                }
+                String extFilePath = file.getAbsolutePath();
+                if (extFilePath == null || extFilePath.isEmpty()) {
+                    continue;
+                }
+                if (extFilePath.startsWith(primary.getAbsolutePath())) {
+                    continue;
+                }
+                // checks for API 19 and up only since a delay is added for lower APIs in BroadcastReceiver
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState(file))) {
+                        continue;
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    //noinspection deprecation
+                    if (!Environment.MEDIA_MOUNTED.equals(Environment.getStorageState(file))) {
+                        continue;
+                    }
+                }
+                return extFilePath;
+            }
+        }
+        return null;
+    }
 
     public static long getAvailableStorageSize(Context context) {
         long availableSize;

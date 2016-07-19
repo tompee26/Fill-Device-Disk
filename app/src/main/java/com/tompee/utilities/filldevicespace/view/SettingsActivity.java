@@ -8,6 +8,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
@@ -29,7 +30,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         mSharedPrefs = getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         Switch sw = (Switch) findViewById(R.id.switch_sd_card);
-        sw.setChecked(mSharedPrefs.getBoolean(TAG_SD_CARD, false));
+        if (StorageUtility.getRemovableStorage(this) == null) {
+            sw.setEnabled(false);
+            sw.setChecked(false);
+        } else {
+            sw.setEnabled(true);
+            sw.setChecked(mSharedPrefs.getBoolean(TAG_SD_CARD, false));
+        }
         sw = (Switch) findViewById(R.id.switch_fill_chart);
         sw.setChecked(mSharedPrefs.getBoolean(TAG_FILL_CHART, false));
         sw = (Switch) findViewById(R.id.switch_check_storage_chart);
@@ -43,10 +50,12 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         boolean isChecked;
         switch (v.getId()) {
             case R.id.sd_card:
-                sw = (Switch) findViewById(R.id.switch_sd_card);
-                isChecked = !sw.isChecked();
-                sw.setChecked(isChecked);
-                editor.putBoolean(TAG_SD_CARD, isChecked);
+                if (StorageUtility.getRemovableStorage(this) != null) {
+                    sw = (Switch) findViewById(R.id.switch_sd_card);
+                    isChecked = !sw.isChecked();
+                    sw.setChecked(isChecked);
+                    editor.putBoolean(TAG_SD_CARD, isChecked);
+                }
                 break;
             case R.id.chart_fill:
                 sw = (Switch) findViewById(R.id.switch_fill_chart);

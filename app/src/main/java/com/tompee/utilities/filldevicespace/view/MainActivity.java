@@ -56,19 +56,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void showEasyFillDialog() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        EasyFillDialog dialog = new EasyFillDialog();
-        dialog.show(fragmentManager, DIALOG_EASY_FILL);
+        if (fragmentManager.findFragmentByTag(DIALOG_EASY_FILL) == null) {
+            EasyFillDialog dialog = new EasyFillDialog();
+            dialog.show(fragmentManager, DIALOG_EASY_FILL);
+        }
     }
 
     private void showCheckStorageDialog() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        CheckStorageDialog dialog = new CheckStorageDialog();
-        dialog.show(fragmentManager, DIALOG_CHECK_SPACE);
+        if (fragmentManager.findFragmentByTag(DIALOG_CHECK_SPACE) == null) {
+            CheckStorageDialog dialog = new CheckStorageDialog();
+            dialog.show(fragmentManager, DIALOG_CHECK_SPACE);
+        }
     }
 
     private void showClearFillDialog() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        ClearFillDialog dialog = new ClearFillDialog();
-        dialog.show(fragmentManager, DIALOG_CLEAR_FILL);
+        if (fragmentManager.findFragmentByTag(DIALOG_CLEAR_FILL) == null) {
+            ClearFillDialog dialog = new ClearFillDialog();
+            dialog.show(fragmentManager, DIALOG_CLEAR_FILL);
+        }
     }
 }
