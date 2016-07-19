@@ -2,6 +2,7 @@ package com.tompee.utilities.filldevicespace.controller.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
@@ -11,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class FillDiskTask extends AsyncTask<Void, Float, Void> {
+    private static final String TAG = "FillDiskTask";
     private static final String ASSET_NULL = "";
     private static final int ASSET_NULL_SIZE = 0;
     private static final String ASSET_5MB = "filler_5MB";
@@ -27,11 +29,13 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     private static final int PERCENT = 100;
     private static final float SPEED_FACTOR = 953.67431640625f;
     private static final float FILL_FACTOR = 1073741824;
+    private static final int SLEEP_INTERVAL = 1000;
     private final Context mContext;
-    private final OnFillDiskSpaceListener mListener;
+    private final FillDiskSpaceListener mListener;
     private long mTotalDiskSpace;
+    private boolean mIsPaused;
 
-    public FillDiskTask(Context context, OnFillDiskSpaceListener listener) {
+    public FillDiskTask(Context context, FillDiskSpaceListener listener) {
         mContext = context;
         mListener = listener;
     }
@@ -48,6 +52,10 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
         String currentAsset = determineAsset(ASSET_NULL);
         while (!isCancelled()) {
             try {
+                if (mIsPaused) {
+                    Thread.sleep(SLEEP_INTERVAL);
+                    continue;
+                }
                 long start = System.nanoTime();
                 copyAssetsFile(mContext, currentAsset, currentAsset + fileCount);
                 long timeElapsed = System.nanoTime() - start;
@@ -57,12 +65,15 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
                         (float) mTotalDiskSpace * PERCENT);
                 publishProgress(totalProgress, (((float) determineAssetSize(currentAsset) /
                         (float) timeElapsed)), (float) StorageUtility.getFillSize(mContext) /
-                        FILL_FACTOR, (float) (mTotalDiskSpace - StorageUtility.getAvailableStorageSize(mContext)) / FILL_FACTOR);
+                        FILL_FACTOR, (float) (StorageUtility.getAvailableStorageSize(mContext))
+                        / FILL_FACTOR);
             } catch (IOException e) {
                 currentAsset = determineAsset(currentAsset);
                 if (currentAsset == null) {
                     break;
                 }
+            } catch (InterruptedException e) {
+                Log.d(TAG, "Interrupted");
             }
         }
         return null;
@@ -137,12 +148,24 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
         mListener.onCancelled();
     }
 
-    public interface OnFillDiskSpaceListener {
+    public void pause() {
+        mIsPaused = true;
+    }
+
+    public void resume() {
+        mIsPaused = false;
+    }
+
+    public boolean isRunning() {
+        return !mIsPaused;
+    }
+
+    public interface FillDiskSpaceListener {
         void onFillDiskSpaceComplete();
 
         void onPreExecuteUpdate(long total);
 
-        void onProgressUpdate(int totalProgress, float speed, float fillSize, float currentSize);
+        void onProgressUpdate(int totalProgress, float speed, float fillSize, float free);
 
         void onCancelled();
     }

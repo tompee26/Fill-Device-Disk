@@ -2,18 +2,19 @@ package com.tompee.utilities.filldevicespace.view;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
-import android.text.format.Formatter;
 import android.view.View;
 import android.widget.TextView;
 
 import com.tompee.utilities.filldevicespace.R;
-import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
+import com.tompee.utilities.filldevicespace.view.dialog.CheckStorageDialog;
+import com.tompee.utilities.filldevicespace.view.dialog.ClearFillDialog;
 import com.tompee.utilities.filldevicespace.view.dialog.EasyFillDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String DIALOG_EASY_FILL = "dialog_easy_fill";
+    private static final String DIALOG_CHECK_SPACE = "dialog_check_space";
+    private static final String DIALOG_CLEAR_FILL = "dialog_clear_fill";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,25 +49,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void showCheckStorageDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.ids_title_available_space));
-        builder.setMessage(String.format(getString(R.string.ids_message_check_storage),
-                Formatter.formatShortFileSize(this, StorageUtility.getAvailableStorageSize(this))));
-        builder.setPositiveButton(R.string.ids_lbl_ok, null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        CheckStorageDialog dialog = new CheckStorageDialog();
+        dialog.show(fragmentManager, DIALOG_CHECK_SPACE);
     }
 
     private void showClearFillDialog() {
-        long before = StorageUtility.getAvailableStorageSize(this);
-        StorageUtility.deleteFiles(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.ids_lbl_clear));
-        builder.setMessage(String.format(getString(R.string.ids_message_cleared_space),
-                Formatter.formatShortFileSize(this, StorageUtility.
-                        getAvailableStorageSize(this) - before)));
-        builder.setPositiveButton(R.string.ids_lbl_ok, null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        ClearFillDialog dialog = new ClearFillDialog();
+        dialog.show(fragmentManager, DIALOG_CLEAR_FILL);
     }
 }

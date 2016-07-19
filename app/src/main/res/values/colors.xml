@@ -12,7 +12,8 @@
 
     <color name="background">#FFFFFF</color>
 
-    <color name="chart_speed">#536DFE</color>
-    <color name="chart_fill">#D84315</color>
+    <color name="chart_primary">#43A047</color>
+    <color name="chart_secondary">#536DFE</color>
+    <color name="chart_tertiary">#D84315</color>
 
 </resources>

@@ -4,14 +4,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,13 +24,15 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
 
-public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFillDiskSpaceListener {
+public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskSpaceListener,
+        DialogInterface.OnClickListener {
+    private static final String TAG = "EasyFillDialog";
     private static final int MAX_VISIBLE_RANGE = 30;
 
     /* Set index */
     private static final int INDEX_SPEED = 0;
     private static final int INDEX_FILL_SIZE = 1;
-    private static final int INDEX_CURRENT_SIZE = 2;
+    private static final int INDEX_FREE_SIZE = 2;
 
     /* Line chart constants */
     private static final float CIRCLE_RADIUS = 2.0f;
@@ -43,23 +44,7 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
     private ProgressBar mTotalProgress;
     private TextView mTotalDataTextView;
     private LineChart mLineChartView;
-
-    public EasyFillDialog() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setCancelable(false);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setCanceledOnTouchOutside(false);
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+    private float mPreviousSpeed;
 
     @NonNull
     @Override
@@ -76,15 +61,40 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.ids_title_easy_fill);
         builder.setView(view);
-        builder.setNegativeButton(R.string.ids_lbl_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.ids_lbl_stop, this);
+        builder.setNeutralButton(R.string.ids_lbl_pause, this);
+        builder.setPositiveButton(R.string.ids_lbl_ok, this);
+        startDiskTask();
+        return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog dialog = (AlertDialog) getDialog();
+        Button button = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 cancelDiskTask();
                 dismiss();
             }
         });
-        startDiskTask();
-        return builder.create();
+        button = dialog.getButton(Dialog.BUTTON_NEUTRAL);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFillDiskTask.isRunning()) {
+                    mFillDiskTask.pause();
+                    ((Button) v).setText(R.string.ids_lbl_resume);
+                } else {
+                    mFillDiskTask.resume();
+                    ((Button) v).setText(R.string.ids_lbl_pause);
+                }
+            }
+        });
+        button = dialog.getButton(Dialog.BUTTON_POSITIVE);
+        button.setEnabled(false);
     }
 
     private void setChartProperties() {
@@ -97,33 +107,33 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
         mLineChartView.setData(new LineData());
 
         /* Speed Line Data Set */
-        LineDataSet lineDataSet = new LineDataSet(null, "Speed (MB/sec)");
+        LineDataSet lineDataSet = new LineDataSet(null, getString(R.string.ids_legend_speed));
         lineDataSet.setLineWidth(LINE_WIDTH);
-        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.chart_speed));
+        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.chart_primary));
         lineDataSet.setCircleRadius(CIRCLE_RADIUS);
-        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.chart_speed));
+        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.chart_primary));
         lineDataSet.setValueTextSize(VALUE_TEXT_SIZE);
         lineDataSet.setAxisDependency(AxisDependency.RIGHT);
         LineData data = mLineChartView.getData();
         data.addDataSet(lineDataSet);
 
         /* Fill Data Set */
-        lineDataSet = new LineDataSet(null, "Fill (GB)");
+        lineDataSet = new LineDataSet(null, getString(R.string.ids_legend_fill_size));
         lineDataSet.setLineWidth(LINE_WIDTH);
-        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.chart_fill));
+        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.chart_secondary));
         lineDataSet.setCircleRadius(CIRCLE_RADIUS);
-        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.chart_fill));
+        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.chart_secondary));
         lineDataSet.setValueTextSize(VALUE_TEXT_SIZE);
         lineDataSet.setAxisDependency(AxisDependency.LEFT);
         lineDataSet.setDrawValues(true);
         data.addDataSet(lineDataSet);
 
-        /* Speed Line Data Set */
-        lineDataSet = new LineDataSet(null, "Current (GB)");
+        /* Free Line Data Set */
+        lineDataSet = new LineDataSet(null, getString(R.string.ids_legend_free_size));
         lineDataSet.setLineWidth(LINE_WIDTH);
-        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        lineDataSet.setColor(ContextCompat.getColor(getContext(), R.color.chart_tertiary));
         lineDataSet.setCircleRadius(CIRCLE_RADIUS);
-        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        lineDataSet.setCircleColor(ContextCompat.getColor(getContext(), R.color.chart_tertiary));
         lineDataSet.setValueTextSize(VALUE_TEXT_SIZE);
         lineDataSet.setAxisDependency(AxisDependency.LEFT);
         lineDataSet.setDrawValues(true);
@@ -160,7 +170,6 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
 
     private void addEntry(int index, float data) {
         LineData lineData = mLineChartView.getData();
-
         lineData.addEntry(new Entry(lineData.getDataSetByIndex(0).getEntryCount(), data), index);
         lineData.notifyDataChanged();
     }
@@ -180,9 +189,11 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
 
     @Override
     public void onFillDiskSpaceComplete() {
-//        mProgressDialog.setMessage("Done!");
-//        mProgressDialog.setProgress(100);
-//        mProgressDialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+        AlertDialog dialog = (AlertDialog) getDialog();
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+        mTotalProgress.setProgress(100);
+        mTotalDataTextView.setText(String.format(getString(R.string.
+                ids_message_easy_fill_total_data), 100));
     }
 
     @Override
@@ -192,10 +203,15 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
     }
 
     @Override
-    public void onProgressUpdate(int totalProgress, float speed, float fillSize, float current) {
-        addEntry(INDEX_SPEED, speed);
+    public void onProgressUpdate(int totalProgress, float speed, float fillSize, float free) {
+        if (mPreviousSpeed == 0) {
+            mPreviousSpeed = speed;
+        }
+        float newSpeed = (mPreviousSpeed + speed) / 2;
+        mPreviousSpeed = speed;
+        addEntry(INDEX_SPEED, newSpeed);
         addEntry(INDEX_FILL_SIZE, fillSize);
-        addEntry(INDEX_CURRENT_SIZE, current);
+        addEntry(INDEX_FREE_SIZE, free);
         mLineChartView.notifyDataSetChanged();
         mLineChartView.setVisibleXRangeMaximum(MAX_VISIBLE_RANGE);
         mLineChartView.moveViewTo(mLineChartView.getData().getEntryCount() - 7, 50f, AxisDependency.LEFT);
@@ -208,5 +224,10 @@ public class EasyFillDialog extends DialogFragment implements FillDiskTask.OnFil
     @Override
     public void onCancelled() {
         mFillDiskTask = null;
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        Log.d(TAG, "" + which);
     }
 }
