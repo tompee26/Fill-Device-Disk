@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/about"
+        style="@style/ListViewStyle"
+        android:layout_height="@dimen/list_height"
+        android:background="@drawable/selector_list_top_border_background"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:onClick="onClick"
+        android:paddingBottom="@dimen/list_multilinetext_bottompadding"
+        android:paddingTop="@dimen/list_multilinetext_toppadding">
+
+        <TextView
+            android:id="@+id/textview_about"
+            style="@style/ListViewSingleTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/ids_lbl_about" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/contact"
+        style="@style/ListViewStyle"
+        android:layout_height="@dimen/list_height"
+        android:background="@drawable/selector_list_top_border_background"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:onClick="onClick"
+        android:paddingBottom="@dimen/list_multilinetext_bottompadding"
+        android:paddingTop="@dimen/list_multilinetext_toppadding">
+
+        <TextView
+            style="@style/ListViewSingleTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/ids_lbl_contact" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/license"
+        style="@style/ListViewStyle"
+        android:layout_height="@dimen/list_height"
+        android:background="@drawable/selector_list_full_border_background"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:onClick="onClick"
+        android:paddingBottom="@dimen/list_multilinetext_bottompadding"
+        android:paddingTop="@dimen/list_multilinetext_toppadding">
+
+        <TextView
+            style="@style/ListViewSingleTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/ids_lbl_open_source" />
+    </RelativeLayout>
+
+</LinearLayout>

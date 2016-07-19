@@ -7,7 +7,7 @@ import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
 public class ClearFillTask extends AsyncTask<Void, Void, Long> {
     private final ClearFillListener mListener;
-    private Context mContext;
+    private final Context mContext;
 
     public ClearFillTask(Context context, ClearFillListener listener) {
         mContext = context;

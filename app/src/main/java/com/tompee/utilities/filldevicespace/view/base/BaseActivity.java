@@ -30,6 +30,7 @@ public class BaseActivity extends FragmentActivity {
     protected void setToolbar(int toolbarId, boolean enableHomeButton) {
         Toolbar toolbar = (Toolbar) findViewById(toolbarId);
         mDelegate.setSupportActionBar(toolbar);
+        //noinspection ConstantConditions
         mDelegate.getSupportActionBar().setDisplayShowTitleEnabled(false);
         mDelegate.getSupportActionBar().setDisplayHomeAsUpEnabled(enableHomeButton);
     }

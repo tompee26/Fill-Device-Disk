@@ -10,10 +10,7 @@
     <color name="dark_text">#000000</color>
     <color name="dark_text_disable">#32000000</color>
 
-    <color name="header_text">#8D8D8D</color>
-
     <color name="background">#FFFFFF</color>
-    <color name="list_border">#E0E0E0</color>
 
     <color name="chart_primary">#43A047</color>
     <color name="chart_secondary">#536DFE</color>

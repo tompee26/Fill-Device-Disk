@@ -72,6 +72,7 @@ public class StorageUtility {
 
     public static void deleteFiles(Context context) {
         for (File file : context.getFilesDir().listFiles()) {
+            //noinspection ResultOfMethodCallIgnored
             file.delete();
         }
     }

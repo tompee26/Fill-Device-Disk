@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.easy_fill:
                 showEasyFillDialog();
@@ -42,10 +43,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showClearFillDialog();
                 break;
             case R.id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
+            case R.id.help:
+                intent = new Intent(this, HelpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
         }
     }
 
