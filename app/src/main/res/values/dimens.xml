@@ -38,4 +38,7 @@
     <dimen name="dialog_margin">24dp</dimen>
     <dimen name="dialog_padding">8dp</dimen>
 
+    <!-- Spinner dimensions-->
+    <dimen name="spinner_dropdown_padding">16dp</dimen>
+
 </resources>

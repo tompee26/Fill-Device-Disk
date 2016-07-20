@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/total_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dialog_margin"
+        android:layout_marginRight="@dimen/dialog_margin"
+        android:paddingBottom="@dimen/dialog_padding"
+        android:paddingTop="@dimen/dialog_padding"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/dark_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dialog_margin"
+        android:layout_marginRight="@dimen/dialog_margin"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dialog_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dialog_padding"
+            android:paddingTop="@dimen/dialog_padding"
+            android:text="@string/ids_lbl_custom_fill"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/dark_text" />
+
+        <EditText
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:ems="2"
+            android:gravity="end"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/dark_text" />
+
+        <Spinner
+            android:id="@+id/unit"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/progressbar_height"
+        android:layout_marginLeft="@dimen/dialog_margin"
+        android:layout_marginRight="@dimen/dialog_margin"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/progress_bar"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/progress_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginLeft="@dimen/dialog_margin"
+        android:layout_marginRight="@dimen/dialog_margin"
+        android:paddingBottom="@dimen/dialog_padding"
+        android:paddingTop="@dimen/dialog_padding"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/dark_text"
+        android:visibility="gone" />
+
+</LinearLayout>

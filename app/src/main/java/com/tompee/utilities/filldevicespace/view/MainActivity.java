@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
+import com.tompee.utilities.filldevicespace.view.dialog.AdvancedFillDialog;
 import com.tompee.utilities.filldevicespace.view.dialog.CheckStorageDialog;
 import com.tompee.utilities.filldevicespace.view.dialog.ClearFillDialog;
 import com.tompee.utilities.filldevicespace.view.dialog.EasyFillDialog;
@@ -16,6 +17,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String DIALOG_EASY_FILL = "dialog_easy_fill";
     private static final String DIALOG_CHECK_SPACE = "dialog_check_space";
     private static final String DIALOG_CLEAR_FILL = "dialog_clear_fill";
+    private static final String DIALOG_ADVANCED_FILL = "dialog_advanced_fill";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showEasyFillDialog();
                 break;
             case R.id.advance_fill:
+                showAdvancedFillDialog();
                 break;
             case R.id.check_storage:
                 showCheckStorageDialog();
@@ -75,6 +78,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (fragmentManager.findFragmentByTag(DIALOG_CLEAR_FILL) == null) {
             ClearFillDialog dialog = new ClearFillDialog();
             dialog.show(fragmentManager, DIALOG_CLEAR_FILL);
+        }
+    }
+
+    private void showAdvancedFillDialog() {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.findFragmentByTag(DIALOG_ADVANCED_FILL) == null) {
+            AdvancedFillDialog dialog = new AdvancedFillDialog();
+            dialog.show(fragmentManager, DIALOG_ADVANCED_FILL);
         }
     }
 }

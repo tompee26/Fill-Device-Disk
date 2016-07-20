@@ -105,4 +105,19 @@
         <item name="android:layout_marginTop">@dimen/list_header_vertical_margin</item>
         <item name="android:layout_marginBottom">@dimen/list_header_vertical_margin</item>
     </style>
+
+    <style name="SpinnerItemStyle">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="SpinnerItemDropDownStyle">
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:paddingLeft">@dimen/spinner_dropdown_padding</item>
+        <item name="android:paddingRight">@dimen/spinner_dropdown_padding</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

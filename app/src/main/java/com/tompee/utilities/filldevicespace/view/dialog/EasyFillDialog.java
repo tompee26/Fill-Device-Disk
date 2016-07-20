@@ -27,7 +27,7 @@ import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
 import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 
-public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskSpaceListener,
+public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskTaskListener,
         DialogInterface.OnClickListener {
     private static final String TAG = "EasyFillDialog";
     private static final int MAX_VISIBLE_RANGE = 30;
@@ -188,7 +188,7 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
 
     private void startDiskTask() {
         if (mFillDiskTask == null) {
-            mFillDiskTask = new FillDiskTask(getContext(), this);
+            mFillDiskTask = new FillDiskTask(getContext(), this, 0);
             mFillDiskTask.execute(mIsChartEnabled);
         }
     }
@@ -203,6 +203,8 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskS
     public void onFillDiskSpaceComplete() {
         AlertDialog dialog = (AlertDialog) getDialog();
         dialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+        dialog.getButton(Dialog.BUTTON_NEUTRAL).setVisibility(View.INVISIBLE);
+        dialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.INVISIBLE);
         mTotalProgress.setProgress(100);
         mTotalDataTextView.setText(String.format(getString(R.string.
                 ids_message_easy_fill_total_data), 100));

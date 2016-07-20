@@ -13,6 +13,8 @@
         <item name="android:textColorSecondary">@color/light_text</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerItemDropDownStyle</item>
     </style>
 
 </resources>

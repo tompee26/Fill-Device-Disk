@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import android.util.Log;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -45,6 +44,7 @@ public class StorageUtility {
                     continue;
                 }
                 String extFilePath = file.getAbsolutePath();
+                //noinspection ConstantConditions
                 if (extFilePath == null || extFilePath.isEmpty()) {
                     continue;
                 }

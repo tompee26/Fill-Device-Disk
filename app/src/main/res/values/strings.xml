@@ -17,8 +17,11 @@
     <string name="ids_lbl_about">About %1$s</string>
     <string name="ids_lbl_contact">Contact Us</string>
     <string name="ids_lbl_open_source">Open Source Components</string>
+    <string name="ids_lbl_custom_fill">Custom fill size:</string>
     <string name="ids_lbl_ok">OK</string>
+    <string name="ids_lbl_start">Start</string>
     <string name="ids_lbl_stop">Stop</string>
+    <string name="ids_lbl_cancel">Cancel</string>
     <string name="ids_lbl_pause">Pause</string>
     <string name="ids_lbl_resume">Resume</string>
 
@@ -27,6 +30,7 @@
     <string name="ids_title_open_source">Open Source License</string>
     <string name="ids_title_easy_fill">Filling disk&#8230;</string>
     <string name="ids_title_available_space">Available Space</string>
+    <string name="ids_title_advance_fill">Advance Fill</string>
 
     <string name="ids_legend_speed">Speed (MB/sec)</string>
     <string name="ids_legend_fill_size">Fill (GB)</string>
@@ -42,4 +46,10 @@
     <string name="ids_message_clearing_space">Clearing space&#8230;</string>
     <string name="ids_message_cleared_space">Cleared space: %1$s</string>
     <string name="ids_message_calculating">Calculating free space&#8230;</string>
+
+    <string-array name="ids_unit_array">
+        <item>GB</item>
+        <item>MB</item>
+        <item>KB</item>
+    </string-array>
 </resources>
