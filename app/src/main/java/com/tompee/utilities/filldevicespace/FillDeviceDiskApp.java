@@ -10,12 +10,10 @@ public class FillDeviceDiskApp extends Application {
     private static final String ASSET_1MB = "filler_1MB";
     private static final String ASSET_100KB = "filler_100KB";
     private static final String ASSET_8KB = "filler_8KB";
-    private static final String ASSET_1KB = "filler_1KB";
     private static final long ASSET_5MB_SIZE = 5242880;
     private static final long ASSET_1MB_SIZE = 1048576;
     private static final long ASSET_100KB_SIZE = 102400;
     private static final long ASSET_8KB_SIZE = 8192;
-    private static final long ASSET_1KB_SIZE = 1024;
     private static Map<String, Long> mAssetMap;
 
     @Override
@@ -26,7 +24,6 @@ public class FillDeviceDiskApp extends Application {
         mAssetMap.put(ASSET_1MB, ASSET_1MB_SIZE);
         mAssetMap.put(ASSET_100KB, ASSET_100KB_SIZE);
         mAssetMap.put(ASSET_8KB, ASSET_8KB_SIZE);
-        mAssetMap.put(ASSET_1KB, ASSET_1KB_SIZE);
     }
 
     public String getAsset(long limit) {

@@ -13,6 +13,7 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,8 @@ import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
 import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 
 public class AdvancedFillDialog extends BaseDialog implements DialogInterface.OnClickListener,
-        View.OnClickListener, TextWatcher, FillDiskTask.FillDiskTaskListener {
+        View.OnClickListener, TextWatcher, FillDiskTask.FillDiskTaskListener,
+        AdapterView.OnItemSelectedListener {
     private static final String TAG = "AdvancedFillDialog";
 
     private Button mPositiveButton;
@@ -57,6 +59,7 @@ public class AdvancedFillDialog extends BaseDialog implements DialogInterface.On
         setFreeSpaceText();
 
         mSpinner = (Spinner) view.findViewById(R.id.unit);
+        mSpinner.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.ids_unit_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -175,7 +178,7 @@ public class AdvancedFillDialog extends BaseDialog implements DialogInterface.On
             long free = StorageUtility.getAvailableStorageSize(getContext());
             long input = Utilities.convertToBytes(Integer.parseInt(mEditText.getText().toString()),
                     Unit.valueOf(mSpinner.getSelectedItem().toString()));
-            if (input <= free) {
+            if (input != 0 && input <= free) {
                 mPositiveButton.setEnabled(true);
             } else {
                 mPositiveButton.setEnabled(false);
@@ -216,5 +219,15 @@ public class AdvancedFillDialog extends BaseDialog implements DialogInterface.On
     @Override
     public void onCancelled() {
         mFillDiskTask = null;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        afterTextChanged(null);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
