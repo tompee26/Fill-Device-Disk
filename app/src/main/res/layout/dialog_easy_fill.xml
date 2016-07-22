@@ -12,7 +12,7 @@
         android:layout_marginRight="@dimen/dialog_margin"
         android:paddingBottom="@dimen/dialog_padding"
         android:paddingTop="@dimen/dialog_padding"
-        android:text="@string/ids_message_calculating"
+        android:text="@string/ids_lbl_calculating"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/dark_text" />
 

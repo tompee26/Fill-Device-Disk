@@ -19,6 +19,14 @@
     <dimen name="list_border_width">1dp</dimen>
     <dimen name="list_no_border_width">-2dp</dimen>
     <dimen name="list_header_vertical_margin">4dp</dimen>
+    <dimen name="list_dualtexttop_toppadding">0dp</dimen>
+    <dimen name="list_dualtexttop_bottompadding">0dp</dimen>
+    <dimen name="list_dualtexttop_leftpadding">16dp</dimen>
+    <dimen name="list_dualtexttop_rightpadding">16dp</dimen>
+    <dimen name="list_dualtextbottom_toppadding">0dp</dimen>
+    <dimen name="list_dualtextbottom_bottompadding">0dp</dimen>
+    <dimen name="list_dualtextbottom_leftpadding">16dp</dimen>
+    <dimen name="list_dualtextbottom_rightpadding">16dp</dimen>
 
     <!-- Toolbar dimensions -->
     <dimen name="toolbar_print_title_leftpadding">16dp</dimen>

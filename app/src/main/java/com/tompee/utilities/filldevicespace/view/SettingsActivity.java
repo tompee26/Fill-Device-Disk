@@ -3,6 +3,7 @@ package com.tompee.utilities.filldevicespace.view;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -10,13 +11,19 @@ import android.widget.TextView;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
+import com.tompee.utilities.filldevicespace.view.dialog.SetRangeDialog;
 
-public class SettingsActivity extends BaseActivity implements View.OnClickListener {
+public class SettingsActivity extends BaseActivity implements View.OnClickListener,
+        SetRangeDialog.OnSetRangeListener {
     public static final String SHARED_PREFERENCE_NAME = "fill_device_disk_shared_prefs";
     public static final String TAG_SD_CARD = "sd_card";
     public static final String TAG_FILL_CHART = "fill_chart";
+    public static final String TAG_MAX_VISIBLE_RANGE = "max_visible_range";
     public static final String TAG_CHECK_STORAGE_CHART = "check_storage_chart";
+    public static final int DEFAULT_VISIBLE_RANGE = 30;
+    private static final String DIALOG_RANGE = "dialog_easy_fill";
     private SharedPreferences mSharedPrefs;
+    private TextView mVisibleRangeTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         title.setText(R.string.ids_title_settings);
 
         mSharedPrefs = getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        mVisibleRangeTextView = (TextView) findViewById(R.id.tv_visible_range);
+        int points = mSharedPrefs.getInt(TAG_MAX_VISIBLE_RANGE, DEFAULT_VISIBLE_RANGE);
+        mVisibleRangeTextView.setText(getResources().
+                getQuantityString(R.plurals.ids_lbl_range_points, points, points));
 
         Switch sw = (Switch) findViewById(R.id.switch_sd_card);
         if (StorageUtility.getRemovableStorage(this) == null) {
@@ -69,7 +80,23 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 sw.setChecked(isChecked);
                 editor.putBoolean(TAG_CHECK_STORAGE_CHART, isChecked);
                 break;
+            case R.id.chart_max_range:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (fragmentManager.findFragmentByTag(DIALOG_RANGE) == null) {
+                    SetRangeDialog dialog = new SetRangeDialog();
+                    dialog.show(fragmentManager, DIALOG_RANGE);
+                }
+                break;
         }
         editor.apply();
+    }
+
+    @Override
+    public void onValueChanged(int value) {
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putInt(TAG_MAX_VISIBLE_RANGE, value);
+        editor.apply();
+        mVisibleRangeTextView.setText(getResources().
+                getQuantityString(R.plurals.ids_lbl_range_points, value, value));
     }
 }

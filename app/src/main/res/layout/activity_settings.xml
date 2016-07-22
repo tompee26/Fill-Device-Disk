@@ -14,7 +14,6 @@
     <RelativeLayout
         android:id="@+id/sd_card"
         style="@style/ListViewStyle"
-        android:layout_height="wrap_content"
         android:background="@drawable/selector_list_full_border_background"
         android:clickable="true"
         android:descendantFocusability="blocksDescendants"
@@ -53,7 +52,6 @@
     <RelativeLayout
         android:id="@+id/chart_fill"
         style="@style/ListViewStyle"
-        android:layout_height="wrap_content"
         android:background="@drawable/selector_list_top_border_background"
         android:clickable="true"
         android:descendantFocusability="blocksDescendants"
@@ -87,8 +85,7 @@
     <RelativeLayout
         android:id="@+id/chart_check_storage"
         style="@style/ListViewStyle"
-        android:layout_height="wrap_content"
-        android:background="@drawable/selector_list_full_border_background"
+        android:background="@drawable/selector_list_top_border_background"
         android:clickable="true"
         android:descendantFocusability="blocksDescendants"
         android:onClick="onClick"
@@ -117,4 +114,35 @@
                 android:text="@string/ids_lbl_show_check_storage_chart" />
         </LinearLayout>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/chart_max_range"
+        style="@style/ListViewStyle"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_list_full_border_background"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:onClick="onClick"
+        android:paddingBottom="@dimen/list_multilinetext_toppadding"
+        android:paddingTop="@dimen/list_multilinetext_bottompadding">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/ListViewDualTextTopStyle"
+                android:text="@string/ids_lbl_set_visible_range" />
+
+            <TextView
+                android:id="@+id/tv_visible_range"
+                style="@style/ListViewDualTextBottomStyle" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

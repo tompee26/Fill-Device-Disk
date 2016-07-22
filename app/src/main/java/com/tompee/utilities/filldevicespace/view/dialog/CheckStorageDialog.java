@@ -2,14 +2,12 @@ package com.tompee.utilities.filldevicespace.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -26,8 +24,7 @@ import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckStorageDialog extends BaseDialog implements DialogInterface.OnClickListener {
-    private static final String TAG = "CheckStorageDialog";
+public class CheckStorageDialog extends BaseDialog {
     private PieChart mPieChart;
 
     @NonNull
@@ -62,7 +59,7 @@ public class CheckStorageDialog extends BaseDialog implements DialogInterface.On
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.ids_title_available_space);
-        builder.setMessage(String.format(getString(R.string.ids_message_check_storage),
+        builder.setMessage(String.format(getString(R.string.ids_lbl_check_storage_size),
                 Formatter.formatShortFileSize(getContext(),
                         StorageUtility.getAvailableStorageSize(getContext()))));
         if (sharedPreferences.getBoolean(SettingsActivity.TAG_CHECK_STORAGE_CHART, false)) {
@@ -106,10 +103,5 @@ public class CheckStorageDialog extends BaseDialog implements DialogInterface.On
 
         mPieChart.highlightValues(null);
         mPieChart.invalidate();
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        Log.d(TAG, "" + which);
     }
 }

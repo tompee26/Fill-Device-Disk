@@ -77,4 +77,12 @@
         android:textColor="@color/dark_text"
         android:visibility="gone" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="@dimen/dialog_margin"
+        android:layout_marginRight="@dimen/dialog_margin"
+        android:visibility="gone" />
+
 </LinearLayout>

@@ -2,14 +2,13 @@ package com.tompee.utilities.filldevicespace.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,13 +23,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.PauseableHandler;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
 import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 
 public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskTaskListener,
-        DialogInterface.OnClickListener {
-    private static final String TAG = "EasyFillDialog";
-    private static final int MAX_VISIBLE_RANGE = 30;
+        PauseableHandler.PauseableHandlerCallback {
+    private static final int FINISH_MESSAGE = 1;
 
     /* Set index */
     private static final int INDEX_SPEED = 0;
@@ -49,6 +48,8 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
     private LineChart mLineChartView;
     private float mPreviousSpeed;
     private boolean mIsChartEnabled;
+    private PauseableHandler mPauseableHandler;
+    private int mMaxRange;
 
     @NonNull
     @Override
@@ -56,6 +57,9 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(SettingsActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         mIsChartEnabled = sharedPreferences.getBoolean(SettingsActivity.TAG_FILL_CHART, false);
+        mMaxRange = sharedPreferences.getInt(SettingsActivity.TAG_MAX_VISIBLE_RANGE,
+                SettingsActivity.DEFAULT_VISIBLE_RANGE);
+        mPauseableHandler = new PauseableHandler(this);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.dialog_easy_fill, null);
@@ -107,6 +111,18 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
         });
         button = dialog.getButton(Dialog.BUTTON_POSITIVE);
         button.setEnabled(false);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPauseableHandler.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPauseableHandler.resume();
     }
 
     private void setChartProperties() {
@@ -201,18 +217,13 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
 
     @Override
     public void onFillDiskSpaceComplete() {
-        AlertDialog dialog = (AlertDialog) getDialog();
-        dialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
-        dialog.getButton(Dialog.BUTTON_NEUTRAL).setVisibility(View.INVISIBLE);
-        dialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.INVISIBLE);
-        mTotalProgress.setProgress(100);
-        mTotalDataTextView.setText(String.format(getString(R.string.
-                ids_message_easy_fill_total_data), 100));
+        Message newMessage = Message.obtain(mPauseableHandler, FINISH_MESSAGE);
+        mPauseableHandler.sendMessage(newMessage);
     }
 
     @Override
     public void onPreExecuteUpdate(long total) {
-        mTotalTextView.setText(String.format(getString(R.string.ids_message_easy_fill_total),
+        mTotalTextView.setText(String.format(getString(R.string.ids_lbl_easy_fill_total),
                 Formatter.formatFileSize(getContext(), total)));
     }
 
@@ -228,7 +239,7 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
             addEntry(INDEX_FILL_SIZE, fillSize);
             addEntry(INDEX_FREE_SIZE, free);
             mLineChartView.notifyDataSetChanged();
-            mLineChartView.setVisibleXRangeMaximum(MAX_VISIBLE_RANGE);
+            mLineChartView.setVisibleXRangeMaximum(mMaxRange);
             mLineChartView.moveViewTo(mLineChartView.getData().getEntryCount() - 7, 50f, AxisDependency.LEFT);
         }
         onProgressUpdate(totalProgress);
@@ -238,7 +249,7 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
     public void onProgressUpdate(int totalProgress) {
         mTotalProgress.setProgress(totalProgress);
         mTotalDataTextView.setText(String.format(getString(R.string.
-                ids_message_easy_fill_total_data), totalProgress));
+                ids_lbl_easy_fill_total_data), totalProgress));
     }
 
     @Override
@@ -247,7 +258,18 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-        Log.d(TAG, "" + which);
+    public boolean storeMessage(Message message) {
+        return message.what == FINISH_MESSAGE;
+    }
+
+    @Override
+    public void processMessage(Message message) {
+        AlertDialog dialog = (AlertDialog) getDialog();
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
+        dialog.getButton(Dialog.BUTTON_NEUTRAL).setVisibility(View.INVISIBLE);
+        dialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.INVISIBLE);
+        mTotalProgress.setProgress(100);
+        mTotalDataTextView.setText(String.format(getString(R.string.
+                ids_lbl_easy_fill_total_data), 100));
     }
 }
