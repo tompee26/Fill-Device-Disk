@@ -1,12 +1,18 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
@@ -21,9 +27,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public static final String TAG_MAX_VISIBLE_RANGE = "max_visible_range";
     public static final String TAG_CHECK_STORAGE_CHART = "check_storage_chart";
     public static final int DEFAULT_VISIBLE_RANGE = 30;
+    private static final String KEY_ISPERMISSION_DISPLAYED = "key_ispermission_displayed";
     private static final String DIALOG_RANGE = "dialog_easy_fill";
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
     private SharedPreferences mSharedPrefs;
     private TextView mVisibleRangeTextView;
+    private boolean mIsPermissionDialogDisplayed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,18 +50,39 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         mVisibleRangeTextView.setText(getResources().
                 getQuantityString(R.plurals.ids_lbl_range_points, points, points));
 
-        Switch sw = (Switch) findViewById(R.id.switch_sd_card);
-        if (StorageUtility.getRemovableStorage(this) == null) {
-            sw.setEnabled(false);
-            sw.setChecked(false);
+        if (!mIsPermissionDialogDisplayed && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.
+                    WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+            mIsPermissionDialogDisplayed = true;
         } else {
-            sw.setEnabled(true);
-            sw.setChecked(mSharedPrefs.getBoolean(TAG_SD_CARD, false));
+            setSdCardSwitchState(true);
         }
-        sw = (Switch) findViewById(R.id.switch_fill_chart);
+
+        Switch sw = (Switch) findViewById(R.id.switch_fill_chart);
         sw.setChecked(mSharedPrefs.getBoolean(TAG_FILL_CHART, false));
         sw = (Switch) findViewById(R.id.switch_check_storage_chart);
         sw.setChecked(mSharedPrefs.getBoolean(TAG_CHECK_STORAGE_CHART, false));
+
+        if (savedInstanceState != null) {
+            mIsPermissionDialogDisplayed = savedInstanceState.getBoolean(KEY_ISPERMISSION_DISPLAYED);
+        }
+    }
+
+    private void setSdCardSwitchState(boolean state) {
+        Switch sw = (Switch) findViewById(R.id.switch_sd_card);
+        if (state) {
+            if (StorageUtility.getRemovableStorage(this) == null) {
+                sw.setEnabled(false);
+                sw.setChecked(false);
+            } else {
+                sw.setEnabled(true);
+                sw.setChecked(mSharedPrefs.getBoolean(TAG_SD_CARD, false));
+            }
+        } else {
+            sw.setEnabled(false);
+            sw.setChecked(false);
+        }
     }
 
     @Override
@@ -98,5 +129,23 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         editor.apply();
         mVisibleRangeTextView.setText(getResources().
                 getQuantityString(R.plurals.ids_lbl_range_points, value, value));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                boolean isAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                setSdCardSwitchState(isAccepted);
+                if (!isAccepted) {
+                    Toast.makeText(this, getString(R.string.ids_lbl_permission),
+                            Toast.LENGTH_LONG).show();
+                }
+                mIsPermissionDialogDisplayed = false;
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

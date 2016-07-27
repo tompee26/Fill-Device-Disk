@@ -1,9 +1,12 @@
 package com.tompee.utilities.filldevicespace.controller.storage;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+
+import com.tompee.utilities.filldevicespace.view.SettingsActivity;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -121,15 +124,33 @@ public class StorageUtility {
 
 
     public static String getFilesDirectory(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
+                        SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+            return getRemovableStorage(context);
+        }
         return context.getFilesDir().getAbsolutePath();
     }
 
     public static int getFileCount(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
+                SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+            return new File(getRemovableStorage(context)).listFiles().length;
+        }
         return context.getFilesDir().listFiles().length;
     }
 
     public static void deleteFiles(Context context) {
-        for (File file : context.getFilesDir().listFiles()) {
+        File[] list;
+        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
+                SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+            list = new File(getRemovableStorage(context)).listFiles();
+        } else {
+            list = context.getFilesDir().listFiles();
+        }
+        for (File file : list) {
             //noinspection ResultOfMethodCallIgnored
             file.delete();
         }

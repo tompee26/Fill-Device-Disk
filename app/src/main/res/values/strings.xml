@@ -32,6 +32,7 @@
     <string name="ids_lbl_cleared_space">Cleared space: %1$s</string>
     <string name="ids_lbl_calculating">Calculating free space&#8230;</string>
     <string name="ids_lbl_value">Value (Maximum: %1$d):</string>
+    <string name="ids_lbl_permission">Please grant write storage permission to use SD Card</string>
 
     <string name="ids_title_settings">Settings</string>
     <string name="ids_title_help">Help</string>
