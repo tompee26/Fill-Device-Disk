@@ -27,7 +27,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public static final String TAG_MAX_VISIBLE_RANGE = "max_visible_range";
     public static final String TAG_CHECK_STORAGE_CHART = "check_storage_chart";
     public static final int DEFAULT_VISIBLE_RANGE = 30;
-    private static final String KEY_ISPERMISSION_DISPLAYED = "key_ispermission_displayed";
+    private static final String KEY_IS_PERMISSION_DISPLAYED = "key_ispermission_displayed";
     private static final String DIALOG_RANGE = "dialog_easy_fill";
     private static final int PERMISSION_REQUEST_CODE = 100;
 
@@ -65,7 +65,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         sw.setChecked(mSharedPrefs.getBoolean(TAG_CHECK_STORAGE_CHART, false));
 
         if (savedInstanceState != null) {
-            mIsPermissionDialogDisplayed = savedInstanceState.getBoolean(KEY_ISPERMISSION_DISPLAYED);
+            mIsPermissionDialogDisplayed = savedInstanceState.getBoolean(KEY_IS_PERMISSION_DISPLAYED);
         }
     }
 

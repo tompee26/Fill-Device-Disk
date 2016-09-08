@@ -50,6 +50,11 @@
     <string name="ids_legend_system">System</string>
     <string name="ids_legend_storage">Storage</string>
 
+    <string name="ids_message_contact">Send us a message at tompee26@gmail.com</string>
+    <string name="ids_message_about">Send us a message at tompee26@gmail.com</string>
+    <string name="ids_message_copyright">&#169; 2016 tompee26@gmail.com.\nAll rights reserved.</string>
+
+
     <plurals name="ids_lbl_range_points">
         <item quantity="one">%1$d point</item>
         <item quantity="other">%1$d points</item>
