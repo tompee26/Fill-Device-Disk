@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import com.tompee.utilities.filldevicespace.view.dialog.AdvancedFillDialog;
@@ -27,6 +30,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setToolbar(R.id.toolbar, false);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-1411804566429951~9732472227");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91").build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

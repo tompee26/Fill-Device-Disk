@@ -54,6 +54,7 @@
     <string name="ids_message_about">Send us a message at tompee26@gmail.com</string>
     <string name="ids_message_copyright">&#169; 2016 tompee26@gmail.com.\nAll rights reserved.</string>
 
+    <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
 
     <plurals name="ids_lbl_range_points">
         <item quantity="one">%1$d point</item>
