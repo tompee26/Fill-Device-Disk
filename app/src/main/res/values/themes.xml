@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Branded Launch Theme -->
-    <style name="BrandedLaunch">
-        <!--<item name="android:windowBackground">@drawable/minniesda_launcher</item>-->
-    </style>
 
     <!-- Application Theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -15,6 +11,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerItemDropDownStyle</item>
+    </style>
+
+    <!-- Branded Launch Theme -->
+    <style name="AppTheme.BrandedLaunch">
+        <item name="android:windowBackground">@drawable/launcher_bg</item>
     </style>
 
 </resources>

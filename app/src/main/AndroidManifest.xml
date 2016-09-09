@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:resizeableActivity="false"
         android:supportsRtl="true"
-        android:theme="@style/BrandedLaunch">
+        android:theme="@style/AppTheme.BrandedLaunch">
         <activity
             android:name="com.tompee.utilities.filldevicespace.view.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
