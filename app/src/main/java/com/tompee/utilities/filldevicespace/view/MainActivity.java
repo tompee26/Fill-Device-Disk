@@ -31,9 +31,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
 
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-1411804566429951~9732472227");
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91").
+                addTestDevice("3AD737A018BB67E7108FD1836E34DD1C").build();
         mAdView.loadAd(adRequest);
     }
 

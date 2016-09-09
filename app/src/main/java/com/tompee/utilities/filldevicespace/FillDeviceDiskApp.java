@@ -2,6 +2,8 @@ package com.tompee.utilities.filldevicespace;
 
 import android.app.Application;
 
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ public class FillDeviceDiskApp extends Application {
     private static final long ASSET_1MB_SIZE = 1048576;
     private static final long ASSET_100KB_SIZE = 102400;
     private static final long ASSET_8KB_SIZE = 8192;
+    private static final String ADMOB_APP_ID = "ca-app-pub-1411804566429951~9732472227";
     private static Map<String, Long> mAssetMap;
 
     @Override
@@ -24,6 +27,7 @@ public class FillDeviceDiskApp extends Application {
         mAssetMap.put(ASSET_1MB, ASSET_1MB_SIZE);
         mAssetMap.put(ASSET_100KB, ASSET_100KB_SIZE);
         mAssetMap.put(ASSET_8KB, ASSET_8KB_SIZE);
+        MobileAds.initialize(getApplicationContext(), ADMOB_APP_ID);
     }
 
     public String getAsset(long limit) {

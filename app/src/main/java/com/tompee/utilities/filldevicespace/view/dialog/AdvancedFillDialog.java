@@ -28,6 +28,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.PauseableHandler;
 import com.tompee.utilities.filldevicespace.controller.Utilities;
@@ -105,6 +107,11 @@ public class AdvancedFillDialog extends BaseDialog implements View.OnClickListen
             mLineChartView.setVisibility(View.GONE);
         }
 
+        NativeExpressAdView mAdView = (NativeExpressAdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91")
+                .addTestDevice("3AD737A018BB67E7108FD1836E34DD1C").build();
+        mAdView.loadAd(adRequest);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.ids_title_advance_fill);
         builder.setView(view);
@@ -124,6 +131,14 @@ public class AdvancedFillDialog extends BaseDialog implements View.OnClickListen
     public void onPause() {
         super.onPause();
         mPauseableHandler.pause();
+        if (mFillDiskTask != null && mFillDiskTask.isRunning()) {
+            mFillDiskTask.pause();
+            AlertDialog dialog = (AlertDialog) getDialog();
+            if (dialog != null) {
+                Button button = dialog.getButton(Dialog.BUTTON_NEUTRAL);
+                button.setText(R.string.ids_lbl_resume);
+            }
+        }
     }
 
     private void setChartProperties() {

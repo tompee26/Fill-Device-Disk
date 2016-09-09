@@ -55,6 +55,9 @@
     <string name="ids_message_copyright">&#169; 2016 tompee26@gmail.com.\nAll rights reserved.</string>
 
     <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
+    <string name="banner_ad_unit_id_easy_screen_backup">ca-app-pub-1411804566429951/8541613828</string>
+    <string name="banner_ad_unit_id_easy_screen">ca-app-pub-1411804566429951/3832212620</string>
+    <string name="banner_ad_unit_id_advance_screen">ca-app-pub-1411804566429951/9599544628</string>
 
     <plurals name="ids_lbl_range_points">
         <item quantity="one">%1$d point</item>
