@@ -108,8 +108,7 @@ public class AdvancedFillDialog extends BaseDialog implements View.OnClickListen
         }
 
         NativeExpressAdView mAdView = (NativeExpressAdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91")
-                .addTestDevice("3AD737A018BB67E7108FD1836E34DD1C").build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

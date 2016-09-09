@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import com.tompee.utilities.filldevicespace.view.dialog.AdvancedFillDialog;
@@ -32,8 +31,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         title.setText(R.string.app_name);
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F7DB534E760B189CEE69D9CC80AFBD91").
-                addTestDevice("3AD737A018BB67E7108FD1836E34DD1C").build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
 
