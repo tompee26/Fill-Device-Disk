@@ -23,8 +23,7 @@ public class HelpActivity extends BaseActivity implements View.OnClickListener {
         title.setText(R.string.ids_title_help);
 
         TextView tvAbout = (TextView) findViewById(R.id.textview_about);
-        tvAbout.setText(String.format(getString(R.string.ids_lbl_about),
-                getString(R.string.app_name)));
+        tvAbout.setText(getString(R.string.ids_lbl_about));
     }
 
     @Override
