@@ -1,7 +1,7 @@
 package com.tompee.utilities.filldevicespace.view.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -43,9 +43,9 @@ public class SetRangeDialog extends BaseDialog implements TextWatcher {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mListener = (OnSetRangeListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnSetRangeListener) context;
     }
 
     @Override

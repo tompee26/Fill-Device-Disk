@@ -29,7 +29,6 @@
     <dimen name="list_dualtextbottom_rightpadding">16dp</dimen>
 
     <!-- Toolbar dimensions -->
-    <dimen name="toolbar_print_title_leftpadding">16dp</dimen>
     <dimen name="toolbar_print_title_rightpadding">16dp</dimen>
     <dimen name="toolbar_print_title_toppadding">0dp</dimen>
     <dimen name="toolbar_print_title_bottompadding">0dp</dimen>
@@ -49,4 +48,7 @@
     <!-- Spinner dimensions-->
     <dimen name="spinner_dropdown_padding">16dp</dimen>
 
+    <!-- About -->
+    <dimen name="about_image_dimension">60dp</dimen>
+    <dimen name="about_view_separator">8dp</dimen>
 </resources>

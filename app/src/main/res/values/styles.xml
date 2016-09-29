@@ -16,7 +16,6 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/light_text</item>
-        <item name="android:paddingLeft">@dimen/toolbar_print_title_leftpadding</item>
         <item name="android:paddingRight">@dimen/toolbar_print_title_rightpadding</item>
         <item name="android:paddingTop">@dimen/toolbar_print_title_toppadding</item>
         <item name="android:paddingBottom">@dimen/toolbar_print_title_bottompadding</item>
@@ -88,7 +87,7 @@
         <item name="android:layout_marginTop">@dimen/list_singletext_toppadding</item>
         <item name="android:layout_marginBottom">@dimen/list_singletext_bottompadding
         </item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
     </style>
 
     <!-- Header Text Style -->
@@ -127,7 +126,7 @@
         <item name="android:gravity">left|bottom</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@drawable/selector_dark_text</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
         <item name="android:layout_marginRight">@dimen/list_dualtexttop_rightpadding</item>
         <item name="android:layout_marginLeft">@dimen/list_dualtexttop_leftpadding</item>
         <item name="android:layout_marginTop">@dimen/list_dualtexttop_toppadding</item>
@@ -141,7 +140,7 @@
         <item name="android:gravity">left|top</item>
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@drawable/selector_dark_secondary_text</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
         <item name="android:layout_marginRight">@dimen/list_dualtextbottom_rightpadding</item>
         <item name="android:layout_marginLeft">@dimen/list_dualtextbottom_leftpadding</item>
         <item name="android:layout_marginTop">@dimen/list_dualtextbottom_toppadding</item>

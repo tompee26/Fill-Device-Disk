@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 
@@ -34,11 +33,9 @@ public class HelpActivity extends BaseActivity implements View.OnClickListener {
         AlertDialog.Builder builder;
         switch (v.getId()) {
             case R.id.about:
-                builder = new AlertDialog.Builder(this);
-                builder.setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
-                builder.setMessage(R.string.ids_message_copyright);
-                builder.setPositiveButton(R.string.ids_lbl_ok, null);
-                builder.create().show();
+                intent = new Intent(this, AboutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case R.id.contact:
                 builder = new AlertDialog.Builder(this);

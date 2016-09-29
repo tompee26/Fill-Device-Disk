@@ -15,7 +15,7 @@
     <string name="ids_lbl_show_check_storage_chart">Show Check Storage Chart</string>
     <string name="ids_lbl_set_visible_range">Set Maximum Visible X Range</string>
     <string name="ids_lbl_help">Help</string>
-    <string name="ids_lbl_about">About %1$s</string>
+    <string name="ids_lbl_about">About</string>
     <string name="ids_lbl_contact">Contact Us</string>
     <string name="ids_lbl_open_source">Open Source Components</string>
     <string name="ids_lbl_custom_fill">Custom fill size:</string>
@@ -51,8 +51,8 @@
     <string name="ids_legend_storage">Storage</string>
 
     <string name="ids_message_contact">Send us a message at tompee26@gmail.com</string>
-    <string name="ids_message_about">Send us a message at tompee26@gmail.com</string>
-    <string name="ids_message_copyright">&#169; 2016 tompee26@gmail.com.\nAll rights reserved.</string>
+    <string name="ids_message_copyright">Copyright 2016 Tompee. All rights reserved.</string>
+    <string name="ids_message_version">Version %1$s</string>
 
     <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
     <string name="banner_ad_unit_id_easy_screen_backup">ca-app-pub-1411804566429951/8541613828</string>

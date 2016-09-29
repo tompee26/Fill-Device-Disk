@@ -32,6 +32,9 @@
         <activity
             android:name=".view.WebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".view.AboutActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name="com.tompee.utilities.filldevicespace.view.base.BaseActivity" />
     </application>
 
