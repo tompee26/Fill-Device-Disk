@@ -27,9 +27,6 @@
             android:name=".view.SettingsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".view.HelpActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
             android:name=".view.WebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity

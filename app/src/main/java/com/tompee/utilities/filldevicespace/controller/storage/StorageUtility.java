@@ -136,6 +136,7 @@ public class StorageUtility {
         SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+            //noinspection ConstantConditions
             return new File(getRemovableStorage(context)).listFiles().length;
         }
         return context.getFilesDir().listFiles().length;
@@ -146,6 +147,7 @@ public class StorageUtility {
         SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+            //noinspection ConstantConditions
             list = new File(getRemovableStorage(context)).listFiles();
         } else {
             list = context.getFilesDir().listFiles();

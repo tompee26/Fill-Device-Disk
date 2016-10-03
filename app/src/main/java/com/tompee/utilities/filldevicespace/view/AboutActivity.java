@@ -14,7 +14,7 @@ public class AboutActivity extends BaseActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        setToolbar(R.id.toolbar, true);
+        setToolbar(true);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.ids_lbl_about);
 

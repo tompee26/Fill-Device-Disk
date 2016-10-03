@@ -40,7 +40,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        setToolbar(R.id.toolbar, true);
+        setToolbar(true);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.ids_title_settings);
 

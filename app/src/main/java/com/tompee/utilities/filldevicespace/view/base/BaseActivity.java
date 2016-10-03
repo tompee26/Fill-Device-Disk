@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
+import com.tompee.utilities.filldevicespace.R;
+
 public class BaseActivity extends FragmentActivity {
     private AppCompatDelegate mDelegate;
 
@@ -29,8 +31,8 @@ public class BaseActivity extends FragmentActivity {
         mDelegate.invalidateOptionsMenu();
     }
 
-    protected void setToolbar(int toolbarId, boolean enableHomeButton) {
-        Toolbar toolbar = (Toolbar) findViewById(toolbarId);
+    protected void setToolbar(boolean enableHomeButton) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDelegate.setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         mDelegate.getSupportActionBar().setDisplayShowTitleEnabled(false);

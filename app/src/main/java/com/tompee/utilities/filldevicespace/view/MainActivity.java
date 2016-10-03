@@ -1,13 +1,19 @@
 package com.tompee.utilities.filldevicespace.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import com.tompee.utilities.filldevicespace.view.dialog.AdvancedFillDialog;
@@ -20,19 +26,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String DIALOG_CHECK_SPACE = "dialog_check_space";
     private static final String DIALOG_CLEAR_FILL = "dialog_clear_fill";
     private static final String DIALOG_ADVANCED_FILL = "dialog_advanced_fill";
+    private static final String LICENSE_URL = "file:///android_asset/opensource.html";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
-        setToolbar(R.id.toolbar, false);
+        setToolbar(false);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        AdRequest.Builder builder = new AdRequest.Builder();
+        if (BuildConfig.DEBUG) {
+            builder.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C");
+        }
+        mAdView.loadAd(builder.build());
     }
 
     @Override
@@ -56,11 +66,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
-            case R.id.help:
-                intent = new Intent(this, HelpActivity.class);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        AlertDialog.Builder builder;
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                intent = new Intent(this, AboutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+            case R.id.menu_contact:
+                builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.ids_lbl_contact);
+                builder.setMessage(R.string.ids_message_contact);
+                builder.setPositiveButton(R.string.ids_lbl_ok, null);
+                builder.create().show();
+                return true;
+            case R.id.menu_os:
+                intent = new Intent(this, WebViewActivity.class);
+                intent.setData(Uri.parse(LICENSE_URL));
+                intent.putExtra(WebViewActivity.TAG_TITLE, getString(R.string.ids_title_open_source));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showEasyFillDialog() {

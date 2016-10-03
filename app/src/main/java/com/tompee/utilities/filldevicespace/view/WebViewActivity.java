@@ -22,7 +22,7 @@ public class WebViewActivity extends BaseActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        setToolbar(R.id.toolbar, true);
+        setToolbar(true);
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(getIntent().getExtras().getString(TAG_TITLE));
 
