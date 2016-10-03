@@ -1,6 +1,9 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +31,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String DIALOG_ADVANCED_FILL = "dialog_advanced_fill";
     private static final String LICENSE_URL = "file:///android_asset/opensource.html";
 
+    private static final String SHARED_PREF = "filldevicedisksharedpref";
+    private static final String LAUNCH_COUNT = "launch_count";
+    private static final int MIN_LAUNCH_COUNT = 4;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -37,12 +44,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         TextView title = (TextView) findViewById(R.id.toolbar_text);
         title.setText(R.string.app_name);
 
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int launchCount = sharedPreferences.getInt(LAUNCH_COUNT, 0);
+        if (launchCount == MIN_LAUNCH_COUNT) {
+            editor.putInt(LAUNCH_COUNT, 0);
+            showAppRater();
+        } else {
+            editor.putInt(LAUNCH_COUNT, ++launchCount);
+        }
+        editor.apply();
+
+        AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest.Builder builder = new AdRequest.Builder();
         if (BuildConfig.DEBUG) {
             builder.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C");
         }
-        mAdView.loadAd(builder.build());
+        adView.loadAd(builder.build());
+    }
+
+    private void showAppRater() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.ids_title_rate);
+        builder.setMessage(R.string.ids_message_rate);
+        builder.setNeutralButton(R.string.ids_lbl_remind, null);
+        builder.setNegativeButton(R.string.ids_lbl_no_rate, null);
+        builder.setPositiveButton(R.string.ids_lbl_yes_rate, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" +
+                        BuildConfig.APPLICATION_ID));
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -79,7 +114,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        AlertDialog.Builder builder;
         switch (item.getItemId()) {
             case R.id.menu_about:
                 intent = new Intent(this, AboutActivity.class);
@@ -87,11 +121,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent);
                 return true;
             case R.id.menu_contact:
-                builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.ids_lbl_contact);
-                builder.setMessage(R.string.ids_message_contact);
-                builder.setPositiveButton(R.string.ids_lbl_ok, null);
-                builder.create().show();
+                intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tompee26@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Re: Fill Device Disk");
+                intent.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(Intent.createChooser(intent, "Send mail..."));
                 return true;
             case R.id.menu_os:
                 intent = new Intent(this, WebViewActivity.class);

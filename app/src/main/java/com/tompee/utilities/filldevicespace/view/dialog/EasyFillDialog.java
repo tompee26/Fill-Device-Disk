@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.NativeExpressAdView;
+import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.PauseableHandler;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
@@ -76,9 +77,12 @@ public class EasyFillDialog extends BaseDialog implements FillDiskTask.FillDiskT
             mLineChartView.setVisibility(View.GONE);
         }
 
-        NativeExpressAdView mAdView = (NativeExpressAdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        NativeExpressAdView adView = (NativeExpressAdView) view.findViewById(R.id.adView);
+        AdRequest.Builder build = new AdRequest.Builder();
+        if (BuildConfig.DEBUG) {
+            build.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C");
+        }
+        adView.loadAd(build.build());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.ids_title_easy_fill);

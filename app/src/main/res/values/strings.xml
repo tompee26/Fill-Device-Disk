@@ -22,6 +22,9 @@
     <string name="ids_lbl_open_source">Open Source Components</string>
     <string name="ids_lbl_custom_fill">Custom fill size:</string>
     <string name="ids_lbl_ok">OK</string>
+    <string name="ids_lbl_remind">Remind me later</string>
+    <string name="ids_lbl_no_rate">No Thanks</string>
+    <string name="ids_lbl_yes_rate">Rate now</string>
     <string name="ids_lbl_start">Start</string>
     <string name="ids_lbl_stop">Stop</string>
     <string name="ids_lbl_cancel">Cancel</string>
@@ -42,6 +45,7 @@
     <string name="ids_title_available_space">Available Space</string>
     <string name="ids_title_advance_fill">Advance Fill</string>
     <string name="ids_title_max_range">Maximum Visible X Range</string>
+    <string name="ids_title_rate">Rate this app</string>
 
     <string name="ids_legend_speed">Speed (MB/sec)</string>
     <string name="ids_legend_fill_size">Fill (GB)</string>
@@ -54,6 +58,8 @@
     <string name="ids_message_contact">Send us a message at tompee26@gmail.com</string>
     <string name="ids_message_copyright">Copyright 2016 Tompee. All rights reserved.</string>
     <string name="ids_message_version">Version %1$s</string>
+    <string name="ids_message_rate">Did you enjoy playing with your disk? If yes, would you
+        mind for a moment to rate this app? Thank you so much for your support!</string>
 
     <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
     <string name="banner_ad_unit_id_easy_screen_backup">ca-app-pub-1411804566429951/8541613828</string>
