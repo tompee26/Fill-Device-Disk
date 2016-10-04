@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tompee26@gmail.com"});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Re: Fill Device Disk");
                 intent.putExtra(Intent.EXTRA_TEXT, "");
-                startActivity(Intent.createChooser(intent, "Send mail..."));
+                startActivity(Intent.createChooser(intent, getString(R.string.ids_lbl_contact)));
                 return true;
             case R.id.menu_os:
                 intent = new Intent(this, WebViewActivity.class);

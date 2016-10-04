@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">フィルデバイスディスク</string>
+    <string name="default_content_description">Content description</string>
+
+    <!-- Labels -->
+    <string name="ids_lbl_fills">フィル</string>
+    <string name="ids_lbl_check">チェック</string>
+    <string name="ids_lbl_conf">構成</string>
+    <string name="ids_lbl_easy_fill">かんたんフィル</string>
+    <string name="ids_lbl_advance_fill">先進フィル</string>
+    <string name="ids_lbl_check_storage">チェックストレージ</string>
+    <string name="ids_lbl_clear">クリアフィル</string>
+    <string name="ids_lbl_settings">設定</string>
+    <string name="ids_lbl_external_storage">SDカードを使う</string>
+    <string name="ids_lbl_system">システム</string>
+    <string name="ids_lbl_charts">図表</string>
+    <string name="ids_lbl_show_fill_chart">フィル図表を表示する</string>
+    <string name="ids_lbl_show_check_storage_chart">チェックストレージ図表を表示する</string>
+    <string name="ids_lbl_set_visible_range">最大の x 範囲表示を設定する</string>
+    <string name="ids_lbl_about">情報</string>
+    <string name="ids_lbl_contact">お問い合わせ</string>
+    <string name="ids_lbl_custom_fill">カスタムフィルサイズ:</string>
+    <string name="ids_lbl_ok">ＯＫ</string>
+    <string name="ids_lbl_remind">後で通知する</string>
+    <string name="ids_lbl_no_rate">いえ、結構です</string>
+    <string name="ids_lbl_yes_rate">今すぐ評価する</string>
+    <string name="ids_lbl_start">始める</string>
+    <string name="ids_lbl_stop">止める</string>
+    <string name="ids_lbl_cancel">キャンセル</string>
+    <string name="ids_lbl_pause">中断する</string>
+    <string name="ids_lbl_resume">再開する</string>
+    <string name="ids_lbl_easy_fill_total">合計サイズ: %1$s</string>
+    <string name="ids_lbl_easy_fill_total_data">%1$d%%</string>
+    <string name="ids_lbl_check_storage_size">フリーサイズ: %1$s</string>
+    <string name="ids_lbl_clearing_space">フィルを削除中&#8230;</string>
+    <string name="ids_lbl_cleared_space">削除されたサイズ: %1$s</string>
+    <string name="ids_lbl_calculating">無料のサイズを計算中&#8230;</string>
+    <string name="ids_lbl_value">値 (上限: %1$d):</string>
+    <string name="ids_lbl_permission">SDカードを使用するための書込み記憶許可を付与してください。</string>
+
+    <string name="ids_title_settings">設定</string>
+    <string name="ids_title_open_source">オープンソースライセンス</string>
+    <string name="ids_title_easy_fill">ストレージを充填&#8230;</string>
+    <string name="ids_title_available_space">フリーサイズ</string>
+    <string name="ids_title_advance_fill">先進フィル</string>
+    <string name="ids_title_max_range">最大表示範囲 x</string>
+    <string name="ids_title_rate">アプリの評価</string>
+
+    <string name="ids_legend_speed">速度 (MB/sec)</string>
+    <string name="ids_legend_fill_size">フィル (GB)</string>
+    <string name="ids_legend_free_size">無料 (GB)</string>
+    <string name="ids_legend_fill">速度</string>
+    <string name="ids_legend_free">無料</string>
+    <string name="ids_legend_system">システム</string>
+    <string name="ids_legend_storage">ストレージ</string>
+
+    <string name="ids_message_copyright">Copyright 2016 Tompee. All rights reserved.</string>
+    <string name="ids_message_version">Version %1$s</string>
+    <string name="ids_message_rate">あなたのディスクで遊んで楽しかったですか。 はい場合は、このアプリを評価す
+        る瞬間のために気にしますか？ご支援ありがとうございました！</string>
+
+    <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
+    <string name="banner_ad_unit_id_easy_screen_backup">ca-app-pub-1411804566429951/8541613828</string>
+    <string name="banner_ad_unit_id_easy_screen">ca-app-pub-1411804566429951/3832212620</string>
+    <string name="banner_ad_unit_id_advance_screen">ca-app-pub-1411804566429951/9599544628</string>
+
+    <plurals name="ids_lbl_range_points">
+        <item quantity="other">%1$d点</item>
+    </plurals>
+</resources>
