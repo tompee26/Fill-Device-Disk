@@ -96,7 +96,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     }
 
     @Override
-    public void onProgressUpdate(float speed) {
+    public void onProgressUpdate(float speed, float percentage) {
         updateViews(speed);
     }
 

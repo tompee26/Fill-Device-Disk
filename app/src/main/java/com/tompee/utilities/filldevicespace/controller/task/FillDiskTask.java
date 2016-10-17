@@ -45,7 +45,7 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
                 float speed = Utilities.computeSpeed(app.getAssetSize(currentAsset), timeElapsed);
-                publishProgress(speed);
+                publishProgress(speed, 0f);
             } catch (IOException e) {
                 currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
                 if (currentAsset == null) {
@@ -74,7 +74,8 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
                 float speed = Utilities.computeSpeed(app.getAssetSize(asset), timeElapsed);
-                publishProgress(speed);
+                float percentage = (float)fillSize / (float)limit * 100;
+                publishProgress(speed, percentage);
             } catch (InterruptedException e) {
                 Log.d(TAG, "Interrupted");
             } catch (IOException e) {
@@ -85,7 +86,7 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
 
     @Override
     protected void onProgressUpdate(Float... values) {
-        mListener.onProgressUpdate(values[0]);
+        mListener.onProgressUpdate(values[0], values[1]);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     public interface FillDiskTaskListener {
         void onFillDiskSpaceComplete();
 
-        void onProgressUpdate(float speed);
+        void onProgressUpdate(float speed, float percentage);
 
         void onCancelled();
     }

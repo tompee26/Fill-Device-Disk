@@ -139,6 +139,7 @@
     </LinearLayout>
 
     <ViewSwitcher
+        android:id="@+id/switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/buttons"
@@ -152,6 +153,7 @@
             android:id="@+id/circleView"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_gravity="center"
             CircleProgressView:cpv_autoTextSize="true"
             CircleProgressView:cpv_barColor="@color/colorAccent"
             CircleProgressView:cpv_barWidth="5dp"

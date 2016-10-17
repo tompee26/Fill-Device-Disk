@@ -33,22 +33,4 @@ public class Utilities {
     public static float computeSpeed(float assetSize, float timeElapsed) {
         return assetSize / timeElapsed * SPEED_FACTOR;
     }
-
-    public enum Unit {
-        GB("GB"),
-        MB("MB"),
-        KB("KB");
-
-        private final String mText;
-
-        Unit(final String text) {
-            mText = text;
-        }
-
-        @Override
-        public final String toString() {
-            return mText;
-        }
-
-    }
 }
