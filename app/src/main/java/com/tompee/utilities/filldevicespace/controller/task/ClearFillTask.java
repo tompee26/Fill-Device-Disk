@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
-public class ClearFillTask extends AsyncTask<Void, Void, Long> {
+public class ClearFillTask extends AsyncTask<Void, Void, Void> {
     private final ClearFillListener mListener;
     private final Context mContext;
 
@@ -15,18 +15,17 @@ public class ClearFillTask extends AsyncTask<Void, Void, Long> {
     }
 
     @Override
-    protected Long doInBackground(Void... params) {
-        long before = StorageUtility.getAvailableStorageSize(mContext);
+    protected Void doInBackground(Void... params) {
         StorageUtility.deleteFiles(mContext);
-        return StorageUtility.getAvailableStorageSize(mContext) - before;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Long cleared) {
-        mListener.onFinish(cleared);
+    protected void onPostExecute(Void aVoid) {
+        mListener.onFinish();
     }
 
     public interface ClearFillListener {
-        void onFinish(long clearedSpace);
+        void onFinish();
     }
 }

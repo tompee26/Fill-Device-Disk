@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.tompee.utilities.filldevicespace.R;
 
 public class BaseActivity extends FragmentActivity {
     private AppCompatDelegate mDelegate;
+    private boolean mIsTouchIntercepted;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,4 +60,12 @@ public class BaseActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void interceptTouchEvents(boolean intercept) {
+        mIsTouchIntercepted = intercept;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return mIsTouchIntercepted || super.dispatchTouchEvent(ev);
+    }
 }

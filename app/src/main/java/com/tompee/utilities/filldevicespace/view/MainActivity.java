@@ -1,39 +1,43 @@
 package com.tompee.utilities.filldevicespace.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.view.adapter.MainViewPagerAdapter;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
-import com.tompee.utilities.filldevicespace.view.dialog.AdvancedFillDialog;
-import com.tompee.utilities.filldevicespace.view.dialog.CheckStorageDialog;
-import com.tompee.utilities.filldevicespace.view.dialog.ClearFillDialog;
-import com.tompee.utilities.filldevicespace.view.dialog.EasyFillDialog;
+import com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
-    private static final String DIALOG_EASY_FILL = "dialog_easy_fill";
-    private static final String DIALOG_CHECK_SPACE = "dialog_check_space";
-    private static final String DIALOG_CLEAR_FILL = "dialog_clear_fill";
-    private static final String DIALOG_ADVANCED_FILL = "dialog_advanced_fill";
-    private static final String LICENSE_URL = "file:///android_asset/opensource.html";
-
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+    public static final String SHARED_PREFERENCE_NAME = "fill_device_disk_shared_prefs";
+    public static final String TAG_SD_CARD = "sd_card";
+    private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String SHARED_PREF = "filldevicedisksharedpref";
     private static final String LAUNCH_COUNT = "launch_count";
     private static final int MIN_LAUNCH_COUNT = 4;
+    private static final String LICENSE_URL = "file:///android_asset/opensource.html";
+
+    private NonSwipeablePager mViewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             builder.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C");
         }
         adView.loadAd(builder.build());
+
+        mViewPager = (NonSwipeablePager) findViewById(R.id.pager_main);
+        mViewPager.setAdapter(new MainViewPagerAdapter(this, getSupportFragmentManager()));
+        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOffscreenPageLimit(mViewPager.getAdapter().getCount());
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     private void showAppRater() {
@@ -81,26 +92,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        Intent intent;
-        switch (v.getId()) {
-            case R.id.easy_fill:
-                showEasyFillDialog();
-                break;
-            case R.id.advance_fill:
-                showAdvancedFillDialog();
-                break;
-            case R.id.check_storage:
-                showCheckStorageDialog();
-                break;
-            case R.id.delete:
-                showClearFillDialog();
-                break;
-            case R.id.settings:
-                intent = new Intent(this, SettingsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                break;
+    protected void onStart() {
+        super.onStart();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.
+                    WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -139,35 +136,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showEasyFillDialog() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag(DIALOG_EASY_FILL) == null) {
-            EasyFillDialog dialog = new EasyFillDialog();
-            dialog.show(fragmentManager, DIALOG_EASY_FILL);
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (!(grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(this, getString(R.string.ids_lbl_permission),
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    private void showCheckStorageDialog() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag(DIALOG_CHECK_SPACE) == null) {
-            CheckStorageDialog dialog = new CheckStorageDialog();
-            dialog.show(fragmentManager, DIALOG_CHECK_SPACE);
-        }
-    }
-
-    private void showClearFillDialog() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag(DIALOG_CLEAR_FILL) == null) {
-            ClearFillDialog dialog = new ClearFillDialog();
-            dialog.show(fragmentManager, DIALOG_CLEAR_FILL);
-        }
-    }
-
-    private void showAdvancedFillDialog() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag(DIALOG_ADVANCED_FILL) == null) {
-            AdvancedFillDialog dialog = new AdvancedFillDialog();
-            dialog.show(fragmentManager, DIALOG_ADVANCED_FILL);
-        }
+    public void interceptViewPagerTouchEvents(boolean intercept) {
+        mViewPager.interceptSwipeEvent(intercept);
     }
 }

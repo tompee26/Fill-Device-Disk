@@ -10,14 +10,12 @@ import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
 import java.io.IOException;
 
-public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
+public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     private static final String TAG = "FillDiskTask";
-    private static final int SLEEP_INTERVAL = 1000;
+    private static final int SLEEP_INTERVAL = 10;
     private final Context mContext;
     private final FillDiskTaskListener mListener;
     private final long mLimit;
-    private long mTotalDiskSpace;
-    private boolean mIsPaused;
 
     public FillDiskTask(Context context, FillDiskTaskListener listener, long limit) {
         mContext = context;
@@ -26,45 +24,28 @@ public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        mTotalDiskSpace = StorageUtility.getTotalStorageSize(mContext);
-        mListener.onPreExecuteUpdate(mTotalDiskSpace);
-    }
-
-    @Override
-    protected Void doInBackground(Boolean... params) {
+    protected Void doInBackground(Void... params) {
         if (mLimit != 0) {
-            performFill(mLimit, params[0]);
+            performFill(mLimit);
         } else {
-            performFill(params[0]);
+            performFill();
         }
         return null;
     }
 
-    private void performFill(boolean withChart) {
+    private void performFill() {
         int fileCount = StorageUtility.getFileCount(mContext);
         FillDeviceDiskApp app = (FillDeviceDiskApp) mContext.getApplicationContext();
         String currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
         while (!isCancelled()) {
             try {
-                if (mIsPaused) {
-                    Thread.sleep(SLEEP_INTERVAL);
-                    continue;
-                }
+                Thread.sleep(SLEEP_INTERVAL);
                 long start = System.nanoTime();
                 Utilities.copyAssetsFile(mContext, currentAsset, currentAsset + fileCount);
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
-                float totalProgress = Utilities.getPercentage(mTotalDiskSpace - StorageUtility.
-                        getAvailableStorageSize(mContext), mTotalDiskSpace);
-                if (withChart) {
-                    float speed = Utilities.computeSpeed(app.getAssetSize(currentAsset), timeElapsed);
-                    publishProgress(totalProgress, speed,
-                            Utilities.convertToGb(StorageUtility.getFillSize(mContext)),
-                            Utilities.convertToGb(StorageUtility.getAvailableStorageSize(mContext)));
-                } else {
-                    publishProgress(totalProgress);
-                }
+                float speed = Utilities.computeSpeed(app.getAssetSize(currentAsset), timeElapsed);
+                publishProgress(speed);
             } catch (IOException e) {
                 currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
                 if (currentAsset == null) {
@@ -76,16 +57,13 @@ public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
         }
     }
 
-    private void performFill(long limit, boolean withChart) {
+    private void performFill(long limit) {
         int fileCount = StorageUtility.getFileCount(mContext);
         FillDeviceDiskApp app = (FillDeviceDiskApp) mContext.getApplicationContext();
         long fillSize = 0;
         while (fillSize < limit && !isCancelled()) {
             try {
-                if (mIsPaused) {
-                    Thread.sleep(SLEEP_INTERVAL);
-                    continue;
-                }
+                Thread.sleep(SLEEP_INTERVAL);
                 String asset = app.getAsset(limit - fillSize);
                 if (asset == null) {
                     break;
@@ -95,16 +73,8 @@ public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
                 fillSize += app.getAssetSize(asset);
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
-                float totalProgress = Utilities.getPercentage(fillSize, limit);
-                Log.d(TAG, "progress:" + totalProgress);
-                if (withChart) {
-                    float speed = Utilities.computeSpeed(app.getAssetSize(asset), timeElapsed);
-                    publishProgress(totalProgress, speed,
-                            Utilities.convertToGb(StorageUtility.getFillSize(mContext)),
-                            Utilities.convertToGb(StorageUtility.getAvailableStorageSize(mContext)));
-                } else {
-                    publishProgress(totalProgress);
-                }
+                float speed = Utilities.computeSpeed(app.getAssetSize(asset), timeElapsed);
+                publishProgress(speed);
             } catch (InterruptedException e) {
                 Log.d(TAG, "Interrupted");
             } catch (IOException e) {
@@ -115,11 +85,7 @@ public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
 
     @Override
     protected void onProgressUpdate(Float... values) {
-        if (values.length > 1) {
-            mListener.onProgressUpdate(values[0].intValue(), values[1], values[2], values[3]);
-        } else {
-            mListener.onProgressUpdate(values[0].intValue());
-        }
+        mListener.onProgressUpdate(values[0]);
     }
 
     @Override
@@ -132,26 +98,10 @@ public class FillDiskTask extends AsyncTask<Boolean, Float, Void> {
         mListener.onCancelled();
     }
 
-    public void pause() {
-        mIsPaused = true;
-    }
-
-    public void resume() {
-        mIsPaused = false;
-    }
-
-    public boolean isRunning() {
-        return !mIsPaused;
-    }
-
     public interface FillDiskTaskListener {
         void onFillDiskSpaceComplete();
 
-        void onPreExecuteUpdate(long total);
-
-        void onProgressUpdate(int totalProgress, float speed, float fillSize, float free);
-
-        void onProgressUpdate(int totalProgress);
+        void onProgressUpdate(float speed);
 
         void onCancelled();
     }

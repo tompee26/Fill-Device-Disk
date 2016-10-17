@@ -3,58 +3,30 @@
     <string name="default_content_description">Content description</string>
 
     <!-- Labels -->
-    <string name="ids_lbl_fills">Fill</string>
-    <string name="ids_lbl_check">Check</string>
-    <string name="ids_lbl_conf">Configuration</string>
     <string name="ids_lbl_easy_fill">Easy Fill</string>
     <string name="ids_lbl_advance_fill">Advance Fill</string>
     <string name="ids_lbl_check_storage">Check Storage</string>
     <string name="ids_lbl_clear">Clear fill</string>
-    <string name="ids_lbl_settings">Settings</string>
     <string name="ids_lbl_external_storage">Use SD Card</string>
-    <string name="ids_lbl_system">System</string>
-    <string name="ids_lbl_charts">Charts</string>
-    <string name="ids_lbl_show_fill_chart">Show Fill Chart</string>
-    <string name="ids_lbl_show_check_storage_chart">Show Check Storage Chart</string>
-    <string name="ids_lbl_set_visible_range">Set Maximum Visible X Range</string>
     <string name="ids_lbl_about">About</string>
     <string name="ids_lbl_contact">Contact Us</string>
-    <string name="ids_lbl_custom_fill">Custom fill size:</string>
-    <string name="ids_lbl_ok">OK</string>
     <string name="ids_lbl_remind">Remind me later</string>
     <string name="ids_lbl_no_rate">No Thanks</string>
     <string name="ids_lbl_yes_rate">Rate now</string>
-    <string name="ids_lbl_start">Start</string>
-    <string name="ids_lbl_stop">Stop</string>
-    <string name="ids_lbl_cancel">Cancel</string>
-    <string name="ids_lbl_pause">Pause</string>
-    <string name="ids_lbl_resume">Resume</string>
-    <string name="ids_lbl_easy_fill_total">Total space: %1$s</string>
-    <string name="ids_lbl_easy_fill_total_data">%1$d%%</string>
     <string name="ids_lbl_check_storage_size">Free space: %1$s</string>
-    <string name="ids_lbl_clearing_space">Clearing space&#8230;</string>
-    <string name="ids_lbl_cleared_space">Cleared space: %1$s</string>
-    <string name="ids_lbl_calculating">Calculating free space&#8230;</string>
     <string name="ids_lbl_value">Value (Maximum: %1$d):</string>
     <string name="ids_lbl_permission">Please grant write storage permission to use SD Card</string>
 
-    <string name="ids_title_settings">Settings</string>
     <string name="ids_title_open_source">Open Source License</string>
-    <string name="ids_title_easy_fill">Filling disk&#8230;</string>
     <string name="ids_title_available_space">Available Space</string>
-    <string name="ids_title_advance_fill">Advance Fill</string>
-    <string name="ids_title_max_range">Maximum Visible X Range</string>
     <string name="ids_title_rate">Rate this app</string>
 
-    <string name="ids_legend_speed">Speed (MB/sec)</string>
-    <string name="ids_legend_fill_size">Fill (GB)</string>
-    <string name="ids_legend_free_size">Free (GB)</string>
     <string name="ids_legend_fill">Fill</string>
     <string name="ids_legend_free">Free</string>
-    <string name="ids_legend_system">System</string>
+    <string name="ids_legend_speed">Speed</string>
+    <string name="ids_legend_speed_unit">%1$.1f MB/sec</string>
     <string name="ids_legend_storage">Storage</string>
 
-    <string name="ids_message_contact">Send us a message at tompee26@gmail.com</string>
     <string name="ids_message_copyright">Copyright 2016 Tompee. All rights reserved.</string>
     <string name="ids_message_version">Version %1$s</string>
     <string name="ids_message_rate">Did you enjoy playing with your disk? If yes, would you

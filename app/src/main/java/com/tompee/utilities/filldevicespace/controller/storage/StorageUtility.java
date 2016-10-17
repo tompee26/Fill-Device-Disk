@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.tompee.utilities.filldevicespace.view.SettingsActivity;
+import com.tompee.utilities.filldevicespace.view.MainActivity;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -122,20 +122,19 @@ public class StorageUtility {
         return result;
     }
 
-
     public static String getFilesDirectory(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
-                        SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+        SharedPreferences sp = context.getSharedPreferences(MainActivity.
+                SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if (sp.getBoolean(MainActivity.TAG_SD_CARD, false)) {
             return getRemovableStorage(context);
         }
         return context.getFilesDir().getAbsolutePath();
     }
 
     public static int getFileCount(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
+        SharedPreferences sp = context.getSharedPreferences(MainActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+        if (sp.getBoolean(MainActivity.TAG_SD_CARD, false)) {
             //noinspection ConstantConditions
             return new File(getRemovableStorage(context)).listFiles().length;
         }
@@ -144,9 +143,9 @@ public class StorageUtility {
 
     public static void deleteFiles(Context context) {
         File[] list;
-        SharedPreferences sp = context.getSharedPreferences(SettingsActivity.
+        SharedPreferences sp = context.getSharedPreferences(MainActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if (sp.getBoolean(SettingsActivity.TAG_SD_CARD, false)) {
+        if (sp.getBoolean(MainActivity.TAG_SD_CARD, false)) {
             //noinspection ConstantConditions
             list = new File(getRemovableStorage(context)).listFiles();
         } else {
