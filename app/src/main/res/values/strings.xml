@@ -5,24 +5,24 @@
     <!-- Labels -->
     <string name="ids_lbl_easy_fill">Easy Fill</string>
     <string name="ids_lbl_advance_fill">Advance Fill</string>
-    <string name="ids_lbl_check_storage">Check Storage</string>
+    <string name="ids_lbl_check_storage">Storage</string>
+    <string name="ids_lbl_system">System</string>
     <string name="ids_lbl_clear">Clear fill</string>
+    <string name="ids_lbl_refresh">Refresh</string>
     <string name="ids_lbl_external_storage">Use SD Card</string>
     <string name="ids_lbl_about">About</string>
     <string name="ids_lbl_contact">Contact Us</string>
     <string name="ids_lbl_remind">Remind me later</string>
     <string name="ids_lbl_no_rate">No Thanks</string>
     <string name="ids_lbl_yes_rate">Rate now</string>
-    <string name="ids_lbl_check_storage_size">Free space: %1$s</string>
-    <string name="ids_lbl_value">Value (Maximum: %1$d):</string>
-    <string name="ids_lbl_permission">Please grant write storage permission to use SD Card</string>
+        <string name="ids_lbl_permission">Please grant write storage permission to use SD Card</string>
 
     <string name="ids_title_open_source">Open Source License</string>
-    <string name="ids_title_available_space">Available Space</string>
     <string name="ids_title_rate">Rate this app</string>
 
     <string name="ids_legend_fill">Fill</string>
     <string name="ids_legend_free">Free</string>
+    <string name="ids_legend_system">System</string>
     <string name="ids_legend_speed">Speed</string>
     <string name="ids_legend_speed_unit">%1$.1f MB/sec</string>
     <string name="ids_legend_storage">Storage</string>

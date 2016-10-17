@@ -139,7 +139,17 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
                 ClearFillTask task = new ClearFillTask(getContext(), this);
                 task.execute();
                 break;
-
+            case R.id.sd_card:
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                if (mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false)) {
+                    editor.putBoolean(MainActivity.TAG_SD_CARD, false);
+                } else {
+                    editor.putBoolean(MainActivity.TAG_SD_CARD, true);
+                }
+                editor.apply();
+                setSdCardState();
+                updateViews(0.00f, 0);
+                break;
         }
     }
 

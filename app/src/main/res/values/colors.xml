@@ -12,10 +12,6 @@
     <color name="light_text_disable">#B2FFFFFF</color>
 
     <color name="dark_text">#000000</color>
-    <color name="dark_text_disable">#32000000</color>
-
-    <color name="dark_secondary_text">#8D8D8D</color>
-    <color name="dark_secondary_text_disabled">#CCCCCC</color>
 
     <color name="background">#FFFFFF</color>
 
