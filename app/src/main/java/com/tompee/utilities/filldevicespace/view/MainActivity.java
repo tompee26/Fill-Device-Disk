@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String SHARED_PREF = "filldevicedisksharedpref";
     private static final String LAUNCH_COUNT = "launch_count";
-    private static final int MIN_LAUNCH_COUNT = 4;
+    private static final int MIN_LAUNCH_COUNT = 7;
     private static final String LICENSE_URL = "file:///android_asset/opensource.html";
 
     private NonSwipeablePager mViewPager;
