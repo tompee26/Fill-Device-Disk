@@ -1,6 +1,8 @@
 package com.tompee.utilities.filldevicespace.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,19 +20,22 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.view.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckStorageFragment extends Fragment implements View.OnClickListener {
+public class CheckStorageFragment extends Fragment implements View.OnClickListener,
+        SdBroadcastReceiver.StorageEventListener {
     private TextView mFreeView;
     private TextView mFillView;
     private TextView mSystemView;
     private PieChart mChart;
     private View mSdCardView;
     private SharedPreferences mSharedPrefs;
+    private SdBroadcastReceiver mReceiver;
 
     public static CheckStorageFragment getInstance() {
         return new CheckStorageFragment();
@@ -41,6 +46,22 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
         mSharedPrefs = getContext().getSharedPreferences(MainActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        mReceiver = new SdBroadcastReceiver(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     @Nullable
@@ -121,8 +142,12 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         dataSet.setSelectionShift(5f);
 
         List<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        colors.add(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
+        if (fill != 0) {
+            colors.add(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        }
+        if (free != 0) {
+            colors.add(ContextCompat.getColor(getContext(), R.color.colorPrimaryLight));
+        }
         colors.add(ContextCompat.getColor(getContext(), R.color.light_text_disable));
         dataSet.setColors(colors);
 
@@ -150,15 +175,6 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        updateView();
-        if (mChart != null) {
-            updateChart();
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refresh:
@@ -173,9 +189,28 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                setSdCardState();
-                updateView();
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                getContext().sendBroadcast(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onStorageChange() {
+        setSdCardState();
+        updateView();
+        updateChart();
+    }
+
+    @Override
+    public void onFill(float speed) {
+        updateView();
+        updateChart();
+    }
+
+    @Override
+    public void onCustomFill(float speed, float percentage) {
+        updateView();
+        updateChart();
     }
 }

@@ -1,6 +1,8 @@
 package com.tompee.utilities.filldevicespace.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.controller.task.ClearFillTask;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
@@ -24,7 +27,7 @@ import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import at.grabner.circleprogress.CircleProgressView;
 
 public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskTaskListener,
-        View.OnClickListener, ClearFillTask.ClearFillListener {
+        View.OnClickListener, ClearFillTask.ClearFillListener, SdBroadcastReceiver.StorageEventListener {
     private FillDiskTask mFillDiskTask;
     private TextView mFreeView;
     private TextView mFillView;
@@ -33,6 +36,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     private View mSdCardView;
     private CircleProgressView mCircleProgressView;
     private SharedPreferences mSharedPrefs;
+    private SdBroadcastReceiver mReceiver;
 
     public static EasyFillFragment getInstance() {
         return new EasyFillFragment();
@@ -43,6 +47,22 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         super.onCreate(savedInstanceState);
         mSharedPrefs = getContext().getSharedPreferences(MainActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        mReceiver = new SdBroadcastReceiver(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     @Nullable
@@ -73,21 +93,19 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     }
 
     private void updateViews(float speed) {
-        if (mFreeView != null) {
-            long free = StorageUtility.getAvailableStorageSize(getContext());
-            mFreeView.setText(Formatter.formatFileSize(getContext(), free));
-            mFillView.setText(Formatter.formatFileSize(getContext(), StorageUtility.
-                    getFillSize(getContext())));
-            mSpeedView.setText(String.format(getString(R.string.ids_legend_speed_unit), speed));
-            long total = StorageUtility.getTotalStorageSize(getContext());
-            float percentage = ((float) (total - free) / (float) total);
-            mCircleProgressView.setValue(percentage * 100);
-        }
+        long free = StorageUtility.getAvailableStorageSize(getContext());
+        mFreeView.setText(Formatter.formatFileSize(getContext(), free));
+        mFillView.setText(Formatter.formatFileSize(getContext(), StorageUtility.
+                getFillSize(getContext())));
+        mSpeedView.setText(String.format(getString(R.string.ids_legend_speed_unit), speed));
+        long total = StorageUtility.getTotalStorageSize(getContext());
+        float percentage = ((float) (total - free) / (float) total);
+        mCircleProgressView.setValue(percentage * 100);
     }
 
     @Override
     public void onFillDiskSpaceComplete() {
-        updateViews(0.00f);
+        sendFillBroadcast(0.00f);
         mFillDiskTask = null;
         mClearFillView.setEnabled(true);
         setSdCardState();
@@ -97,17 +115,23 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
 
     @Override
     public void onProgressUpdate(float speed, float percentage) {
-        updateViews(speed);
+        sendFillBroadcast(speed);
     }
 
     @Override
     public void onCancelled() {
-        updateViews(0.00f);
+        sendFillBroadcast(0.00f);
         mFillDiskTask = null;
         mClearFillView.setEnabled(true);
         setSdCardState();
         MainActivity activity = (MainActivity) getActivity();
         activity.interceptViewPagerTouchEvents(false);
+    }
+
+    private void sendFillBroadcast(float speed) {
+        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION);
+        intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override
@@ -141,8 +165,8 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                setSdCardState();
-                updateViews(0.00f);
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                getContext().sendBroadcast(intent);
                 break;
         }
     }
@@ -164,12 +188,22 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     @Override
     public void onFinish() {
         ((BaseActivity) getActivity()).interceptTouchEvents(false);
+        sendFillBroadcast(0.00f);
+    }
+
+    @Override
+    public void onStorageChange() {
+        setSdCardState();
         updateViews(0.00f);
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        updateViews(0.00f);
+    public void onFill(float speed) {
+        updateViews(speed);
+    }
+
+    @Override
+    public void onCustomFill(float speed, float percentage) {
+        updateViews(speed);
     }
 }

@@ -1,6 +1,8 @@
 package com.tompee.utilities.filldevicespace.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.controller.task.ClearFillTask;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
@@ -25,7 +28,8 @@ import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import at.grabner.circleprogress.CircleProgressView;
 
 public class AdvanceFillFragment extends Fragment implements View.OnClickListener,
-        FillDiskTask.FillDiskTaskListener, ClearFillTask.ClearFillListener {
+        FillDiskTask.FillDiskTaskListener, ClearFillTask.ClearFillListener,
+        SdBroadcastReceiver.StorageEventListener {
     private FillDiskTask mFillDiskTask;
     private TextView mFreeView;
     private TextView mFillView;
@@ -42,6 +46,7 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
     private long mTotalValue;
 
     private SharedPreferences mSharedPrefs;
+    private SdBroadcastReceiver mReceiver;
 
     public static AdvanceFillFragment getInstance() {
         return new AdvanceFillFragment();
@@ -53,6 +58,22 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         mSharedPrefs = getContext().getSharedPreferences(MainActivity.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         mTotalValue = 0;
+        mReceiver = new SdBroadcastReceiver(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     @Nullable
@@ -147,8 +168,8 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                setSdCardState();
-                updateViews(0.00f, 0);
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                getContext().sendBroadcast(intent);
                 break;
         }
     }
@@ -178,7 +199,7 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onFillDiskSpaceComplete() {
-        updateViews(0.00f, 0f);
+        sendFillBroadcast(0.00f, 0f);
         mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
         mViewSwitcher.showPrevious();
         mMegaBytes.setValue(0);
@@ -193,12 +214,19 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onProgressUpdate(float speed, float percentage) {
-        updateViews(speed, percentage);
+        sendFillBroadcast(speed, percentage);
+    }
+
+    private void sendFillBroadcast(float speed, float percentage) {
+        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION);
+        intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
+        intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override
     public void onCancelled() {
-        updateViews(0.00f, 0f);
+        sendFillBroadcast(0.00f, 0f);
         mFillDiskTask = null;
         mClearFillView.setEnabled(true);
         setSdCardState();
@@ -210,12 +238,22 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
     @Override
     public void onFinish() {
         ((BaseActivity) getActivity()).interceptTouchEvents(false);
-        updateViews(0.00f, 0f);
+        sendFillBroadcast(0.00f, 0f);
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    public void onStorageChange() {
         updateViews(0.00f, 0f);
+        setSdCardState();
+    }
+
+    @Override
+    public void onFill(float speed) {
+        updateViews(speed, 0);
+    }
+
+    @Override
+    public void onCustomFill(float speed, float percentage) {
+        updateViews(speed, percentage);
     }
 }
