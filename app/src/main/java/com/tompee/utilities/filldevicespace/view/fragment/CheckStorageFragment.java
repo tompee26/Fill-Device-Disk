@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,10 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
         intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.CUSTOM_FILL_ACTION);
+        intentFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+        intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
     }
 
@@ -189,7 +194,7 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION, Uri.parse("file://"));
                 getContext().sendBroadcast(intent);
                 break;
         }
@@ -212,5 +217,10 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
     public void onCustomFill(float speed, float percentage) {
         updateView();
         updateChart();
+    }
+
+    @Override
+    public void onStorageStateChange() {
+        setSdCardState();
     }
 }

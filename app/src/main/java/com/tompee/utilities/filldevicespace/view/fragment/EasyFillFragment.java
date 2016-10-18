@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,10 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
         intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.CUSTOM_FILL_ACTION);
+        intentFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+        intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
     }
 
@@ -129,7 +135,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     }
 
     private void sendFillBroadcast(float speed) {
-        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION);
+        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION, Uri.parse("file://"));
         intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
         getActivity().sendBroadcast(intent);
     }
@@ -165,7 +171,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION, Uri.parse("file://"));
                 getContext().sendBroadcast(intent);
                 break;
         }
@@ -173,8 +179,10 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
 
     private void setSdCardState() {
         if (StorageUtility.getRemovableStorage(getContext()) != null) {
+            Log.i("setSdCardState", "Storage available");
             mSdCardView.setEnabled(true);
         } else {
+            Log.i("setSdCardState", "Storage not available");
             mSdCardView.setEnabled(false);
             SharedPreferences.Editor editor = mSharedPrefs.edit();
             editor.putBoolean(MainActivity.TAG_SD_CARD, false);
@@ -205,5 +213,11 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     @Override
     public void onCustomFill(float speed, float percentage) {
         updateViews(speed);
+    }
+
+    @Override
+    public void onStorageStateChange() {
+        setSdCardState();
+        updateViews(0.00f);
     }
 }

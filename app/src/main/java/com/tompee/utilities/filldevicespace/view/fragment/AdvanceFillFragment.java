@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -67,6 +68,10 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SdBroadcastReceiver.SD_CARD_ACTION);
         intentFilter.addAction(SdBroadcastReceiver.FILL_ACTION);
+        intentFilter.addAction(SdBroadcastReceiver.CUSTOM_FILL_ACTION);
+        intentFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+        intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
     }
 
@@ -168,7 +173,7 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
                     editor.putBoolean(MainActivity.TAG_SD_CARD, true);
                 }
                 editor.apply();
-                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION);
+                Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION, Uri.parse("file://"));
                 getContext().sendBroadcast(intent);
                 break;
         }
@@ -218,9 +223,9 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
     }
 
     private void sendFillBroadcast(float speed, float percentage) {
-        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION);
+        Intent intent = new Intent(SdBroadcastReceiver.CUSTOM_FILL_ACTION, Uri.parse("file://"));
         intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
-        intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
+        intent.putExtra(SdBroadcastReceiver.EXTRA_PERCENTAGE, percentage);
         getActivity().sendBroadcast(intent);
     }
 
@@ -255,5 +260,10 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCustomFill(float speed, float percentage) {
         updateViews(speed, percentage);
+    }
+
+    @Override
+    public void onStorageStateChange() {
+        setSdCardState();
     }
 }
