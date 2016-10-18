@@ -32,11 +32,25 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id_main_screen" />
 
-    <com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager
-        android:id="@+id/pager_main"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/adView"
-        android:layout_below="@id/tab_layout_main" />
+        android:layout_below="@id/tab_layout_main">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/default_content_description"
+            android:scaleType="centerCrop" />
+
+        <com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager
+            android:id="@+id/pager_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
 
 </RelativeLayout>

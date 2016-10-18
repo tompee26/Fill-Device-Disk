@@ -1,6 +1,7 @@
 package com.tompee.utilities.filldevicespace.controller;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
@@ -32,5 +33,16 @@ public class Utilities {
 
     public static float computeSpeed(float assetSize, float timeElapsed) {
         return assetSize / timeElapsed * SPEED_FACTOR;
+    }
+
+    public static Drawable getDrawableFromAsset(Context context, String filename) {
+        Drawable drawable;
+        try {
+            InputStream ims = context.getAssets().open(filename);
+            drawable = Drawable.createFromStream(ims, null);
+        } catch (IOException ex) {
+            drawable = null;
+        }
+        return drawable;
     }
 }
