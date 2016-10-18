@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/top_menu_padding"
-        ads:adSize="SMART_BANNER"
+        ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id_main_screen" />
 
     <com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager
