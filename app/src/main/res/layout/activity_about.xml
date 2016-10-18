@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -24,8 +25,7 @@
             android:layout_marginTop="@dimen/about_view_separator"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textColor="@color/colorAccent" />
 
         <TextView
             android:id="@+id/version"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/about_view_separator"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/dark_text" />
+            android:textColor="@color/light_text_disable" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:text="@string/ids_message_copyright"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/dark_text" />
+            android:textColor="@color/light_text_disable" />
 
     </LinearLayout>
 
