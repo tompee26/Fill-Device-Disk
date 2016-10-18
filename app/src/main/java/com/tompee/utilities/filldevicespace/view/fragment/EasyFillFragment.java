@@ -36,6 +36,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     private TextView mSpeedView;
     private View mClearFillView;
     private View mSdCardView;
+    private FloatingActionButton mStartButton;
     private CircleProgressView mCircleProgressView;
     private SharedPreferences mSharedPrefs;
     private SdBroadcastReceiver mReceiver;
@@ -63,6 +64,8 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
+        setSdCardState();
+        updateViews(0.00f);
     }
 
     @Override
@@ -76,17 +79,16 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_easy_fill, container, false);
-        FloatingActionButton startButton = (FloatingActionButton) view.findViewById(R.id.start);
-        startButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.
+        mStartButton = (FloatingActionButton) view.findViewById(R.id.start);
+        mStartButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.
                 getColor(getContext(), R.color.colorAccentLight)));
-        startButton.setImageResource(R.drawable.ic_play_arrow_white);
-        startButton.setOnClickListener(this);
+        mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
+        mStartButton.setOnClickListener(this);
 
         mClearFillView = view.findViewById(R.id.clear_fill);
         mClearFillView.setOnClickListener(this);
         mSdCardView = view.findViewById(R.id.sd_card);
         mSdCardView.setOnClickListener(this);
-        setSdCardState();
 
         mFreeView = (TextView) view.findViewById(R.id.free_space);
         mFillView = (TextView) view.findViewById(R.id.fill_space);
@@ -94,15 +96,15 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         mCircleProgressView = (CircleProgressView) view.findViewById(R.id.circleView);
         mCircleProgressView.setBarColor(ContextCompat.getColor(getContext(), R.color.colorAccentLight),
                 ContextCompat.getColor(getContext(), R.color.colorAccent));
-        updateViews(0.00f);
         return view;
     }
 
     private void updateViews(float speed) {
         long free = StorageUtility.getAvailableStorageSize(getContext());
         mFreeView.setText(Formatter.formatFileSize(getContext(), free));
-        mFillView.setText(Formatter.formatFileSize(getContext(), StorageUtility.
-                getFillSize(getContext())));
+        long systemSize = ((MainActivity)getActivity()).getSystemSize();
+        long totalSize = StorageUtility.getTotalStorageSize(getContext());
+        mFillView.setText(Formatter.formatFileSize(getContext(), totalSize - systemSize - free));
         mSpeedView.setText(String.format(getString(R.string.ids_legend_speed_unit), speed));
         long total = StorageUtility.getTotalStorageSize(getContext());
         float percentage = ((float) (total - free) / (float) total);
@@ -114,6 +116,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         sendFillBroadcast(0.00f);
         mFillDiskTask = null;
         mClearFillView.setEnabled(true);
+        mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
         setSdCardState();
         MainActivity activity = (MainActivity) getActivity();
         activity.interceptViewPagerTouchEvents(false);
@@ -137,7 +140,9 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     private void sendFillBroadcast(float speed) {
         Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION, Uri.parse("file://"));
         intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
-        getActivity().sendBroadcast(intent);
+        if (getActivity() != null) {
+            getActivity().sendBroadcast(intent);
+        }
     }
 
     @Override
@@ -145,16 +150,15 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         MainActivity activity = (MainActivity) getActivity();
         switch (view.getId()) {
             case R.id.start:
-                FloatingActionButton fab = (FloatingActionButton) view;
                 if (mFillDiskTask == null) {
                     mClearFillView.setEnabled(false);
                     activity.interceptViewPagerTouchEvents(true);
                     mSdCardView.setEnabled(false);
-                    fab.setImageResource(R.drawable.ic_stop_white);
+                    mStartButton.setImageResource(R.drawable.ic_stop_white);
                     mFillDiskTask = new FillDiskTask(getContext(), this, 0);
                     mFillDiskTask.execute();
                 } else {
-                    fab.setImageResource(R.drawable.ic_play_arrow_white);
+                    mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
                     mFillDiskTask.cancel(true);
                 }
                 break;

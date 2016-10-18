@@ -73,6 +73,8 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
+        setSdCardState();
+        updateViews(0.00f, 0f);
     }
 
     @Override
@@ -97,7 +99,6 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         mClearFillView.setOnClickListener(this);
         mSdCardView = view.findViewById(R.id.sd_card);
         mSdCardView.setOnClickListener(this);
-        setSdCardState();
 
         mFreeView = (TextView) view.findViewById(R.id.free_space);
         mFillView = (TextView) view.findViewById(R.id.fill_space);
@@ -122,19 +123,17 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
                 computeTotalValue();
             }
         });
-        updateViews(0.00f, 0f);
         return view;
     }
 
     private void updateViews(float speed, float percentage) {
-        if (mFreeView != null) {
-            long free = StorageUtility.getAvailableStorageSize(getContext());
-            mFreeView.setText(Formatter.formatFileSize(getContext(), free));
-            mFillView.setText(Formatter.formatFileSize(getContext(), StorageUtility.
-                    getFillSize(getContext())));
-            mSpeedView.setText(String.format(getString(R.string.ids_legend_speed_unit), speed));
-            mCircleProgressView.setValue(percentage);
-        }
+        long free = StorageUtility.getAvailableStorageSize(getContext());
+        mFreeView.setText(Formatter.formatFileSize(getContext(), free));
+        long systemSize = ((MainActivity)getActivity()).getSystemSize();
+        long totalSize = StorageUtility.getTotalStorageSize(getContext());
+        mFillView.setText(Formatter.formatFileSize(getContext(), totalSize - systemSize - free));
+        mSpeedView.setText(String.format(getString(R.string.ids_legend_speed_unit), speed));
+        mCircleProgressView.setValue(percentage);
     }
 
     @Override
@@ -226,7 +225,9 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         Intent intent = new Intent(SdBroadcastReceiver.CUSTOM_FILL_ACTION, Uri.parse("file://"));
         intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
         intent.putExtra(SdBroadcastReceiver.EXTRA_PERCENTAGE, percentage);
-        getActivity().sendBroadcast(intent);
+        if (getActivity() != null) {
+            getActivity().sendBroadcast(intent);
+        }
     }
 
     @Override

@@ -6,8 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -17,13 +19,18 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.library.Style;
+import com.github.johnpersano.supertoasts.library.SuperActivityToast;
+import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
+import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.view.adapter.MainViewPagerAdapter;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 import com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager;
@@ -38,6 +45,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static final String LICENSE_URL = "file:///android_asset/opensource.html";
 
     private NonSwipeablePager mViewPager;
+    private long mSystemSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mSystemSize = StorageUtility.getTotalStorageSize(this) -
+                StorageUtility.getAvailableStorageSize(this) - StorageUtility.getFillSize(this);
+    }
+
+    public long getSystemSize() {
+        return mSystemSize;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
@@ -134,6 +153,20 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewPager.getInterceptSwipe()) {
+            SuperActivityToast.create(this, new Style(), Style.TYPE_STANDARD)
+                    .setText(getString(R.string.ids_message_stop_process))
+                    .setDuration(Style.DURATION_LONG)
+                    .setFrame(Style.FRAME_LOLLIPOP)
+                    .setColor(ContextCompat.getColor(this, R.color.button))
+                    .setAnimations(Style.ANIMATIONS_POP).show();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

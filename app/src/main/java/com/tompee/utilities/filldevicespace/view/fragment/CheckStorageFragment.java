@@ -61,6 +61,9 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         intentFilter.addDataScheme(SdBroadcastReceiver.STORAGE_INTENT_SCHEME);
         getActivity().registerReceiver(mReceiver, intentFilter);
+        updateChart();
+        updateView();
+        setSdCardState();
     }
 
     @Override
@@ -82,12 +85,9 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
 
         View refresh = view.findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
-        updateChart();
-        updateView();
 
         mSdCardView = view.findViewById(R.id.sd_card);
         mSdCardView.setOnClickListener(this);
-        setSdCardState();
         return view;
     }
 
@@ -171,11 +171,11 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
             long free = StorageUtility.getAvailableStorageSize(getContext());
             mFreeView.setText(Formatter.formatFileSize(getContext(), free));
 
-            long fill = StorageUtility.getFillSize(getContext());
-            mFillView.setText(Formatter.formatFileSize(getContext(), fill));
+            long systemSize = ((MainActivity)getActivity()).getSystemSize();
+            mSystemView.setText(Formatter.formatFileSize(getContext(), systemSize));
 
-            long total = StorageUtility.getTotalStorageSize(getContext());
-            mSystemView.setText(Formatter.formatFileSize(getContext(), total - free - fill));
+            long totalSize = StorageUtility.getTotalStorageSize(getContext());
+            mFillView.setText(Formatter.formatFileSize(getContext(), totalSize - systemSize - free));
         }
     }
 
@@ -183,8 +183,7 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.refresh:
-                updateChart();
-                updateView();
+                sendFillBroadcast(0.00f);
                 break;
             case R.id.sd_card:
                 SharedPreferences.Editor editor = mSharedPrefs.edit();
@@ -222,5 +221,11 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
     @Override
     public void onStorageStateChange() {
         setSdCardState();
+    }
+
+    private void sendFillBroadcast(float speed) {
+        Intent intent = new Intent(SdBroadcastReceiver.FILL_ACTION, Uri.parse("file://"));
+        intent.putExtra(SdBroadcastReceiver.EXTRA_SPEED, speed);
+        getActivity().sendBroadcast(intent);
     }
 }

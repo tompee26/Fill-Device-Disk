@@ -25,4 +25,8 @@ public class NonSwipeablePager extends ViewPager {
     public void interceptSwipeEvent(boolean intercept) {
         mIsSwipeAllowed = intercept;
     }
+
+    public boolean getInterceptSwipe() {
+        return mIsSwipeAllowed;
+    }
 }
