@@ -132,7 +132,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_about:
-                intent = new Intent(this, AboutActivity.class);
+                intent = new Intent(this, HelpActivity.class);
+                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.ABOUT);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
@@ -145,9 +146,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 startActivity(Intent.createChooser(intent, getString(R.string.ids_lbl_contact)));
                 return true;
             case R.id.menu_os:
-                intent = new Intent(this, WebViewActivity.class);
-                intent.setData(Uri.parse(LICENSE_URL));
-                intent.putExtra(WebViewActivity.TAG_TITLE, getString(R.string.ids_title_open_source));
+                intent = new Intent(this, HelpActivity.class);
+                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.LICENSE);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;

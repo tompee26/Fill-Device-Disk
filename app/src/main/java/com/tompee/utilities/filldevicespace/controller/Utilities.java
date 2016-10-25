@@ -5,9 +5,11 @@ import android.graphics.drawable.Drawable;
 
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Utilities {
     private static final float SPEED_FACTOR = 953.67431640625f;
@@ -44,5 +46,22 @@ public class Utilities {
             drawable = null;
         }
         return drawable;
+    }
+
+    public static String getStringFromAsset(Context context, String filename) {
+        StringBuilder buffer = new StringBuilder();
+        InputStream inputStream;
+        try {
+            inputStream = context.getAssets().open(filename);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            String str;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer.toString();
     }
 }
