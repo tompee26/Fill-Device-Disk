@@ -17,6 +17,8 @@ interface MainComponent {
 
     fun inject(activity: EasyFillFragment)
 
+    fun inject(advanceFillFragment: AdvanceFillFragment)
+
     fun easyFillFragment(): EasyFillFragment
 
     fun advanceFillFragment(): AdvanceFillFragment

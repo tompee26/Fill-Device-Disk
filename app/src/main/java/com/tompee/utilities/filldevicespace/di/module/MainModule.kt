@@ -5,6 +5,7 @@ import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.di.scopes.MainScope
 import com.tompee.utilities.filldevicespace.feature.main.MainPresenter
 import com.tompee.utilities.filldevicespace.feature.main.advancefill.AdvanceFillFragment
+import com.tompee.utilities.filldevicespace.feature.main.advancefill.AdvanceFillPresenter
 import com.tompee.utilities.filldevicespace.feature.main.easyfill.EasyFillFragment
 import com.tompee.utilities.filldevicespace.feature.main.easyfill.EasyFillPresenter
 import com.tompee.utilities.filldevicespace.feature.main.storage.CheckStorageFragment
@@ -29,6 +30,10 @@ class MainModule {
     @MainScope
     @Provides
     fun provideAdvanceFillFragment(): AdvanceFillFragment = AdvanceFillFragment()
+
+    @MainScope
+    @Provides
+    fun provideAdvanceFillPresenter(fillInteractor: FillInteractor, formatHelper: FormatHelper): AdvanceFillPresenter = AdvanceFillPresenter(fillInteractor, formatHelper)
 
     @MainScope
     @Provides
