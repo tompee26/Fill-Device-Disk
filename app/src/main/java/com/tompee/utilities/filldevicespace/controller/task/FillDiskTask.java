@@ -36,7 +36,8 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
     private void performFill() {
         int fileCount = StorageUtility.getFileCount(mContext);
         FillDeviceDiskApp app = (FillDeviceDiskApp) mContext.getApplicationContext();
-        String currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
+        //String currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
+        String currentAsset = "";
         while (!isCancelled()) {
             try {
                 Thread.sleep(SLEEP_INTERVAL);
@@ -44,10 +45,12 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
                 Utilities.copyAssetsFile(mContext, currentAsset, currentAsset + fileCount);
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
-                float speed = Utilities.computeSpeed(app.getAssetSize(currentAsset), timeElapsed);
+//                    float speed = Utilities.computeSpeed(app.getAssetSize(currentAsset), timeElapsed);
+                    float speed = 0;
                 publishProgress(speed, 0f);
             } catch (IOException e) {
-                currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
+//                currentAsset = app.getAsset(StorageUtility.getAvailableStorageSize(mContext));
+                currentAsset = "";
                 if (currentAsset == null) {
                     break;
                 }
@@ -64,16 +67,18 @@ public class FillDiskTask extends AsyncTask<Void, Float, Void> {
         while (fillSize < limit && !isCancelled()) {
             try {
                 Thread.sleep(SLEEP_INTERVAL);
-                String asset = app.getAsset(limit - fillSize);
+//                String asset = app.getAsset(limit - fillSize);
+                String asset = "";
                 if (asset == null) {
                     break;
                 }
                 long start = System.nanoTime();
                 Utilities.copyAssetsFile(mContext, asset, asset + fileCount);
-                fillSize += app.getAssetSize(asset);
+//                fillSize += app.getAssetSize(asset);
                 long timeElapsed = System.nanoTime() - start;
                 fileCount++;
-                float speed = Utilities.computeSpeed(app.getAssetSize(asset), timeElapsed);
+//                float speed = Utilities.computeSpeed(app.getAssetSize(asset), timeElapsed);
+                float speed = 0;
                 float percentage = (float)fillSize / (float)limit * 100;
                 publishProgress(speed, percentage);
             } catch (InterruptedException e) {

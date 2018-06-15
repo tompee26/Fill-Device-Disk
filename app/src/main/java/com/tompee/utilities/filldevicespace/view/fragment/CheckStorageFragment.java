@@ -20,10 +20,11 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.tompee.utilities.filldevicespace.Constants;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
-import com.tompee.utilities.filldevicespace.view.MainActivity;
+import com.tompee.utilities.filldevicespace.feature.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPrefs = getContext().getSharedPreferences(MainActivity.
+        mSharedPrefs = getContext().getSharedPreferences(Constants.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         mReceiver = new SdBroadcastReceiver(this);
     }
@@ -86,7 +87,7 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         View refresh = view.findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
 
-        mSdCardView = view.findViewById(R.id.sd_card);
+        mSdCardView = view.findViewById(R.id.sdCard);
         mSdCardView.setOnClickListener(this);
         return view;
     }
@@ -97,10 +98,10 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
         } else {
             mSdCardView.setEnabled(false);
             SharedPreferences.Editor editor = mSharedPrefs.edit();
-            editor.putBoolean(MainActivity.TAG_SD_CARD, false);
+            editor.putBoolean(Constants.TAG_SD_CARD, false);
             editor.apply();
         }
-        mSdCardView.setBackgroundColor(mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false) ?
+        mSdCardView.setBackgroundColor(mSharedPrefs.getBoolean(Constants.TAG_SD_CARD, false) ?
                 ContextCompat.getColor(getContext(), R.color.tabSelected) : ContextCompat.
                 getColor(getContext(), android.R.color.transparent));
     }
@@ -185,7 +186,7 @@ public class CheckStorageFragment extends Fragment implements View.OnClickListen
             case R.id.refresh:
                 sendFillBroadcast(0.00f);
                 break;
-            case R.id.sd_card:
+            case R.id.sdCard:
                 SharedPreferences.Editor editor = mSharedPrefs.edit();
                 if (mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false)) {
                     editor.putBoolean(MainActivity.TAG_SD_CARD, false);

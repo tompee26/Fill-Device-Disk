@@ -18,12 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.tompee.utilities.filldevicespace.Constants;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.controller.task.ClearFillTask;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
-import com.tompee.utilities.filldevicespace.view.MainActivity;
+import com.tompee.utilities.filldevicespace.feature.main.MainActivity;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -56,7 +57,7 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPrefs = getContext().getSharedPreferences(MainActivity.
+        mSharedPrefs = getContext().getSharedPreferences(Constants.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         mTotalValue = 0;
         mReceiver = new SdBroadcastReceiver(this);
@@ -95,9 +96,9 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
         mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
         mStartButton.setOnClickListener(this);
 
-        mClearFillView = view.findViewById(R.id.clear_fill);
+        mClearFillView = view.findViewById(R.id.clearFill);
         mClearFillView.setOnClickListener(this);
-        mSdCardView = view.findViewById(R.id.sd_card);
+        mSdCardView = view.findViewById(R.id.sdCard);
         mSdCardView.setOnClickListener(this);
 
         mFreeView = (TextView) view.findViewById(R.id.free_space);
@@ -159,12 +160,12 @@ public class AdvanceFillFragment extends Fragment implements View.OnClickListene
                     mGigaBytes.setValue(0);
                 }
                 break;
-            case R.id.clear_fill:
+            case R.id.clearFill:
                 activity.interceptTouchEvents(true);
                 ClearFillTask task = new ClearFillTask(getContext(), this);
                 task.execute();
                 break;
-            case R.id.sd_card:
+            case R.id.sdCard:
                 SharedPreferences.Editor editor = mSharedPrefs.edit();
                 if (mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false)) {
                     editor.putBoolean(MainActivity.TAG_SD_CARD, false);

@@ -32,6 +32,7 @@
     <string name="ids_message_rate">Did you enjoy playing with your disk? If yes, would you
         mind for a moment to rate this app? Thank you so much for your support!</string>
     <string name="ids_message_stop_process">Please stop filling process first before exiting.</string>
+    <string name="rationale_storage">This app needs access to your storage to be able to fill it.</string>
 
     <string name="banner_ad_unit_id_main_screen">ca-app-pub-1411804566429951/3685938622</string>
     <string name="banner_ad_unit_id_easy_screen_backup">ca-app-pub-1411804566429951/8541613828</string>

@@ -140,7 +140,7 @@
             android:background="@color/dark_text" />
 
         <TextView
-            android:id="@+id/sd_card"
+            android:id="@+id/sdCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.view;
+package com.tompee.utilities.filldevicespace.feature.main;
 
 import android.Manifest;
 import android.content.Context;
@@ -29,9 +29,9 @@ import com.tompee.utilities.filldevicespace.BuildConfig;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.Utilities;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
-import com.tompee.utilities.filldevicespace.view.adapter.MainViewPagerAdapter;
+import com.tompee.utilities.filldevicespace.view.HelpActivity;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
-import com.tompee.utilities.filldevicespace.view.custom.NonSwipeablePager;
+import com.tompee.utilities.filldevicespace.feature.widget.NonSwipeablePager;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     public static final String SHARED_PREFERENCE_NAME = "fill_device_disk_shared_prefs";
@@ -74,11 +74,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         ImageView bg = (ImageView) findViewById(R.id.background);
         bg.setImageDrawable(Utilities.getDrawableFromAsset(this, "bg.jpg"));
-        mViewPager = (NonSwipeablePager) findViewById(R.id.pager_main);
-        mViewPager.setAdapter(new MainViewPagerAdapter(this, getSupportFragmentManager()));
+        mViewPager = (NonSwipeablePager) findViewById(R.id.viewPager);
+        mViewPager.setAdapter(new MainViewPagerAdapter(this, getSupportFragmentManager(), null) );
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setOffscreenPageLimit(mViewPager.getAdapter().getCount());
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutMain);
         tabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onBackPressed() {
-        if (mViewPager.getInterceptSwipe()) {
+        if (mViewPager.isSwipeAllowed()) {
             SuperActivityToast.create(this, new Style(), Style.TYPE_STANDARD)
                     .setText(getString(R.string.ids_message_stop_process))
                     .setDuration(Style.DURATION_LONG)
@@ -197,6 +197,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     public void interceptViewPagerTouchEvents(boolean intercept) {
-        mViewPager.interceptSwipeEvent(intercept);
+        mViewPager.setSwipeAllowed(intercept);
     }
 }

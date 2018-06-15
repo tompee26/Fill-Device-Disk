@@ -18,12 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.tompee.utilities.filldevicespace.Constants;
 import com.tompee.utilities.filldevicespace.R;
 import com.tompee.utilities.filldevicespace.controller.storage.SdBroadcastReceiver;
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility;
 import com.tompee.utilities.filldevicespace.controller.task.ClearFillTask;
 import com.tompee.utilities.filldevicespace.controller.task.FillDiskTask;
-import com.tompee.utilities.filldevicespace.view.MainActivity;
+import com.tompee.utilities.filldevicespace.feature.main.MainActivity;
 import com.tompee.utilities.filldevicespace.view.base.BaseActivity;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -48,7 +49,7 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPrefs = getContext().getSharedPreferences(MainActivity.
+        mSharedPrefs = getContext().getSharedPreferences(Constants.
                 SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         mReceiver = new SdBroadcastReceiver(this);
     }
@@ -85,9 +86,9 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
         mStartButton.setImageResource(R.drawable.ic_play_arrow_white);
         mStartButton.setOnClickListener(this);
 
-        mClearFillView = view.findViewById(R.id.clear_fill);
+        mClearFillView = view.findViewById(R.id.clearFill);
         mClearFillView.setOnClickListener(this);
-        mSdCardView = view.findViewById(R.id.sd_card);
+        mSdCardView = view.findViewById(R.id.sdCard);
         mSdCardView.setOnClickListener(this);
 
         mFreeView = (TextView) view.findViewById(R.id.free_space);
@@ -162,17 +163,17 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
                     mFillDiskTask.cancel(true);
                 }
                 break;
-            case R.id.clear_fill:
+            case R.id.clearFill:
                 activity.interceptTouchEvents(true);
                 ClearFillTask task = new ClearFillTask(getContext(), this);
                 task.execute();
                 break;
-            case R.id.sd_card:
+            case R.id.sdCard:
                 SharedPreferences.Editor editor = mSharedPrefs.edit();
-                if (mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false)) {
-                    editor.putBoolean(MainActivity.TAG_SD_CARD, false);
+                if (mSharedPrefs.getBoolean(Constants.TAG_SD_CARD, false)) {
+                    editor.putBoolean(Constants.TAG_SD_CARD, false);
                 } else {
-                    editor.putBoolean(MainActivity.TAG_SD_CARD, true);
+                    editor.putBoolean(Constants.TAG_SD_CARD, true);
                 }
                 editor.apply();
                 Intent intent = new Intent(SdBroadcastReceiver.SD_CARD_ACTION, Uri.parse("file://"));
@@ -189,10 +190,10 @@ public class EasyFillFragment extends Fragment implements FillDiskTask.FillDiskT
             Log.i("setSdCardState", "Storage not available");
             mSdCardView.setEnabled(false);
             SharedPreferences.Editor editor = mSharedPrefs.edit();
-            editor.putBoolean(MainActivity.TAG_SD_CARD, false);
+            editor.putBoolean(Constants.TAG_SD_CARD, false);
             editor.apply();
         }
-        mSdCardView.setBackgroundColor(mSharedPrefs.getBoolean(MainActivity.TAG_SD_CARD, false) ?
+        mSdCardView.setBackgroundColor(mSharedPrefs.getBoolean(Constants.TAG_SD_CARD, false) ?
                 ContextCompat.getColor(getContext(), R.color.tabSelected) : ContextCompat.
                 getColor(getContext(), android.R.color.transparent));
     }
