@@ -62,6 +62,10 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                     } else {
                         fillInteractor.startFill()
                                 .subscribeOn(Schedulers.computation())
+                                .doOnComplete({
+                                    fillSubscription = null
+                                    view.setFillState(false)
+                                })
                                 .subscribe()
                     }
                     return@map fillSubscription != null

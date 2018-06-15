@@ -6,6 +6,7 @@ import com.tompee.utilities.filldevicespace.core.storage.StorageManager
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class FillInteractorImpl(private val storageManager: StorageManager,
@@ -31,12 +32,20 @@ class FillInteractorImpl(private val storageManager: StorageManager,
     override fun startFill(): Observable<Long> {
         return Observable.interval(10, TimeUnit.MILLISECONDS)
                 .map {
-                    val start = System.nanoTime()
-                    val currentAsset = assetManager.getAsset(storageManager.getAvailableStorageSize())
-                    assetManager.copyAssetsFile(currentAsset!!, currentAsset + it)
-                    val timeElapsed = System.nanoTime() - start
-                    updateAll(computeSpeed(currentAsset, timeElapsed))
+                    try {
+                        val start = System.nanoTime()
+                        val currentAsset = assetManager.getAsset(storageManager.getAvailableStorageSize())
+                        assetManager.copyAssetsFile(currentAsset!!, currentAsset + it)
+                        val timeElapsed = System.nanoTime() - start
+                        updateAll(computeSpeed(currentAsset, timeElapsed))
+                    } catch (e: IOException) {
+                        updateAll(0.0)
+                        throw e
+                    }
                     return@map it
+                }
+                .onErrorReturn {
+                    return@onErrorReturn 0
                 }
     }
 
