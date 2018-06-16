@@ -11,7 +11,7 @@ interface FillInteractor {
 
     fun getSpeedObservable(): Observable<Double>
 
-    fun getMaxStorageSpace(): Long
+    fun getMaxStorageSpaceObservable(): Observable<Long>
 
     fun startFill(): Observable<Long>
 

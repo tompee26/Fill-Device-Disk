@@ -26,17 +26,17 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupFreeSpaceTracker() {
         addSubscription(fillInteractor.getFreeSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setFreeSpace(formatHelper.formatFileSize(it))
-                }))
+                })
     }
 
     private fun setupFillSpaceTracker() {
         addSubscription(fillInteractor.getFillSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setFillSpace(formatHelper.formatFileSize(it))
-                }))
+                })
     }
 
     private fun setupPercentageTracker() {
@@ -48,28 +48,28 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupSpeedTracker() {
         addSubscription(fillInteractor.getSpeedObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setSpeed(formatHelper.formatSpeed(it))
-                }))
+                })
     }
 
     private fun setupFill() {
         view.startObservable()
-                .map({
+                .map {
                     fillSubscription = if (fillSubscription != null) {
                         fillSubscription?.dispose()
                         null
                     } else {
                         fillInteractor.startFill()
                                 .subscribeOn(Schedulers.computation())
-                                .doOnComplete({
+                                .doOnComplete {
                                     fillSubscription = null
                                     view.setFillState(false)
-                                })
+                                }
                                 .subscribe()
                     }
                     return@map fillSubscription != null
-                })
+                }
                 .doOnNext(view::setFillState)
                 .subscribe()
     }

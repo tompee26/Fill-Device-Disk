@@ -1,7 +1,7 @@
 package com.tompee.utilities.filldevicespace.interactor.impl
 
 import com.tompee.utilities.filldevicespace.Constants
-import com.tompee.utilities.filldevicespace.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.core.storage.StorageManager
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
@@ -14,10 +14,12 @@ class FillInteractorImpl(private val storageManager: StorageManager,
     private val freeSpaceSubject = BehaviorSubject.create<Long>()
     private val fillSpaceSubject = BehaviorSubject.create<Long>()
     private val percentageSubject = BehaviorSubject.create<Double>()
+    private val totalStorageSubject = BehaviorSubject.create<Long>()
     private val totalStorageSize: Long = storageManager.getTotalStorageSize() /* cache total size */
     private val speedSubject = BehaviorSubject.create<Double>()
 
     init {
+        totalStorageSubject.onNext(totalStorageSize)
         updateAll(0.0)
     }
 
@@ -54,7 +56,7 @@ class FillInteractorImpl(private val storageManager: StorageManager,
         updateAll(0.0)
     }
 
-    override fun getMaxStorageSpace(): Long = totalStorageSize
+    override fun getMaxStorageSpaceObservable(): Observable<Long> = totalStorageSubject
 
     private fun computeSpeed(asset: String, timeElapsed: Long): Double {
         return assetManager.getAssetSize(asset)!!.toDouble() / timeElapsed * Constants.SPEED_FACTOR

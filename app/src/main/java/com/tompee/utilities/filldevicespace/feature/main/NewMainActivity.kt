@@ -18,7 +18,7 @@ import com.tompee.utilities.filldevicespace.base.BaseActivity
 import com.tompee.utilities.filldevicespace.controller.Utilities
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
 import com.tompee.utilities.filldevicespace.di.component.MainComponent
-import com.tompee.utilities.filldevicespace.view.HelpActivity
+import com.tompee.utilities.filldevicespace.feature.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_top.*
 import kotlinx.android.synthetic.main.toolbar.*
 import pub.devrel.easypermissions.AfterPermissionGranted

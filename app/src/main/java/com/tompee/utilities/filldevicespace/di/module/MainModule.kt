@@ -9,6 +9,7 @@ import com.tompee.utilities.filldevicespace.feature.main.advancefill.AdvanceFill
 import com.tompee.utilities.filldevicespace.feature.main.easyfill.EasyFillFragment
 import com.tompee.utilities.filldevicespace.feature.main.easyfill.EasyFillPresenter
 import com.tompee.utilities.filldevicespace.feature.main.storage.CheckStorageFragment
+import com.tompee.utilities.filldevicespace.feature.main.storage.CheckStoragePresenter
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import dagger.Module
 import dagger.Provides
@@ -39,4 +40,7 @@ class MainModule {
     @Provides
     fun provideCheckStorageFragment(): CheckStorageFragment = CheckStorageFragment()
 
+    @MainScope
+    @Provides
+    fun provideCheckStoragePresenter(fillInteractor: FillInteractor, formatHelper: FormatHelper): CheckStoragePresenter = CheckStoragePresenter(fillInteractor, formatHelper)
 }

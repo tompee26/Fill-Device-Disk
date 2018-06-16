@@ -6,7 +6,7 @@ import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 
 class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
@@ -29,17 +29,17 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupFreeSpaceTracker() {
         addSubscription(fillInteractor.getFreeSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setFreeSpace(formatHelper.formatFileSize(it))
-                }))
+                })
     }
 
     private fun setupFillSpaceTracker() {
         addSubscription(fillInteractor.getFillSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setFillSpace(formatHelper.formatFileSize(it))
-                }))
+                })
     }
 
     private fun setupPercentageTracker() {
@@ -51,28 +51,28 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupSpeedTracker() {
         addSubscription(fillInteractor.getSpeedObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe {
                     view.setSpeed(formatHelper.formatSpeed(it))
-                }))
+                })
     }
 
     private fun setupFill() {
         view.startObservable()
-                .map({
+                .map {
                     fillSubscription = if (fillSubscription != null) {
                         fillSubscription?.dispose()
                         null
                     } else {
                         fillInteractor.startFill()
                                 .subscribeOn(Schedulers.computation())
-                                .doOnComplete({
+                                .doOnComplete {
                                     fillSubscription = null
                                     view.setFillState(false)
-                                })
+                                }
                                 .subscribe()
                     }
                     return@map fillSubscription != null
-                })
+                }
                 .doOnNext(view::setFillState)
                 .subscribe()
     }
@@ -89,12 +89,13 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
 
     private fun setupDialLimit() {
         addSubscription(Observable.combineLatest(view.getGbObservable(), view.getMbObservable(),
-                BiFunction<Int, Int, Long> { gb, mb ->
+                fillInteractor.getMaxStorageSpaceObservable(),
+                Function3<Int, Int, Long, Boolean> { gb, mb, total ->
                     val mbValue = mb.toLong() * 1048576L
                     val gbValue = gb.toLong() * 1073741824L
-                    return@BiFunction mbValue + gbValue
+                    val sum = mbValue + gbValue
+                    return@Function3 sum <= total && sum != 0L
                 })
-                .map { it <= fillInteractor.getMaxStorageSpace() && it != 0L}
                 .doOnNext(view::setStartButtonState)
                 .subscribe())
     }

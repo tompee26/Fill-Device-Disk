@@ -1,7 +1,7 @@
 package com.tompee.utilities.filldevicespace.di.module
 
 import android.content.Context
-import com.tompee.utilities.filldevicespace.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

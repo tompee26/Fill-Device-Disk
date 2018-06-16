@@ -23,10 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.HelpActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name="com.tompee.utilities.filldevicespace.view.base.BaseActivity" />
+        <activity
+            android:name=".feature.help.HelpActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>

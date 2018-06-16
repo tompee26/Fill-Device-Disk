@@ -3,7 +3,7 @@ package com.tompee.utilities.filldevicespace.di.component
 import android.content.Context
 import android.content.SharedPreferences
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
-import com.tompee.utilities.filldevicespace.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.di.module.AppModule
 import com.tompee.utilities.filldevicespace.di.module.AssetManagerModule

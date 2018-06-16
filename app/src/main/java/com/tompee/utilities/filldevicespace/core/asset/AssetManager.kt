@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.asset
+package com.tompee.utilities.filldevicespace.core.asset
 
 import android.content.Context
 import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility
