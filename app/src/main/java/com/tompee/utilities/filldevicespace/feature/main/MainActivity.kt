@@ -25,7 +25,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
-class NewMainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbacks {
+class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbacks, TouchInterceptor {
     companion object {
         private const val DISK_PERMISSION = 123
     }
@@ -169,6 +169,12 @@ class NewMainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCall
             startActivity(intent)
         }
         builder.create().show()
+    }
+    //endregion
+
+    //region Interceptor
+    override fun interceptTouchEvents(intercept : Boolean) {
+        viewPager.isSwipeAllowed = intercept
     }
     //endregion
 }

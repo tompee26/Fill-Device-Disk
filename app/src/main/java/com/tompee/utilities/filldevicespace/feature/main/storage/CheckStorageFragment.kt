@@ -7,12 +7,16 @@ import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseFragment
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_check_storage.*
 import javax.inject.Inject
 
 class CheckStorageFragment : BaseFragment(), CheckStorageView {
     @Inject
     lateinit var presenter: CheckStoragePresenter
+
+    private val refreshSubject = BehaviorSubject.create<Any>()
 
     //region Lifecycle
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,12 +38,22 @@ class CheckStorageFragment : BaseFragment(), CheckStorageView {
         chart.rotationAngle = 0f
         chart.setDrawEntryLabels(false)
         chart.setEntryLabelTextSize(12f)
+
+        refresh.setOnClickListener {
+            refreshSubject.onNext(it)
+        }
+
         presenter.attachView(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshSubject.onNext(Any())
     }
 
     //endregion
@@ -56,6 +70,8 @@ class CheckStorageFragment : BaseFragment(), CheckStorageView {
     //endregion
 
     //region View
+    override fun refreshObservable(): Observable<Any> = refreshSubject
+
     override fun setFreeSpace(space: String) {
         freeSpace.text = space
     }
@@ -73,5 +89,5 @@ class CheckStorageFragment : BaseFragment(), CheckStorageView {
         chart.highlightValues(null)
         chart.invalidate()
     }
-    //region
+    //endregion
 }

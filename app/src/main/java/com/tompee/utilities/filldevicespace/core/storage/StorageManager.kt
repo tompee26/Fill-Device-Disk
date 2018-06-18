@@ -65,6 +65,12 @@ class StorageManager(private val context: Context, private val sharedPreferences
         }
     }
 
+    fun getFileCount(): Int {
+        return if (sharedPreferences.getBoolean(Constants.TAG_SD_CARD, false)) {
+            File(getRemovableStorage()).listFiles().size
+        } else context.filesDir.listFiles().size
+    }
+
     private fun getFilesDirectory(): String? {
         return if (sharedPreferences.getBoolean(Constants.TAG_SD_CARD, false)) {
             getRemovableStorage()

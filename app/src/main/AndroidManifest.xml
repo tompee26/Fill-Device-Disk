@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.BrandedLaunch">
         <activity
-            android:name="com.tompee.utilities.filldevicespace.feature.main.NewMainActivity"
+            android:name="com.tompee.utilities.filldevicespace.feature.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name">
             <intent-filter>

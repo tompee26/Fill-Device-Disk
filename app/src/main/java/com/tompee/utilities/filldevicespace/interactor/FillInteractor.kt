@@ -13,7 +13,9 @@ interface FillInteractor {
 
     fun getMaxStorageSpaceObservable(): Observable<Long>
 
-    fun startFill(): Observable<Long>
+    fun startFill(limit : Long = 0L): Observable<Int>
 
     fun clearFill()
+
+    fun refresh()
 }

@@ -16,6 +16,7 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
                             private val formatHelper: FormatHelper) : BasePresenter<CheckStorageView>() {
 
     override fun onAttachView() {
+        setupRefresh()
         setupFreeSpaceTracker()
         setupFillSpaceTracker()
         setupTotalSpaceTracker()
@@ -23,6 +24,17 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
     }
 
     override fun onDetachView() {
+    }
+
+    private fun setupRefresh() {
+        addSubscription(
+                view.refreshObservable()
+                        .map {
+                            fillInteractor.refresh()
+                            return@map it
+                        }
+                        .subscribe()
+        )
     }
 
     private fun setupFreeSpaceTracker() {

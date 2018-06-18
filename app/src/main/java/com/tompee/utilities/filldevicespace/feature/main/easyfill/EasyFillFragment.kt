@@ -9,6 +9,7 @@ import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseFragment
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
+import com.tompee.utilities.filldevicespace.feature.main.TouchInterceptor
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_easy_fill.*
 import javax.inject.Inject
@@ -71,6 +72,7 @@ class EasyFillFragment : BaseFragment(), EasyFillView {
         } else {
             start.setImageResource(R.drawable.ic_play_arrow_white)
         }
+        (activity as TouchInterceptor).interceptTouchEvents(state)
     }
     //endregion
 }

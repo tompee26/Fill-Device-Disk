@@ -6,6 +6,7 @@ import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 
@@ -58,13 +59,22 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
 
     private fun setupFill() {
         view.startObservable()
+                .withLatestFrom(Observable.combineLatest(view.getGbObservable(),
+                        view.getMbObservable(),
+                        BiFunction<Int, Int, Long> { gb, mb ->
+                            val mbValue = mb.toLong() * 1000000L
+                            val gbValue = gb.toLong() * 1000000000L
+                            return@BiFunction mbValue + gbValue
+                        })
+                        , BiFunction<Any, Long, Long> { _, lmt -> lmt })
                 .map {
                     fillSubscription = if (fillSubscription != null) {
                         fillSubscription?.dispose()
                         null
                     } else {
-                        fillInteractor.startFill()
+                        fillInteractor.startFill(it)
                                 .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
                                 .doOnComplete {
                                     fillSubscription = null
                                     view.setFillState(false)

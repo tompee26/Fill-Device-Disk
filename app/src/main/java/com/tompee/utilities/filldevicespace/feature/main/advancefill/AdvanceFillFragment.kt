@@ -9,6 +9,7 @@ import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseFragment
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
+import com.tompee.utilities.filldevicespace.feature.main.TouchInterceptor
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_advance_fill.*
@@ -19,11 +20,23 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
     @Inject
     lateinit var presenter: AdvanceFillPresenter
 
+    private val mbSubject = BehaviorSubject.create<Int>()
+    private val gbSubject = BehaviorSubject.create<Int>()
+
     //region Lifecycle
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         start.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.colorAccentLight))
         start.setImageResource(R.drawable.ic_play_arrow_white)
+
+        mbSubject.onNext(megabytes.currentValue.toInt())
+        megabytes.setOnProgressChangedListener {
+            mbSubject.onNext(it.toInt())
+        }
+        gbSubject.onNext(gigabytes.currentValue.toInt())
+        gigabytes.setOnProgressChangedListener {
+            gbSubject.onNext(it.toInt())
+        }
         presenter.attachView(this)
     }
 
@@ -49,23 +62,9 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
 
     override fun clearObservable(): Observable<Any> = RxView.clicks(clearFill)
 
-    override fun getMbObservable(): Observable<Int> {
-        val subject = BehaviorSubject.create<Int>()
-        subject.onNext(megabytes.currentValue.toInt())
-        megabytes.setOnProgressChangedListener {
-            subject.onNext(it.toInt())
-        }
-        return subject
-    }
+    override fun getMbObservable(): Observable<Int> = mbSubject
 
-    override fun getGbObservable(): Observable<Int> {
-        val subject = BehaviorSubject.create<Int>()
-        subject.onNext(gigabytes.currentValue.toInt())
-        gigabytes.setOnProgressChangedListener {
-            subject.onNext(it.toInt())
-        }
-        return subject
-    }
+    override fun getGbObservable(): Observable<Int> = gbSubject
 
     override fun setFreeSpace(space: String) {
         freeSpace.text = space
@@ -92,6 +91,7 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
             start.setImageResource(R.drawable.ic_play_arrow_white)
         }
         switcher.showNext()
+        (activity as TouchInterceptor).interceptTouchEvents(state)
     }
 
     override fun setStartButtonState(state: Boolean) {

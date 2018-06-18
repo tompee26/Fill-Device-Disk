@@ -31,20 +31,16 @@ class FillInteractorImpl(private val storageManager: StorageManager,
 
     override fun getSpeedObservable(): Observable<Double> = speedSubject
 
-    override fun startFill(): Observable<Long> {
+    override fun startFill(limit: Long): Observable<Int> {
         return Observable.interval(10, TimeUnit.MILLISECONDS)
                 .map {
-                    try {
-                        val start = System.nanoTime()
-                        val currentAsset = assetManager.getAsset(storageManager.getAvailableStorageSize())
-                        assetManager.copyAssetsFile(currentAsset!!, currentAsset + it)
-                        val timeElapsed = System.nanoTime() - start
-                        updateAll(computeSpeed(currentAsset, timeElapsed))
-                    } catch (e: IOException) {
-                        updateAll(0.0)
-                        throw e
+                    storageManager.getFileCount()
+                }
+                .map {
+                    if (limit == 0L) {
+                        return@map freeFill(it)
                     }
-                    return@map it
+                    return@map customFill(it, limit)
                 }
                 .onErrorReturn {
                     return@onErrorReturn 0
@@ -58,6 +54,10 @@ class FillInteractorImpl(private val storageManager: StorageManager,
 
     override fun getMaxStorageSpaceObservable(): Observable<Long> = totalStorageSubject
 
+    override fun refresh() {
+        updateAll(0.0)
+    }
+
     private fun computeSpeed(asset: String, timeElapsed: Long): Double {
         return assetManager.getAssetSize(asset)!!.toDouble() / timeElapsed * Constants.SPEED_FACTOR
     }
@@ -68,5 +68,37 @@ class FillInteractorImpl(private val storageManager: StorageManager,
         percentageSubject.onNext(((totalStorageSize - freeSpace).toDouble() / totalStorageSize))
         fillSpaceSubject.onNext(storageManager.getFillSize())
         speedSubject.onNext(speed)
+    }
+
+    private fun freeFill(index: Int): Int {
+        try {
+            val start = System.nanoTime()
+            val currentAsset = assetManager.getAsset(storageManager.getAvailableStorageSize())
+            assetManager.copyAssetsFile(currentAsset!!, currentAsset + index)
+            val timeElapsed = System.nanoTime() - start
+            updateAll(computeSpeed(currentAsset, timeElapsed))
+        } catch (e: IOException) {
+            updateAll(0.0)
+            throw e
+        }
+        return index
+    }
+
+    private fun customFill(index: Int, limit: Long): Int {
+        try {
+            val fillSize = storageManager.getFillSize()
+            if (fillSize >= limit) {
+                throw IOException("Limit reached")
+            }
+            val start = System.nanoTime()
+            val currentAsset = assetManager.getAsset(limit - fillSize)
+            assetManager.copyAssetsFile(currentAsset!!, currentAsset + index)
+            val timeElapsed = System.nanoTime() - start
+            updateAll(computeSpeed(currentAsset, timeElapsed))
+        } catch (e: IOException) {
+            updateAll(0.0)
+            throw e
+        }
+        return index
     }
 }

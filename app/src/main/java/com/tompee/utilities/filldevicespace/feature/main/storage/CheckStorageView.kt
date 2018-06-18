@@ -2,8 +2,11 @@ package com.tompee.utilities.filldevicespace.feature.main.storage
 
 import com.github.mikephil.charting.data.PieData
 import com.tompee.utilities.filldevicespace.base.BaseMvpView
+import io.reactivex.Observable
 
 interface CheckStorageView : BaseMvpView {
+    fun refreshObservable() : Observable<Any>
+
     fun setData(data: PieData)
 
     fun setFreeSpace(space: String)
