@@ -21,7 +21,7 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
         setupRefresh()
         setupFreeSpaceTracker()
         setupFillSpaceTracker()
-        setupTotalSpaceTracker()
+        setupSystemSpaceTracker()
         setupDataListener()
     }
 
@@ -40,15 +40,11 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
     }
 
     private fun setupFreeSpaceTracker() {
-        addSubscription(
-                Observable.combineLatest(fillInteractor.getFreeSpaceObservable(),
-                        fillInteractor.getFillSpaceObservable(),
-                        fillInteractor.getMaxStorageSpaceObservable(),
-                        Function3<Long, Long, Long, Long> { free, fill, max -> max - free - fill })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            view.setFreeSpace(formatHelper.formatFileSize(it))
-                        })
+        addSubscription(fillInteractor.getFreeSpaceObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    view.setFreeSpace(formatHelper.formatFileSize(it))
+                })
     }
 
     private fun setupFillSpaceTracker() {
@@ -59,12 +55,16 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
                 })
     }
 
-    private fun setupTotalSpaceTracker() {
-        addSubscription(fillInteractor.getMaxStorageSpaceObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setMaxSpace(formatHelper.formatFileSize(it))
-                })
+    private fun setupSystemSpaceTracker() {
+        addSubscription(
+                Observable.combineLatest(fillInteractor.getFreeSpaceObservable(),
+                        fillInteractor.getFillSpaceObservable(),
+                        fillInteractor.getMaxStorageSpaceObservable(),
+                        Function3<Long, Long, Long, Long> { free, fill, max -> max - free - fill })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            view.setMaxSpace(formatHelper.formatFileSize(it))
+                        })
     }
 
     private fun setupDataListener() {

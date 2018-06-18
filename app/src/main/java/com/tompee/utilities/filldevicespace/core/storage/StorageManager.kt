@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
+import android.support.annotation.RequiresApi
 import com.tompee.utilities.filldevicespace.Constants
 import java.io.File
 import java.util.*
@@ -81,35 +82,7 @@ class StorageManager(private val context: Context, private val sharedPreferences
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return findRemovableStoragePreKitkat()
         } else {
-            val extDirs = context.getExternalFilesDirs(null)
-            val primary = Environment.getExternalStorageDirectory()
-            for (file in extDirs) {
-                if (file == null) {
-                    continue
-                }
-                if (!file.exists()) {
-                    continue
-                }
-                val extFilePath = file.absolutePath
-
-                if (extFilePath == null || extFilePath.isEmpty()) {
-                    continue
-                }
-                if (extFilePath.startsWith(primary.absolutePath)) {
-                    continue
-                }
-                // checks for API 19 and up only since a delay is added for lower APIs in BroadcastReceiver
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState(file)) {
-                        continue
-                    }
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    if (Environment.MEDIA_MOUNTED != Environment.getStorageState(file)) {
-                        continue
-                    }
-                }
-                return extFilePath
-            }
+            findRemovableStorageKitkat()
         }
         return null
     }
@@ -136,6 +109,40 @@ class StorageManager(private val context: Context, private val sharedPreferences
                     return newPath
                 }
             }
+        }
+        return null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun findRemovableStorageKitkat() : String? {
+        val extDirs = context.getExternalFilesDirs(null)
+        val primary = Environment.getExternalStorageDirectory()
+        for (file in extDirs) {
+            if (file == null) {
+                continue
+            }
+            if (!file.exists()) {
+                continue
+            }
+            val extFilePath = file.absolutePath
+
+            if (extFilePath == null || extFilePath.isEmpty()) {
+                continue
+            }
+            if (extFilePath.startsWith(primary.absolutePath)) {
+                continue
+            }
+            // checks for API 19 and up only since a delay is added for lower APIs in BroadcastReceiver
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState(file)) {
+                    continue
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (Environment.MEDIA_MOUNTED != Environment.getStorageState(file)) {
+                    continue
+                }
+            }
+            return extFilePath
         }
         return null
     }
