@@ -8,6 +8,8 @@ interface EasyFillView : BaseMvpView {
 
     fun clearObservable(): Observable<Any>
 
+    fun sdCardObservable(): Observable<Any>
+
     fun setFreeSpace(space: String)
 
     fun setFillSpace(space: String)
@@ -17,4 +19,6 @@ interface EasyFillView : BaseMvpView {
     fun setSpeed(text: String)
 
     fun setFillState(state: Boolean)
+
+    fun setSdCardButtonState(state: Boolean)
 }

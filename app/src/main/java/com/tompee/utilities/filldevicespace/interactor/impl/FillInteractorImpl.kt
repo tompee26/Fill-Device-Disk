@@ -62,6 +62,8 @@ class FillInteractorImpl(private val storageManager: StorageManager,
         updateAll(0.0)
     }
 
+    override fun isRemovableStorageSupported(): Boolean = storageManager.getRemovableStorage() != null
+
     private fun computeSpeed(asset: String, timeElapsed: Long): Double {
         return assetManager.getAssetSize(asset)!!.toDouble() / timeElapsed * Constants.SPEED_FACTOR
     }

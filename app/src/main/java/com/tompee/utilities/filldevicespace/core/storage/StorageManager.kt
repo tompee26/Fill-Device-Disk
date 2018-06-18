@@ -77,7 +77,7 @@ class StorageManager(private val context: Context, private val sharedPreferences
         } else context.filesDir.absolutePath
     }
 
-    private fun getRemovableStorage(): String? {
+    fun getRemovableStorage(): String? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             val secondaryStorage = System.getenv(Constants.TAG_SECONDARY_STORAGE)
             if (secondaryStorage != null) {

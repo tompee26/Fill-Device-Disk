@@ -62,6 +62,12 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
 
     override fun clearObservable(): Observable<Any> = RxView.clicks(clearFill)
 
+    override fun sdCardObservable(): Observable<Any> = RxView.clicks(sdCard)
+
+    override fun setSdCardButtonState(state: Boolean) {
+        sdCard.isEnabled = state
+    }
+
     override fun getMbObservable(): Observable<Int> = mbSubject
 
     override fun getGbObservable(): Observable<Int> = gbSubject

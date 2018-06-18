@@ -48,6 +48,12 @@ class EasyFillFragment : BaseFragment(), EasyFillView {
 
     override fun clearObservable(): Observable<Any> = RxView.clicks(clearFill)
 
+    override fun sdCardObservable(): Observable<Any> = RxView.clicks(sdCard)
+
+    override fun setSdCardButtonState(state: Boolean) {
+        sdCard.isEnabled = state
+    }
+
     override fun setFreeSpace(space: String) {
         freeSpace.text = space
     }

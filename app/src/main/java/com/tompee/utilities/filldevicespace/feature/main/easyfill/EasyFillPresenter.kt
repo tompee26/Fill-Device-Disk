@@ -18,6 +18,7 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
         setupSpeedTracker()
         setupFill()
         setupClear()
+        setupSdCard()
     }
 
     override fun onDetachView() {
@@ -82,5 +83,9 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                     return@map
                 }
                 .subscribe())
+    }
+
+    private fun setupSdCard() {
+        view.setSdCardButtonState(fillInteractor.isRemovableStorageSupported())
     }
 }
