@@ -1,6 +1,7 @@
 package com.tompee.utilities.filldevicespace.di.module
 
 import android.content.SharedPreferences
+import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.di.scopes.MainScope
 import com.tompee.utilities.filldevicespace.feature.main.MainPresenter
@@ -42,5 +43,8 @@ class MainModule {
 
     @MainScope
     @Provides
-    fun provideCheckStoragePresenter(fillInteractor: FillInteractor, formatHelper: FormatHelper): CheckStoragePresenter = CheckStoragePresenter(fillInteractor, formatHelper)
+    fun provideCheckStoragePresenter(fillInteractor: FillInteractor,
+                                     formatHelper: FormatHelper,
+                                     contentHelper: ContentHelper):
+            CheckStoragePresenter = CheckStoragePresenter(fillInteractor, formatHelper, contentHelper)
 }

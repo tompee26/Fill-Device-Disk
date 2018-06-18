@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import com.tompee.utilities.filldevicespace.BuildConfig
+import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseActivity
-import com.tompee.utilities.filldevicespace.controller.Utilities
+import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.activity_license.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -18,6 +19,8 @@ class HelpActivity : BaseActivity() {
         const val ABOUT = 0
         const val LICENSE = 1
     }
+
+    lateinit var assetManager: AssetManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -30,16 +33,17 @@ class HelpActivity : BaseActivity() {
         } else {
             toolbar_text.setText(R.string.ids_title_open_source)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                content.text = Html.fromHtml(Utilities.getStringFromAsset(this, "opensource.html"),
+                content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"),
                         Html.FROM_HTML_MODE_LEGACY)
             } else {
-                content.text = Html.fromHtml(Utilities.getStringFromAsset(this, "opensource.html"))
+                content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"))
             }
             content.movementMethod = LinkMovementMethod.getInstance()
         }
     }
 
     override fun setupComponent() {
+        assetManager = (application as FillDeviceDiskApp).component.assetManager()
     }
 
     override fun layoutId(): Int {

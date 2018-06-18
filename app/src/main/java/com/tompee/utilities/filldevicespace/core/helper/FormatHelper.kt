@@ -12,8 +12,4 @@ class FormatHelper(private val context: Context) {
             Formatter.formatFileSize(context, size)
 
     fun formatSpeed(speed: Double): String = String.format(context.getString(R.string.ids_legend_speed_unit), speed)
-
-    fun getString(@StringRes id: Int): String = context.getString(id)
-
-    fun getColor(@ColorRes id: Int): Int = ContextCompat.getColor(context, id)
 }

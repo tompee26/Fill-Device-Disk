@@ -1,12 +1,18 @@
 package com.tompee.utilities.filldevicespace.core.asset
 
 import android.content.Context
-import com.tompee.utilities.filldevicespace.controller.storage.StorageUtility
+import android.graphics.drawable.Drawable
+import com.tompee.utilities.filldevicespace.core.storage.StorageManager
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 
-class AssetManager(private val context: Context) {
+
+class AssetManager(private val context: Context,
+                   private val storageManager: StorageManager) {
     companion object {
         private const val ASSET_5MB = "filler_5MB"
         private const val ASSET_1MB = "filler_1MB"
@@ -42,7 +48,7 @@ class AssetManager(private val context: Context) {
     fun copyAssetsFile(assetsFileName: String,
                        outputFileName: String) {
         val inputStream = context.assets.open(assetsFileName)
-        val outputPath = StorageUtility.getFilesDirectory(context)
+        val outputPath = storageManager.getFilesDirectory()
 
         java.io.File(outputPath).mkdirs()
         val outputStream = FileOutputStream(File(outputPath, outputFileName))
@@ -56,5 +62,33 @@ class AssetManager(private val context: Context) {
         outputStream.fd.sync()
         outputStream.close()
         inputStream.close()
+    }
+
+    fun getStringFromAsset(filename: String): String {
+        val buffer = StringBuilder()
+        val inputStream: InputStream
+        try {
+            inputStream = context.assets.open(filename)
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+            var str = bufferedReader.readLine()
+            while (str != null) {
+                buffer.append(str)
+                str = bufferedReader.readLine()
+            }
+            bufferedReader.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return buffer.toString()
+    }
+
+    fun getDrawableFromAsset(filename: String): Drawable? {
+        return try {
+            val ims = context.assets.open(filename)
+            Drawable.createFromStream(ims, null)
+        } catch (ex: IOException) {
+            null
+        }
     }
 }

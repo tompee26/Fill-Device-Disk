@@ -8,14 +8,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import com.github.johnpersano.supertoasts.library.Style
-import com.github.johnpersano.supertoasts.library.SuperActivityToast
 import com.google.android.gms.ads.AdRequest
 import com.tompee.utilities.filldevicespace.BuildConfig
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseActivity
-import com.tompee.utilities.filldevicespace.controller.Utilities
+import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
 import com.tompee.utilities.filldevicespace.di.component.MainComponent
 import com.tompee.utilities.filldevicespace.feature.help.HelpActivity
@@ -35,19 +33,23 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
     @Inject
     lateinit var presenter: MainPresenter
 
+    @Inject
+    lateinit var assetManager: AssetManager
+
     //region Lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setToolbar(toolbar)
         toolbar_text.setText(R.string.app_name)
-        background.setImageDrawable(Utilities.getDrawableFromAsset(this, "bg.jpg"))
+        background.setImageDrawable(assetManager.getDrawableFromAsset("bg.jpg"))
 
         val builder = AdRequest.Builder()
         if (BuildConfig.DEBUG) {
             builder.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C")
         }
         adView.loadAd(builder.build())
+        setupView()
         presenter.attachView(this)
     }
 
@@ -92,19 +94,6 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        if (viewPager.isSwipeAllowed) {
-            SuperActivityToast.create(this, Style(), Style.TYPE_STANDARD)
-                    .setText(getString(R.string.ids_message_stop_process))
-                    .setDuration(Style.DURATION_LONG)
-                    .setFrame(Style.FRAME_LOLLIPOP)
-                    .setColor(ContextCompat.getColor(this, R.color.button))
-                    .setAnimations(Style.ANIMATIONS_POP).show()
-            return
-        }
-        super.onBackPressed()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
@@ -119,8 +108,6 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
         if (!EasyPermissions.hasPermissions(this, *perms)) {
             EasyPermissions.requestPermissions(this, getString(R.string.rationale_storage),
                     DISK_PERMISSION, *perms)
-        } else {
-            setupView()
         }
     }
 
@@ -173,7 +160,7 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
     //endregion
 
     //region Interceptor
-    override fun interceptTouchEvents(intercept : Boolean) {
+    override fun interceptTouchEvents(intercept: Boolean) {
         viewPager.isSwipeAllowed = intercept
     }
     //endregion

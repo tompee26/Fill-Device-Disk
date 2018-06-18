@@ -3,6 +3,7 @@ package com.tompee.utilities.filldevicespace.di.module
 import android.content.Context
 import android.content.SharedPreferences
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.notification.NotificationManager
 import com.tompee.utilities.filldevicespace.core.storage.StorageManager
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import com.tompee.utilities.filldevicespace.interactor.impl.FillInteractorImpl
@@ -19,7 +20,10 @@ class StorageModule {
 
     @Singleton
     @Provides
-    fun provideStorageInteractorImpl(storageManager: StorageManager, assetManager: AssetManager): FillInteractorImpl = FillInteractorImpl(storageManager, assetManager)
+    fun provideStorageInteractorImpl(storageManager: StorageManager,
+                                     assetManager: AssetManager,
+                                     notificationManager: NotificationManager):
+            FillInteractorImpl = FillInteractorImpl(storageManager, assetManager, notificationManager)
 
     @Singleton
     @Provides

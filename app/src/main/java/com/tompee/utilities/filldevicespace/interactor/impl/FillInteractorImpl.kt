@@ -2,6 +2,7 @@ package com.tompee.utilities.filldevicespace.interactor.impl
 
 import com.tompee.utilities.filldevicespace.Constants
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.notification.NotificationManager
 import com.tompee.utilities.filldevicespace.core.storage.StorageManager
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
@@ -10,7 +11,8 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class FillInteractorImpl(private val storageManager: StorageManager,
-                         private val assetManager: AssetManager) : FillInteractor {
+                         private val assetManager: AssetManager,
+                         private val notificationManager: NotificationManager) : FillInteractor {
     private val freeSpaceSubject = BehaviorSubject.create<Long>()
     private val fillSpaceSubject = BehaviorSubject.create<Long>()
     private val percentageSubject = BehaviorSubject.create<Double>()
@@ -45,6 +47,8 @@ class FillInteractorImpl(private val storageManager: StorageManager,
                 .onErrorReturn {
                     return@onErrorReturn 0
                 }
+                .doOnSubscribe { notificationManager.showNotification() }
+                .doFinally { notificationManager.cancelNotification() }
     }
 
     override fun clearFill() {

@@ -2,6 +2,7 @@ package com.tompee.utilities.filldevicespace.di.module
 
 import android.content.Context
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
+import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import dagger.Module
 import dagger.Provides
@@ -21,4 +22,8 @@ class AppModule(private val application: FillDeviceDiskApp) {
     @Provides
     @Singleton
     fun provideFormatHelper(): FormatHelper = FormatHelper(application)
+
+    @Provides
+    @Singleton
+    fun provideContentHelper(): ContentHelper = ContentHelper(application)
 }

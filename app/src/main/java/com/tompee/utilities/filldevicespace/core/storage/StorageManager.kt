@@ -71,7 +71,7 @@ class StorageManager(private val context: Context, private val sharedPreferences
         } else context.filesDir.listFiles().size
     }
 
-    private fun getFilesDirectory(): String? {
+    fun getFilesDirectory(): String? {
         return if (sharedPreferences.getBoolean(Constants.TAG_SD_CARD, false)) {
             getRemovableStorage()
         } else context.filesDir.absolutePath

@@ -84,9 +84,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$project.rxBinding"
 
-
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     implementation 'com.google.firebase:firebase-ads:11.4.2'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9.1'
-    implementation 'com.github.johnpersano:supertoasts:2.0'
 }
