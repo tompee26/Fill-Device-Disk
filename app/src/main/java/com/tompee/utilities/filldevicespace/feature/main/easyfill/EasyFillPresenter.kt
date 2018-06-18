@@ -63,6 +63,7 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                     } else {
                         fillInteractor.startFill()
                                 .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
                                 .doOnComplete {
                                     fillSubscription = null
                                     view.setFillState(false)

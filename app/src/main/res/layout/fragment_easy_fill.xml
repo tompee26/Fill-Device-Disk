@@ -227,7 +227,7 @@
         app:cpv_unitPosition="right_top"
         app:cpv_unitScale="1"
         app:cpv_value="0"
-        app:layout_constraintBottom_toTopOf="@+id/clearFill"
+        app:layout_constraintBottom_toTopOf="@+id/start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fillSpace" />

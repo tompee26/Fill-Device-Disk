@@ -9,5 +9,5 @@ object Constants {
 
     const val TAG_SD_CARD = "sd_card"
     const val TAG_SECONDARY_STORAGE = "SECONDARY_STORAGE"
-
+    const val TAG_EXTERNAL_SDCARD_STORAGE = "EXTERNAL_SDCARD_STORAGE"
 }

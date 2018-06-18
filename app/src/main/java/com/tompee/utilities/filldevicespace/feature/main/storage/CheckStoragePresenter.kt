@@ -72,8 +72,8 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
                 fillInteractor.getFillSpaceObservable(),
                 fillInteractor.getMaxStorageSpaceObservable(),
                 Function3(this::createPieData))
-                .map(view::setData)
                 .observeOn(AndroidSchedulers.mainThread())
+                .map(view::setData)
                 .subscribe()
         addSubscription(disposable)
     }

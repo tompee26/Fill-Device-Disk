@@ -79,25 +79,7 @@ class StorageManager(private val context: Context, private val sharedPreferences
 
     fun getRemovableStorage(): String? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            val secondaryStorage = System.getenv(Constants.TAG_SECONDARY_STORAGE)
-            if (secondaryStorage != null) {
-                val paths = secondaryStorage.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                for (path in paths) {
-                    val file = File(path)
-                    if (file.listFiles() != null) {
-                        val newPath = path + context.getExternalFilesDir(null)!!
-                                .absolutePath.replace(Environment.getExternalStorageDirectory()
-                                .absolutePath, "")
-                        val fileInstance = File(newPath)
-                        if (!fileInstance.exists()) {
-                            if (!fileInstance.mkdirs()) {
-                                return null
-                            }
-                        }
-                        return newPath
-                    }
-                }
-            }
+            return findRemovableStoragePreKitkat()
         } else {
             val extDirs = context.getExternalFilesDirs(null)
             val primary = Environment.getExternalStorageDirectory()
@@ -127,6 +109,32 @@ class StorageManager(private val context: Context, private val sharedPreferences
                     }
                 }
                 return extFilePath
+            }
+        }
+        return null
+    }
+
+    private fun findRemovableStoragePreKitkat(): String? {
+        var secondaryStorage = System.getenv(Constants.TAG_SECONDARY_STORAGE)
+        if (secondaryStorage == null || secondaryStorage.isEmpty()) {
+            secondaryStorage = System.getenv(Constants.TAG_EXTERNAL_SDCARD_STORAGE)
+        }
+        if (secondaryStorage != null) {
+            val paths = secondaryStorage.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            for (path in paths) {
+                val file = File(path)
+                if (file.listFiles() != null) {
+                    val newPath = path + context.getExternalFilesDir(null)!!
+                            .absolutePath.replace(Environment.getExternalStorageDirectory()
+                            .absolutePath, "")
+                    val fileInstance = File(newPath)
+                    if (!fileInstance.exists()) {
+                        if (!fileInstance.mkdirs()) {
+                            return null
+                        }
+                    }
+                    return newPath
+                }
             }
         }
         return null
