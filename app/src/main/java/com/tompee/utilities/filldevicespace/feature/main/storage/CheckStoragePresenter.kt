@@ -70,7 +70,7 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
     }
 
     private fun setupDataListener() {
-        val disposable = Observable.combineLatest(fillInteractor.getFreeSpaceObservable(),
+        val disposable = Observable.zip(fillInteractor.getFreeSpaceObservable(),
                 fillInteractor.getFillSpaceObservable(),
                 fillInteractor.getMaxStorageSpaceObservable(),
                 Function3(this::createPieData))
