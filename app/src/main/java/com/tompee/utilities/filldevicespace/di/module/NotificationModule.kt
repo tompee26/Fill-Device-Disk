@@ -12,5 +12,5 @@ class NotificationModule {
 
     @Provides
     @Singleton
-    fun provideNotificationManager(context: Context, contentHelper: ContentHelper): NotificationManager = NotificationManager(context, contentHelper)
+    fun provideNotificationManager(context: Context, contentHelper: ContentHelper) = NotificationManager(context, contentHelper)
 }

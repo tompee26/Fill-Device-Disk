@@ -18,7 +18,9 @@ interface EasyFillView : BaseMvpView {
 
     fun setSpeed(text: String)
 
-    fun setFillState(state: Boolean)
+    fun setFillState(state: Boolean, sdCardAvailable : Boolean)
 
     fun setSdCardButtonState(state: Boolean)
+
+    fun setSdCardButtonBackground(color : Int)
 }

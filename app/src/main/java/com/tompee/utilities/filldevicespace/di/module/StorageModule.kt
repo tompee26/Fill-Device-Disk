@@ -22,10 +22,9 @@ class StorageModule {
     @Provides
     fun provideStorageInteractorImpl(storageManager: StorageManager,
                                      assetManager: AssetManager,
-                                     notificationManager: NotificationManager):
-            FillInteractorImpl = FillInteractorImpl(storageManager, assetManager, notificationManager)
+                                     notificationManager: NotificationManager) = FillInteractorImpl(storageManager, assetManager, notificationManager)
 
     @Singleton
     @Provides
-    fun provideStorageManager(context: Context, sharedPreferences: SharedPreferences): StorageManager = StorageManager(context, sharedPreferences)
+    fun provideStorageManager(context: Context, sharedPreferences: SharedPreferences) = StorageManager(context, sharedPreferences)
 }

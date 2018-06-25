@@ -1,7 +1,6 @@
 package com.tompee.utilities.filldevicespace.di.module
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.tompee.utilities.filldevicespace.Constants
 import dagger.Module
 import dagger.Provides
@@ -12,7 +11,7 @@ class SharedPreferenceModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
-    }
+    fun provideSharedPreferences(context: Context) =
+            context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)!!
+
 }

@@ -21,9 +21,9 @@ class AppModule(private val application: FillDeviceDiskApp) {
 
     @Provides
     @Singleton
-    fun provideFormatHelper(): FormatHelper = FormatHelper(application)
+    fun provideFormatHelper() = FormatHelper(application)
 
     @Provides
     @Singleton
-    fun provideContentHelper(): ContentHelper = ContentHelper(application)
+    fun provideContentHelper() = ContentHelper(application)
 }

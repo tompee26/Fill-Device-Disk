@@ -1,6 +1,8 @@
 package com.tompee.utilities.filldevicespace.feature.main.easyfill
 
+import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BasePresenter
+import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -8,7 +10,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class EasyFillPresenter(private val fillInteractor: FillInteractor,
-                        private val formatHelper: FormatHelper) : BasePresenter<EasyFillView>() {
+                        private val formatHelper: FormatHelper,
+                        private val contentHelper: ContentHelper) : BasePresenter<EasyFillView>() {
     private var fillSubscription: Disposable? = null
 
     override fun onAttachView() {
@@ -66,13 +69,13 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .doOnComplete {
                                     fillSubscription = null
-                                    view.setFillState(false)
+                                    view.setFillState(false, fillInteractor.isRemovableStorageSupported())
                                 }
                                 .subscribe()
                     }
                     return@map fillSubscription != null
                 }
-                .doOnNext(view::setFillState)
+                .doOnNext { state -> view.setFillState(state, fillInteractor.isRemovableStorageSupported()) }
                 .subscribe()
     }
 
@@ -88,5 +91,22 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
 
     private fun setupSdCard() {
         view.setSdCardButtonState(fillInteractor.isRemovableStorageSupported())
+        addSubscription(fillInteractor.getSdCardEnabledObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { state ->
+                    val color = if (state) {
+                        contentHelper.getColor(R.color.tabSelected)
+                    } else {
+                        contentHelper.getColor(android.R.color.transparent)
+                    }
+                    view.setSdCardButtonBackground(color)
+                })
+        addSubscription(view.sdCardObservable()
+                .observeOn(Schedulers.io())
+                .doOnNext {
+                    fillInteractor.toggleSdCard()
+                }
+                .subscribe())
     }
 }

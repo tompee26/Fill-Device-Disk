@@ -88,9 +88,13 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
         speed.text = text
     }
 
-    override fun setFillState(state: Boolean) {
+    override fun setFillState(state: Boolean, sdCardAvailable: Boolean) {
         clearFill.isEnabled = !state
-        sdCard.isEnabled = !state
+        if (state) {
+            sdCard.isEnabled = false
+        } else {
+            sdCard.isEnabled = sdCardAvailable
+        }
         if (state) {
             start.setImageResource(R.drawable.ic_stop_white)
         } else {
@@ -104,6 +108,9 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
         start.isEnabled = state
     }
 
+    override fun setSdCardButtonBackground(color: Int) {
+        sdCard.setBackgroundColor(color)
+    }
     //endregion
 
 }

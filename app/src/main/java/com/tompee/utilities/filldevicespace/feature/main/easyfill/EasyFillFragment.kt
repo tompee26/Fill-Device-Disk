@@ -14,6 +14,7 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_easy_fill.*
 import javax.inject.Inject
 
+
 class EasyFillFragment : BaseFragment(), EasyFillView {
     @Inject
     lateinit var presenter: EasyFillPresenter
@@ -70,15 +71,23 @@ class EasyFillFragment : BaseFragment(), EasyFillView {
         speed.text = text
     }
 
-    override fun setFillState(state: Boolean) {
+    override fun setFillState(state: Boolean, sdCardAvailable: Boolean) {
         clearFill.isEnabled = !state
-        sdCard.isEnabled = !state
+        if (state) {
+            sdCard.isEnabled = false
+        } else {
+            sdCard.isEnabled = sdCardAvailable
+        }
         if (state) {
             start.setImageResource(R.drawable.ic_stop_white)
         } else {
             start.setImageResource(R.drawable.ic_play_arrow_white)
         }
         (activity as TouchInterceptor).interceptTouchEvents(state)
+    }
+
+    override fun setSdCardButtonBackground(color: Int) {
+        sdCard.setBackgroundColor(color)
     }
     //endregion
 }

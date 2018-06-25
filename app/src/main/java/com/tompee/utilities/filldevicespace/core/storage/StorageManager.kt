@@ -10,6 +10,7 @@ import com.tompee.utilities.filldevicespace.Constants
 import java.io.File
 import java.util.*
 
+
 class StorageManager(private val context: Context, private val sharedPreferences: SharedPreferences) {
 
     fun getAvailableStorageSize(): Long {
@@ -78,14 +79,13 @@ class StorageManager(private val context: Context, private val sharedPreferences
         } else context.filesDir.absolutePath
     }
 
-    fun getRemovableStorage(): String? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            return findRemovableStoragePreKitkat()
-        } else {
-            findRemovableStorageKitkat()
-        }
-        return null
-    }
+    fun getRemovableStorage(): String? =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                findRemovableStoragePreKitkat()
+            } else {
+                findRemovableStorageKitkat()
+            }
+
 
     private fun findRemovableStoragePreKitkat(): String? {
         var secondaryStorage = System.getenv(Constants.TAG_SECONDARY_STORAGE)
@@ -114,7 +114,24 @@ class StorageManager(private val context: Context, private val sharedPreferences
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun findRemovableStorageKitkat() : String? {
+    private fun findRemovableStorageKitkat(): String? {
+//        val storageManager = context.getSystemService(Context.STORAGE_SERVICE)
+//        try {
+//            val storageVolumeClazz = Class.forName("android.os.storage.StorageVolume")
+//            val getVolumeList = storageManager.javaClass.getMethod("getVolumeList")
+//            val getPath = storageVolumeClazz.getMethod("getPath")
+//            val isRemovable = storageVolumeClazz.getMethod("isRemovable")
+//            val result = getVolumeList.invoke(storageManager) as Array<StorageVolume>
+//            result.forEach {
+//                if (isRemovable.invoke(it) as Boolean) {
+//                    return File(getPath.invoke(it) as String).absolutePath
+//                }
+//            }
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//        }
+//        return null
+
         val extDirs = context.getExternalFilesDirs(null)
         val primary = Environment.getExternalStorageDirectory()
         for (file in extDirs) {
@@ -145,5 +162,14 @@ class StorageManager(private val context: Context, private val sharedPreferences
             return extFilePath
         }
         return null
+    }
+
+    fun isSdCardEnabled() = sharedPreferences.getBoolean(Constants.TAG_SD_CARD, false)
+
+    fun toggleSdCard() {
+        val state = sharedPreferences.getBoolean(Constants.TAG_SD_CARD, false)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(Constants.TAG_SD_CARD, !state)
+        editor.apply()
     }
 }

@@ -1,6 +1,8 @@
 package com.tompee.utilities.filldevicespace.feature.main.advancefill
 
+import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BasePresenter
+import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
@@ -11,7 +13,8 @@ import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 
 class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
-                           private val formatHelper: FormatHelper) : BasePresenter<AdvanceFillView>() {
+                           private val formatHelper: FormatHelper,
+                           private val contentHelper: ContentHelper) : BasePresenter<AdvanceFillView>() {
     private var fillSubscription: Disposable? = null
 
     override fun onAttachView() {
@@ -22,6 +25,7 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
         setupFill()
         setupClear()
         setupDialLimit()
+        setupSdCard()
     }
 
     override fun onDetachView() {
@@ -77,13 +81,13 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .doOnComplete {
                                     fillSubscription = null
-                                    view.setFillState(false)
+                                    view.setFillState(false, fillInteractor.isRemovableStorageSupported())
                                 }
                                 .subscribe()
                     }
                     return@map fillSubscription != null
                 }
-                .doOnNext(view::setFillState)
+                .doOnNext { state -> view.setFillState(state, fillInteractor.isRemovableStorageSupported()) }
                 .subscribe()
     }
 
@@ -109,4 +113,26 @@ class AdvanceFillPresenter(private val fillInteractor: FillInteractor,
                 .doOnNext(view::setStartButtonState)
                 .subscribe())
     }
+
+    private fun setupSdCard() {
+        view.setSdCardButtonState(fillInteractor.isRemovableStorageSupported())
+        addSubscription(fillInteractor.getSdCardEnabledObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { state ->
+                    val color = if (state) {
+                        contentHelper.getColor(R.color.tabSelected)
+                    } else {
+                        contentHelper.getColor(android.R.color.transparent)
+                    }
+                    view.setSdCardButtonBackground(color)
+                })
+        addSubscription(view.sdCardObservable()
+                .observeOn(Schedulers.io())
+                .doOnNext {
+                    fillInteractor.toggleSdCard()
+                }
+                .subscribe())
+    }
+
 }

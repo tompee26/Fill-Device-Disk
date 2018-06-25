@@ -19,32 +19,35 @@ import dagger.Provides
 class MainModule {
     @MainScope
     @Provides
-    fun provideMainPresenter(sharedPreferences: SharedPreferences): MainPresenter = MainPresenter(sharedPreferences)
+    fun provideMainPresenter(sharedPreferences: SharedPreferences) = MainPresenter(sharedPreferences)
 
     @MainScope
     @Provides
-    fun provideEasyFillFragment(): EasyFillFragment = EasyFillFragment()
+    fun provideEasyFillFragment() = EasyFillFragment()
 
     @MainScope
     @Provides
-    fun provideEasyFillPresenter(fillInteractor: FillInteractor, formatHelper: FormatHelper): EasyFillPresenter = EasyFillPresenter(fillInteractor, formatHelper)
+    fun provideEasyFillPresenter(fillInteractor: FillInteractor,
+                                 formatHelper: FormatHelper,
+                                 contentHelper: ContentHelper) = EasyFillPresenter(fillInteractor, formatHelper, contentHelper)
 
     @MainScope
     @Provides
-    fun provideAdvanceFillFragment(): AdvanceFillFragment = AdvanceFillFragment()
+    fun provideAdvanceFillFragment() = AdvanceFillFragment()
 
     @MainScope
     @Provides
-    fun provideAdvanceFillPresenter(fillInteractor: FillInteractor, formatHelper: FormatHelper): AdvanceFillPresenter = AdvanceFillPresenter(fillInteractor, formatHelper)
+    fun provideAdvanceFillPresenter(fillInteractor: FillInteractor,
+                                    formatHelper: FormatHelper,
+                                    contentHelper: ContentHelper) = AdvanceFillPresenter(fillInteractor, formatHelper, contentHelper)
 
     @MainScope
     @Provides
-    fun provideCheckStorageFragment(): CheckStorageFragment = CheckStorageFragment()
+    fun provideCheckStorageFragment() = CheckStorageFragment()
 
     @MainScope
     @Provides
     fun provideCheckStoragePresenter(fillInteractor: FillInteractor,
                                      formatHelper: FormatHelper,
-                                     contentHelper: ContentHelper):
-            CheckStoragePresenter = CheckStoragePresenter(fillInteractor, formatHelper, contentHelper)
+                                     contentHelper: ContentHelper) = CheckStoragePresenter(fillInteractor, formatHelper, contentHelper)
 }

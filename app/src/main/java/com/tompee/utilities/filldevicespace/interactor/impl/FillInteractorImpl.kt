@@ -17,11 +17,10 @@ class FillInteractorImpl(private val storageManager: StorageManager,
     private val fillSpaceSubject = BehaviorSubject.create<Long>()
     private val percentageSubject = BehaviorSubject.create<Double>()
     private val totalStorageSubject = BehaviorSubject.create<Long>()
-    private val totalStorageSize: Long = storageManager.getTotalStorageSize() /* cache total size */
     private val speedSubject = BehaviorSubject.create<Double>()
+    private val sdCardSubject = BehaviorSubject.create<Boolean>()
 
     init {
-        totalStorageSubject.onNext(totalStorageSize)
         updateAll(0.0)
     }
 
@@ -32,6 +31,8 @@ class FillInteractorImpl(private val storageManager: StorageManager,
     override fun getPercentageObservable(): Observable<Double> = percentageSubject
 
     override fun getSpeedObservable(): Observable<Double> = speedSubject
+
+    override fun getSdCardEnabledObservable(): Observable<Boolean> = sdCardSubject
 
     override fun startFill(limit: Long): Observable<Int> {
         return Observable.interval(10, TimeUnit.MILLISECONDS)
@@ -64,11 +65,20 @@ class FillInteractorImpl(private val storageManager: StorageManager,
 
     override fun isRemovableStorageSupported(): Boolean = storageManager.getRemovableStorage() != null
 
+    override fun toggleSdCard() {
+        storageManager.toggleSdCard()
+        updateAll(0.0)
+    }
+
     private fun computeSpeed(asset: String, timeElapsed: Long): Double {
         return assetManager.getAssetSize(asset)!!.toDouble() / timeElapsed * Constants.SPEED_FACTOR
     }
 
     private fun updateAll(speed: Double) {
+        sdCardSubject.onNext(storageManager.isSdCardEnabled())
+
+        val totalStorageSize: Long = storageManager.getTotalStorageSize() /* cache total size */
+        totalStorageSubject.onNext(totalStorageSize)
         val freeSpace = storageManager.getAvailableStorageSize()
         freeSpaceSubject.onNext(freeSpace)
         percentageSubject.onNext(((totalStorageSize - freeSpace).toDouble() / totalStorageSize))

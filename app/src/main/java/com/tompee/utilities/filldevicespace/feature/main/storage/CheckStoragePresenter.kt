@@ -12,6 +12,7 @@ import com.tompee.utilities.filldevicespace.interactor.FillInteractor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function3
+import io.reactivex.schedulers.Schedulers
 
 class CheckStoragePresenter(private val fillInteractor: FillInteractor,
                             private val formatHelper: FormatHelper,
@@ -23,6 +24,7 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
         setupFillSpaceTracker()
         setupSystemSpaceTracker()
         setupDataListener()
+        setupSdCard()
     }
 
     override fun onDetachView() {
@@ -108,4 +110,26 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
         data.setDrawValues(false)
         return data
     }
+
+    private fun setupSdCard() {
+        view.setSdCardButtonState(fillInteractor.isRemovableStorageSupported())
+        addSubscription(fillInteractor.getSdCardEnabledObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { state ->
+                    val color = if (state) {
+                        contentHelper.getColor(R.color.tabSelected)
+                    } else {
+                        contentHelper.getColor(android.R.color.transparent)
+                    }
+                    view.setSdCardButtonBackground(color)
+                })
+        addSubscription(view.sdCardObservable()
+                .observeOn(Schedulers.io())
+                .doOnNext {
+                    fillInteractor.toggleSdCard()
+                }
+                .subscribe())
+    }
+
 }

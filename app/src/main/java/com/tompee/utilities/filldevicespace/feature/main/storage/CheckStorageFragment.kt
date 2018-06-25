@@ -3,6 +3,7 @@ package com.tompee.utilities.filldevicespace.feature.main.storage
 import android.os.Bundle
 import android.view.View
 import com.github.mikephil.charting.data.PieData
+import com.jakewharton.rxbinding2.view.RxView
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseFragment
@@ -72,6 +73,8 @@ class CheckStorageFragment : BaseFragment(), CheckStorageView {
     //region View
     override fun refreshObservable(): Observable<Any> = refreshSubject
 
+    override fun sdCardObservable(): Observable<Any> = RxView.clicks(sdCard)
+
     override fun setFreeSpace(space: String) {
         freeSpace.text = space
     }
@@ -88,6 +91,14 @@ class CheckStorageFragment : BaseFragment(), CheckStorageView {
         chart.data = data
         chart.highlightValues(null)
         chart.invalidate()
+    }
+
+    override fun setSdCardButtonBackground(color: Int) {
+        sdCard.setBackgroundColor(color)
+    }
+
+    override fun setSdCardButtonState(state: Boolean) {
+        sdCard.isEnabled = state
     }
     //endregion
 }

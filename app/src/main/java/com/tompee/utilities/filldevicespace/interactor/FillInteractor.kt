@@ -13,6 +13,8 @@ interface FillInteractor {
 
     fun getMaxStorageSpaceObservable(): Observable<Long>
 
+    fun getSdCardEnabledObservable(): Observable<Boolean>
+
     fun startFill(limit: Long = 0L): Observable<Int>
 
     fun clearFill()
@@ -20,4 +22,6 @@ interface FillInteractor {
     fun refresh()
 
     fun isRemovableStorageSupported(): Boolean
+
+    fun toggleSdCard()
 }
