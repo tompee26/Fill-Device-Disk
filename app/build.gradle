@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
@@ -12,8 +11,8 @@ android {
         applicationId "com.tompee.utilities.filldevicespace"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 4
-        versionName "2.0.000"
+        versionCode 8
+        versionName "3.0.000"
     }
 
     signingConfigs {
@@ -88,3 +87,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:11.4.2'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

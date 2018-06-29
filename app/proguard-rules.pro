@@ -21,6 +21,7 @@
     public static int e(...);
 }
 
+-dontwarn com.google.errorprone.annotations.**
 -dontwarn com.unicon_ltd.konect.sdk.**
 -dontwarn com.google.android.gms.**
 -dontwarn com.squareup.**
