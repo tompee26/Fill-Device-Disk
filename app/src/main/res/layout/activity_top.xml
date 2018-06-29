@@ -1,209 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar_id"
         layout="@layout/toolbar" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/fills"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayoutMain"
+        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar_id"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="5dp">
+        android:background="@color/colorPrimary"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/toolbar_id"
+        app:elevation="5dp"
+        app:tabGravity="fill"
+        app:tabMaxWidth="0dp"
+        app:tabSelectedTextColor="@color/light_text"
+        app:tabTextColor="@color/light_text_disable" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_view_padding"
-            android:layout_marginRight="@dimen/card_view_padding"
-            android:layout_marginTop="@dimen/card_view_padding"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:text="@string/ids_lbl_fills"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/dark_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/dark_secondary_text" />
-
-            <LinearLayout
-                android:id="@+id/easy_fill"
-                style="@style/TopListMenuStyle"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/list_icon"
-                    android:layout_height="@dimen/list_icon"
-                    android:background="@drawable/ic_easy_fill"
-                    android:contentDescription="@string/default_content_description" />
-
-                <TextView
-                    style="@style/TopListMenuTextStyle"
-                    android:text="@string/ids_lbl_easy_fill" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/advance_fill"
-                style="@style/TopListMenuStyle"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/list_icon"
-                    android:layout_height="@dimen/list_icon"
-                    android:background="@drawable/ic_advance_fill"
-                    android:contentDescription="@string/default_content_description" />
-
-                <TextView
-                    style="@style/TopListMenuTextStyle"
-                    android:text="@string/ids_lbl_advance_fill" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/delete"
-                style="@style/TopListMenuStyle"
-                android:layout_marginBottom="@dimen/top_menu_padding"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/list_icon"
-                    android:layout_height="@dimen/list_icon"
-                    android:background="@drawable/ic_delete"
-                    android:contentDescription="@string/default_content_description" />
-
-                <TextView
-                    style="@style/TopListMenuTextStyle"
-                    android:text="@string/ids_lbl_clear" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/check"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fills"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="5dp">
+        android:layout_height="0dp"
+        android:layout_above="@id/adView"
+        android:layout_below="@id/tabLayoutMain"
+        ads:layout_constraintBottom_toTopOf="@+id/adView"
+        ads:layout_constraintTop_toBottomOf="@+id/tabLayoutMain">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_view_padding"
-            android:layout_marginRight="@dimen/card_view_padding"
-            android:layout_marginTop="@dimen/card_view_padding"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/default_content_description"
+            android:scaleType="centerCrop" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:text="@string/ids_lbl_check"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/dark_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-
-                android:layout_marginTop="4dp"
-                android:background="@color/dark_secondary_text" />
-
-            <LinearLayout
-                android:id="@+id/check_storage"
-                style="@style/TopListMenuStyle"
-                android:layout_marginBottom="@dimen/top_menu_padding"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/list_icon"
-                    android:layout_height="@dimen/list_icon"
-                    android:background="@drawable/ic_storage"
-                    android:contentDescription="@string/default_content_description" />
-
-                <TextView
-                    style="@style/TopListMenuTextStyle"
-                    android:text="@string/ids_lbl_check_storage" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/check"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="5dp">
-
-        <LinearLayout
+        <com.tompee.utilities.filldevicespace.feature.widget.NonSwipeablePager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_view_padding"
-            android:layout_marginRight="@dimen/card_view_padding"
-            android:layout_marginTop="@dimen/card_view_padding"
-            android:orientation="vertical">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:text="@string/ids_lbl_conf"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/dark_text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/dark_secondary_text" />
-
-            <LinearLayout
-                android:id="@+id/settings"
-                style="@style/TopListMenuStyle"
-                android:layout_marginBottom="@dimen/top_menu_padding"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="@dimen/list_icon"
-                    android:layout_height="@dimen/list_icon"
-                    android:background="@drawable/ic_settings"
-                    android:contentDescription="@string/default_content_description" />
-
-                <TextView
-                    style="@style/TopListMenuTextStyle"
-                    android:text="@string/ids_lbl_settings" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </FrameLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="match_parent"
+        android:layout_width="364dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/top_menu_padding"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id_main_screen" />
-
-</RelativeLayout>
+        ads:adUnitId="@string/banner_ad_unit_id_main_screen"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

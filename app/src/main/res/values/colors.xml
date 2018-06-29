@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#43A047</color>
-    <color name="colorPrimaryDark">#1B5E20</color>
-    <color name="colorAccent">#C8E6C9</color>
+    <color name="colorPrimary">#373535</color>
+    <color name="colorPrimaryAlpha">#70373535</color>
+    <color name="colorPrimaryDark">#373535</color>
+    <color name="colorAccent">#C2B579</color>
+    <color name="colorAccentLight">#ACA373</color>
+    <color name="tabSelected">#878A8A</color>
+    <color name="colorPrimaryLight">#414449 </color>
+    <color name="button">#454344</color>
+    <color name="button_alpha">#50454344</color>
 
     <color name="light_text">#FFFFFF</color>
     <color name="light_text_disable">#B2FFFFFF</color>
 
     <color name="dark_text">#000000</color>
-    <color name="dark_text_disable">#32000000</color>
-
-    <color name="dark_secondary_text">#8D8D8D</color>
-    <color name="dark_secondary_text_disabled">#CCCCCC</color>
 
     <color name="background">#FFFFFF</color>
-
-    <color name="chart_primary">#43A047</color>
-    <color name="chart_secondary">#536DFE</color>
-    <color name="chart_tertiary">#D84315</color>
 
 </resources>

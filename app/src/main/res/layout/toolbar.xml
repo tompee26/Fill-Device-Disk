@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    android:elevation="5dp"
     tools:ignore="MergeRootFrame">
 
     <ImageView
-        android:id="@+id/minniesda_toolbar_bg"
+        android:id="@+id/toolbar_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"

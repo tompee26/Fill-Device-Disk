@@ -21,72 +21,14 @@
         <item name="android:paddingBottom">@dimen/toolbar_print_title_bottompadding</item>
     </style>
 
-    <style name="TopListMenuStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/list_height</item>
-        <item name="android:layout_marginTop">@dimen/top_menu_padding</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:clickable">true</item>
-        <item name="android:onClick">onClick</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/selector_menu_item</item>
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabIndicatorColor">@color/tabSelected</item>
     </style>
 
-    <style name="TopListMenuTextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/list_header_vertical_margin</item>
-        <item name="android:paddingRight">@dimen/list_header_vertical_margin</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
-        <item name="android:textColor">@color/dark_text</item>
-    </style>
-
-    <style name="ListViewStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/list_height</item>
-    </style>
-
-    <!-- Icon or checkbox style -->
-    <style name="ListViewIconStyle">
-        <item name="android:layout_width">@dimen/list_icon</item>
-        <item name="android:layout_height">@dimen/list_icon</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginRight">@dimen/list_icon_rightpadding</item>
-        <item name="android:layout_marginLeft">@dimen/list_icon_leftpadding</item>
-        <item name="android:layout_marginTop">@dimen/list_icon_toppadding</item>
-        <item name="android:layout_marginBottom">@dimen/list_icon_bottompadding</item>
-    </style>
-
-    <style name="ListViewSingleTextStyle">
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@drawable/selector_dark_text</item>
-        <item name="android:layout_marginLeft">@dimen/list_singletext_leftpadding</item>
-        <item name="android:layout_marginRight">@dimen/list_singletext_rightpadding</item>
-        <item name="android:layout_marginTop">@dimen/list_singletext_toppadding</item>
-        <item name="android:layout_marginBottom">@dimen/list_singletext_bottompadding
-        </item>
-        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
-    </style>
-
-    <!-- Header Text Style -->
-    <style name="ListViewHeaderTextStyle">
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_marginTop">@dimen/list_header_vertical_margin</item>
-        <item name="android:layout_marginBottom">@dimen/list_header_vertical_margin</item>
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/light_text</item>
     </style>
 
     <style name="SpinnerItemStyle">
@@ -101,34 +43,6 @@
         <item name="android:paddingRight">@dimen/spinner_dropdown_padding</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="ListViewDualTextTopStyle">
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left|bottom</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColor">@drawable/selector_dark_text</item>
-        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
-        <item name="android:layout_marginRight">@dimen/list_dualtexttop_rightpadding</item>
-        <item name="android:layout_marginLeft">@dimen/list_dualtexttop_leftpadding</item>
-        <item name="android:layout_marginTop">@dimen/list_dualtexttop_toppadding</item>
-        <item name="android:layout_marginBottom">@dimen/list_dualtexttop_bottompadding</item>
-    </style>
-
-    <style name="ListViewDualTextBottomStyle">
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left|top</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:textColor">@drawable/selector_dark_secondary_text</item>
-        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
-        <item name="android:layout_marginRight">@dimen/list_dualtextbottom_rightpadding</item>
-        <item name="android:layout_marginLeft">@dimen/list_dualtextbottom_leftpadding</item>
-        <item name="android:layout_marginTop">@dimen/list_dualtextbottom_toppadding</item>
-        <item name="android:layout_marginBottom">@dimen/list_dualtextbottom_bottompadding</item>
     </style>
 
 </resources>

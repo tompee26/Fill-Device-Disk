@@ -24,8 +24,7 @@
             android:layout_marginTop="@dimen/about_view_separator"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textColor="@color/dark_text" />
 
         <TextView
             android:id="@+id/version"
