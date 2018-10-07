@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
     @Inject
     lateinit var assetManager: AssetManager
 
-    //region Lifecycle
+    //region MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -49,7 +48,6 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
             builder.addTestDevice("3AD737A018BB67E7108FD1836E34DD1C")
         }
         adView.loadAd(builder.build())
-        setupView()
         presenter.attachView(this)
     }
 
@@ -111,13 +109,6 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
         }
     }
 
-    private fun setupView() {
-        val adapter = MainViewPagerAdapter(this, supportFragmentManager, component)
-        viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = adapter.count
-        tabLayoutMain.setupWithViewPager(viewPager)
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
@@ -144,6 +135,12 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
     //endregion
 
     // region MainView
+    override fun setupView(adapter: MainViewPagerAdapter) {
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = adapter.count
+        tabLayoutMain.setupWithViewPager(viewPager)
+    }
+
     override fun showAppRater() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.ids_title_rate)

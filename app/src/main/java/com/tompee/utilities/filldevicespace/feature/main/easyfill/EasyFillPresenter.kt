@@ -30,17 +30,13 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupFreeSpaceTracker() {
         addSubscription(fillInteractor.getFreeSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setFreeSpace(formatHelper.formatFileSize(it))
-                })
+                .subscribe { view.setFreeSpace(formatHelper.formatFileSize(it)) })
     }
 
     private fun setupFillSpaceTracker() {
         addSubscription(fillInteractor.getFillSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setFillSpace(formatHelper.formatFileSize(it))
-                })
+                .subscribe { view.setFillSpace(formatHelper.formatFileSize(it)) })
     }
 
     private fun setupPercentageTracker() {
@@ -52,13 +48,11 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
     private fun setupSpeedTracker() {
         addSubscription(fillInteractor.getSpeedObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setSpeed(formatHelper.formatSpeed(it))
-                })
+                .subscribe { view.setSpeed(formatHelper.formatSpeed(it)) })
     }
 
     private fun setupFill() {
-        view.startObservable()
+        addSubscription(view.startObservable()
                 .map {
                     fillSubscription = if (fillSubscription != null) {
                         fillSubscription?.dispose()
@@ -76,16 +70,13 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                     return@map fillSubscription != null
                 }
                 .doOnNext { state -> view.setFillState(state, fillInteractor.isRemovableStorageSupported()) }
-                .subscribe()
+                .subscribe())
     }
 
     private fun setupClear() {
         addSubscription(view.clearObservable()
                 .observeOn(Schedulers.computation())
-                .map {
-                    fillInteractor.clearFill()
-                    return@map
-                }
+                .map { fillInteractor.clearFill() }
                 .subscribe())
     }
 
@@ -104,9 +95,7 @@ class EasyFillPresenter(private val fillInteractor: FillInteractor,
                 })
         addSubscription(view.sdCardObservable()
                 .observeOn(Schedulers.io())
-                .doOnNext {
-                    fillInteractor.toggleSdCard()
-                }
+                .doOnNext { fillInteractor.toggleSdCard() }
                 .subscribe())
     }
 }

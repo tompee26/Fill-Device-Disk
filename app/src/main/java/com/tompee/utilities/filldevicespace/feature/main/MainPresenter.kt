@@ -4,8 +4,11 @@ import android.content.SharedPreferences
 import com.tompee.utilities.filldevicespace.Constants
 import com.tompee.utilities.filldevicespace.base.BasePresenter
 
-class MainPresenter(private val sharedPreferences: SharedPreferences) : BasePresenter<MainView>() {
+class MainPresenter(private val sharedPreferences: SharedPreferences,
+                    private val mainViewPagerAdapter: MainViewPagerAdapter) : BasePresenter<MainView>() {
+
     override fun onAttachView() {
+        view.setupView(mainViewPagerAdapter)
         showAppRater()
     }
 

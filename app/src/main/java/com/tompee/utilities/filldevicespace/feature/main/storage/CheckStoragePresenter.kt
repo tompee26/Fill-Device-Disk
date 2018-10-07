@@ -9,9 +9,8 @@ import com.tompee.utilities.filldevicespace.base.BasePresenter
 import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function3
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 
 class CheckStoragePresenter(private val fillInteractor: FillInteractor,
@@ -31,53 +30,38 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
     }
 
     private fun setupRefresh() {
-        addSubscription(
-                view.refreshObservable()
-                        .map {
-                            fillInteractor.refresh()
-                            return@map it
-                        }
-                        .subscribe()
-        )
+        addSubscription(view.refreshObservable()
+                .doOnNext { fillInteractor.refresh() }
+                .subscribe())
     }
 
     private fun setupFreeSpaceTracker() {
         addSubscription(fillInteractor.getFreeSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setFreeSpace(formatHelper.formatFileSize(it))
-                })
+                .subscribe { view.setFreeSpace(formatHelper.formatFileSize(it)) })
     }
 
     private fun setupFillSpaceTracker() {
         addSubscription(fillInteractor.getFillSpaceObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    view.setFillSpace(formatHelper.formatFileSize(it))
-                })
+                .subscribe { view.setFillSpace(formatHelper.formatFileSize(it)) })
     }
 
     private fun setupSystemSpaceTracker() {
-        addSubscription(
-                Observable.combineLatest(fillInteractor.getFreeSpaceObservable(),
-                        fillInteractor.getFillSpaceObservable(),
-                        fillInteractor.getMaxStorageSpaceObservable(),
-                        Function3<Long, Long, Long, Long> { free, fill, max -> max - free - fill })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            view.setMaxSpace(formatHelper.formatFileSize(it))
-                        })
+        addSubscription(Observables.combineLatest(fillInteractor.getFreeSpaceObservable(),
+                fillInteractor.getFillSpaceObservable(),
+                fillInteractor.getMaxStorageSpaceObservable()) { free, fill, max -> max - free - fill }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { view.setMaxSpace(formatHelper.formatFileSize(it)) })
     }
 
     private fun setupDataListener() {
-        val disposable = Observable.zip(fillInteractor.getFreeSpaceObservable(),
+        addSubscription(Observables.zip(fillInteractor.getFreeSpaceObservable(),
                 fillInteractor.getFillSpaceObservable(),
-                fillInteractor.getMaxStorageSpaceObservable(),
-                Function3(this::createPieData))
+                fillInteractor.getMaxStorageSpaceObservable(), this::createPieData)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(view::setData)
-                .subscribe()
-        addSubscription(disposable)
+                .subscribe())
     }
 
     private fun createPieData(free: Long, fill: Long, total: Long): PieData {
@@ -131,5 +115,4 @@ class CheckStoragePresenter(private val fillInteractor: FillInteractor,
                 }
                 .subscribe())
     }
-
 }

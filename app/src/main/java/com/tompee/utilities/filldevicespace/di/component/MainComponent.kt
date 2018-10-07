@@ -20,10 +20,4 @@ interface MainComponent {
     fun inject(advanceFillFragment: AdvanceFillFragment)
 
     fun inject(checkStorageFragment: CheckStorageFragment)
-
-    fun easyFillFragment(): EasyFillFragment
-
-    fun advanceFillFragment(): AdvanceFillFragment
-
-    fun checkStorageFragment(): CheckStorageFragment
 }

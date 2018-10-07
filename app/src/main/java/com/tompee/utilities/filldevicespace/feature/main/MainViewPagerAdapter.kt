@@ -5,20 +5,24 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.tompee.utilities.filldevicespace.R
-import com.tompee.utilities.filldevicespace.di.component.MainComponent
+import com.tompee.utilities.filldevicespace.feature.main.advancefill.AdvanceFillFragment
+import com.tompee.utilities.filldevicespace.feature.main.easyfill.EasyFillFragment
+import com.tompee.utilities.filldevicespace.feature.main.storage.CheckStorageFragment
 
 class MainViewPagerAdapter(private val context: Context,
-                           fragmentManager: FragmentManager,
-                           private val component: MainComponent) : FragmentPagerAdapter(fragmentManager) {
+                           private val easyFillFragment: EasyFillFragment,
+                           private val advanceFillFragment: AdvanceFillFragment,
+                           private val checkStorageFragment: CheckStorageFragment,
+                           fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     companion object {
         private const val PAGE_COUNT = 3
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> component.easyFillFragment()
-            1 -> component.advanceFillFragment()
-            else -> component.checkStorageFragment()
+            0 -> easyFillFragment
+            1 -> advanceFillFragment
+            else -> checkStorageFragment
         }
     }
 
