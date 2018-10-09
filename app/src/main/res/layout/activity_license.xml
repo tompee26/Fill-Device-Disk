@@ -29,10 +29,10 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/about_view_separator"
-            android:text="@string/ids_title_open_source"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/dark_text"
             android:textStyle="bold" />

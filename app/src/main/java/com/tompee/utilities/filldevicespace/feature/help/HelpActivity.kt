@@ -35,6 +35,7 @@ class HelpActivity : BaseActivity() {
             }
             LICENSE -> {
                 toolbar_text.setText(R.string.ids_title_open_source)
+                header.setText(R.string.ids_title_open_source)
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"),
                             Html.FROM_HTML_MODE_LEGACY)
@@ -45,6 +46,7 @@ class HelpActivity : BaseActivity() {
             }
             else -> {
                 toolbar_text.setText(R.string.ids_title_privacy_policy)
+                header.setText(R.string.ids_title_privacy_policy)
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     content.text = Html.fromHtml(assetManager.getStringFromAsset("policy.html"),
                             Html.FROM_HTML_MODE_LEGACY)

@@ -30,3 +30,4 @@
 -keep public class com.unicon_ltd.konect.sdk.** { *; }
 -keep public class org.codehaus.**
 -keep public class java.nio.**
+-keep class com.google.android.gms.internal.** { *; }
