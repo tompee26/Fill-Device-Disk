@@ -18,6 +18,7 @@ class HelpActivity : BaseActivity() {
         const val TAG_MODE = "mode"
         const val ABOUT = 0
         const val LICENSE = 1
+        const val PRIVACY = 2
     }
 
     lateinit var assetManager: AssetManager
@@ -27,18 +28,31 @@ class HelpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setToolbar(toolbar, true)
         val mode = intent.getIntExtra(TAG_MODE, ABOUT)
-        if (mode == ABOUT) {
-            toolbar_text.setText(R.string.ids_lbl_about)
-            version.text = String.format(getString(R.string.ids_message_version), BuildConfig.VERSION_NAME)
-        } else {
-            toolbar_text.setText(R.string.ids_title_open_source)
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"),
-                        Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"))
+        when (mode) {
+            ABOUT -> {
+                toolbar_text.setText(R.string.ids_lbl_about)
+                version.text = String.format(getString(R.string.ids_message_version), BuildConfig.VERSION_NAME)
             }
-            content.movementMethod = LinkMovementMethod.getInstance()
+            LICENSE -> {
+                toolbar_text.setText(R.string.ids_title_open_source)
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"),
+                            Html.FROM_HTML_MODE_LEGACY)
+                } else {
+                    content.text = Html.fromHtml(assetManager.getStringFromAsset("opensource.html"))
+                }
+                content.movementMethod = LinkMovementMethod.getInstance()
+            }
+            else -> {
+                toolbar_text.setText(R.string.ids_title_privacy_policy)
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    content.text = Html.fromHtml(assetManager.getStringFromAsset("policy.html"),
+                            Html.FROM_HTML_MODE_LEGACY)
+                } else {
+                    content.text = Html.fromHtml(assetManager.getStringFromAsset("policy.html"))
+                }
+                content.movementMethod = LinkMovementMethod.getInstance()
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.tompee.utilities.filldevicespace.feature.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.tompee.utilities.filldevicespace.base.BaseActivity
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
 import com.tompee.utilities.filldevicespace.di.component.MainComponent
+import com.tompee.utilities.filldevicespace.di.module.MainModule
 import com.tompee.utilities.filldevicespace.feature.help.HelpActivity
 import kotlinx.android.synthetic.main.activity_top.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -23,11 +25,17 @@ import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbacks, TouchInterceptor {
+    //region companion object
     companion object {
         private const val DISK_PERMISSION = 123
-    }
 
-    private lateinit var component: MainComponent
+        operator fun get(activity: Activity): MainActivity {
+            return activity as MainActivity
+        }
+    }
+    //endregion
+
+    lateinit var component: MainComponent
 
     @Inject
     lateinit var presenter: MainPresenter
@@ -68,6 +76,13 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
             R.id.menu_about -> {
                 intent = Intent(this, HelpActivity::class.java)
                 intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.ABOUT)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                return true
+            }
+            R.id.menu_privacy_policy -> {
+                intent = Intent(this, HelpActivity::class.java)
+                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.PRIVACY)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(intent)
                 return true
@@ -127,6 +142,7 @@ class MainActivity : BaseActivity(), MainView, EasyPermissions.PermissionCallbac
     override fun setupComponent() {
         component = DaggerMainComponent.builder()
                 .appComponent((application as FillDeviceDiskApp).component)
+                .mainModule(MainModule(supportFragmentManager))
                 .build()
         component.inject(this)
     }

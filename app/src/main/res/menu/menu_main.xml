@@ -6,6 +6,10 @@
         android:title="@string/ids_lbl_about"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_privacy_policy"
+        android:title="@string/ids_lbl_privacy_policy"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_contact"
         android:title="@string/ids_lbl_contact"
         app:showAsAction="never" />

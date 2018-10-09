@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
-import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.base.BaseFragment
-import com.tompee.utilities.filldevicespace.di.component.DaggerMainComponent
+import com.tompee.utilities.filldevicespace.feature.main.MainActivity
 import com.tompee.utilities.filldevicespace.feature.main.TouchInterceptor
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
@@ -48,10 +47,7 @@ class AdvanceFillFragment : BaseFragment(), AdvanceFillView {
 
     //region BaseFragment
     override fun setupComponent() {
-        val component = DaggerMainComponent.builder()
-                .appComponent((activity?.application as FillDeviceDiskApp).component)
-                .build()
-        component.inject(this)
+        MainActivity[activity!!].component.inject(this)
     }
 
     override fun layoutId(): Int = R.layout.fragment_advance_fill

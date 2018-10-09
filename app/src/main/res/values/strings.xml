@@ -11,6 +11,7 @@
     <string name="ids_lbl_refresh">Refresh</string>
     <string name="ids_lbl_external_storage">Use SD Card</string>
     <string name="ids_lbl_about">About</string>
+    <string name="ids_lbl_privacy_policy">Privacy Policy</string>
     <string name="ids_lbl_contact">Contact Us</string>
     <string name="ids_lbl_remind">Remind me later</string>
     <string name="ids_lbl_no_rate">No Thanks</string>
@@ -18,6 +19,7 @@
     <string name="ids_lbl_permission">Please grant write storage permission to use SD Card</string>
 
     <string name="ids_title_open_source">License</string>
+    <string name="ids_title_privacy_policy">Privacy Policy</string>
     <string name="ids_title_rate">Rate this app</string>
 
     <string name="ids_legend_fill">Fill</string>
