@@ -2,6 +2,7 @@ package com.tompee.utilities.filldevicespace.di
 
 import android.content.Context
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
+import com.tompee.utilities.filldevicespace.di.module.ActivityBindingModule
 import com.tompee.utilities.filldevicespace.di.qualifiers.FromApplication
 import dagger.BindsInstance
 import dagger.Component
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
+        ActivityBindingModule::class,
     ]
 )
 internal interface AppComponent : AndroidInjector<FillDeviceDiskApp> {
