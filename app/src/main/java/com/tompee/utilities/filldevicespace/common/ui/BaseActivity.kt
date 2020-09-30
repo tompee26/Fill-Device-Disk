@@ -11,9 +11,15 @@ import androidx.databinding.ViewDataBinding
  */
 internal abstract class BaseActivity<T : ViewDataBinding> : BaseShadowActivity() {
 
+    /**
+     * Target layout ID
+     */
     @get:LayoutRes
     protected abstract val layoutId: Int
 
+    /**
+     * View binding instance
+     */
     protected lateinit var viewBinding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {

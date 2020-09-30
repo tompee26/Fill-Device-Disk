@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.tompee.utilities.filldevicespace.common.BaseFragment
 import com.tompee.utilities.filldevicespace.common.factory.FragmentFactory
 import com.tompee.utilities.filldevicespace.common.factory.ViewModelFactory
 import dagger.android.AndroidInjection
@@ -107,7 +106,7 @@ internal abstract class BaseShadowActivity : AppCompatActivity() {
      * An extension method use to abstract lifecycle owner in live data observation. It also provides a streamlined
      * syntax as it only accepts a handler lambda instead of a SAM constructor
      */
-    protected inline fun <T> BaseViewModel.EventLiveData<T>.observeEventBy(crossinline handler: (T) -> Unit) {
+    protected inline fun <T> BaseViewModel.EventLiveData<T>.observeBy(crossinline handler: (T) -> Unit) {
         this.observe(this@BaseShadowActivity, { event ->
             event.get()?.let { handler(it) }
         })

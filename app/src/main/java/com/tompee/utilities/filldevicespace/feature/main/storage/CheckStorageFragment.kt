@@ -5,7 +5,7 @@ import android.view.View
 import com.github.mikephil.charting.data.PieData
 import com.jakewharton.rxbinding2.view.RxView
 import com.tompee.utilities.filldevicespace.R
-import com.tompee.utilities.filldevicespace.common.BaseFragment
+import com.tompee.utilities.filldevicespace.common.ui.BaseFragment
 import com.tompee.utilities.filldevicespace.feature.main.MainActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
