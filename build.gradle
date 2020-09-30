@@ -30,6 +30,7 @@ ext {
     dagger = "2.29.1"
     rxAndroid = "2.1.1"
     rxKotlin = "2.4.0"
+    timber = "4.7.1"
 
     firebaseCore = "17.5.0"
     firebaseAds = "19.4.0"

@@ -1,17 +1,22 @@
 package com.tompee.utilities.filldevicespace.base
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 
-abstract class BaseActivity : AppCompatActivity() {
+internal abstract class BaseActivity<T : ViewDataBinding> : BaseShadowActivity() {
+
+    @get:LayoutRes
+    protected abstract val layoutId: Int
+
+    protected lateinit var viewBinding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutId())
-        setupComponent()
+        viewBinding = DataBindingUtil.setContentView(this, layoutId)
+        viewBinding.lifecycleOwner = this
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -21,15 +26,4 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         else -> super.onOptionsItemSelected(item)
     }
-
-    protected fun setToolbar(toolbar : Toolbar, homeButtonEnable : Boolean = false) {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(homeButtonEnable)
-    }
-
-    abstract fun setupComponent()
-
-    @LayoutRes
-    abstract fun layoutId(): Int
 }
