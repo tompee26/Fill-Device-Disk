@@ -3,14 +3,10 @@
 
     <!-- Application Theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/background</item>
-        <item name="android:actionMenuTextColor">@color/light_text</item>
-        <item name="actionMenuTextColor">@drawable/selector_action_menu</item>
-        <item name="android:textColorSecondary">@color/light_text</item>
-        <item name="windowActionModeOverlay">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
-        <item name="android:spinnerDropDownItemStyle">@style/SpinnerItemDropDownStyle</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
     </style>
 
     <!-- Branded Launch Theme -->

@@ -2,6 +2,7 @@ package com.tompee.utilities.filldevicespace
 
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.tompee.utilities.filldevicespace.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber

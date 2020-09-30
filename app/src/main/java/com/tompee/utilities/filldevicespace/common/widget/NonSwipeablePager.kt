@@ -1,14 +1,20 @@
-package com.tompee.utilities.filldevicespace.feature.widget
+package com.tompee.utilities.filldevicespace.common.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.viewpager.widget.ViewPager
 
-class NonSwipeablePager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
+/**
+ * A non-swipeable view pager
+ */
+internal class NonSwipeablePager(context: Context, attrs: AttributeSet) :
+    ViewPager(context, attrs) {
 
     var isSwipeAllowed: Boolean = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         return !isSwipeAllowed && super.onTouchEvent(event)
     }
