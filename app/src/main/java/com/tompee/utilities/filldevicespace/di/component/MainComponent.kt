@@ -1,5 +1,6 @@
 package com.tompee.utilities.filldevicespace.di.component
 
+import com.tompee.utilities.filldevicespace.di.AppComponent
 import com.tompee.utilities.filldevicespace.di.module.MainModule
 import com.tompee.utilities.filldevicespace.di.scopes.MainScope
 import com.tompee.utilities.filldevicespace.feature.main.MainActivity

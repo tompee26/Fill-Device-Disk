@@ -21,15 +21,15 @@
         <item name="android:paddingBottom">@dimen/toolbar_print_title_bottompadding</item>
     </style>
 
-    <style name="TabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabTextAppearance">@style/TabTextAppearance</item>
-        <item name="tabIndicatorColor">@color/tabSelected</item>
-    </style>
+<!--    <style name="TabLayout" parent="Widget.Design.TabLayout">-->
+<!--        <item name="tabTextAppearance">@style/TabTextAppearance</item>-->
+<!--        <item name="tabIndicatorColor">@color/tabSelected</item>-->
+<!--    </style>-->
 
-    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
-        <item name="android:textColor">@color/light_text</item>
-    </style>
+<!--    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">-->
+<!--        <item name="textAllCaps">false</item>-->
+<!--        <item name="android:textColor">@color/light_text</item>-->
+<!--    </style>-->
 
     <style name="SpinnerItemStyle">
         <item name="android:textColor">@color/dark_text</item>
