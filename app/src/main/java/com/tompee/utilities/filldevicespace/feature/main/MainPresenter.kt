@@ -2,7 +2,7 @@ package com.tompee.utilities.filldevicespace.feature.main
 
 import android.content.SharedPreferences
 import com.tompee.utilities.filldevicespace.Constants
-import com.tompee.utilities.filldevicespace.base.BasePresenter
+import com.tompee.utilities.filldevicespace.common.BasePresenter
 
 class MainPresenter(private val sharedPreferences: SharedPreferences,
                     private val mainViewPagerAdapter: MainViewPagerAdapter) : BasePresenter<MainView>() {

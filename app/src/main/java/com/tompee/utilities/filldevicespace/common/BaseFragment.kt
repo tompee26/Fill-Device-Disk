@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.base
+package com.tompee.utilities.filldevicespace.common
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes

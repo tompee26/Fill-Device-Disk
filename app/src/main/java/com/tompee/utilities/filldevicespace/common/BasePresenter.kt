@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.base
+package com.tompee.utilities.filldevicespace.common
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

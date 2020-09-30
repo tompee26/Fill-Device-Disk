@@ -1,6 +1,6 @@
 package com.tompee.utilities.filldevicespace.feature.main.easyfill
 
-import com.tompee.utilities.filldevicespace.base.BaseMvpView
+import com.tompee.utilities.filldevicespace.common.BaseMvpView
 import io.reactivex.Observable
 
 interface EasyFillView : BaseMvpView {

@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.base
+package com.tompee.utilities.filldevicespace.common.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,6 +6,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
+/**
+ * Base activity with a layout that supports data binding
+ */
 internal abstract class BaseActivity<T : ViewDataBinding> : BaseShadowActivity() {
 
     @get:LayoutRes

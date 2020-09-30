@@ -1,7 +1,7 @@
 package com.tompee.utilities.filldevicespace.feature.main.storage
 
 import com.github.mikephil.charting.data.PieData
-import com.tompee.utilities.filldevicespace.base.BaseMvpView
+import com.tompee.utilities.filldevicespace.common.BaseMvpView
 import io.reactivex.Observable
 
 interface CheckStorageView : BaseMvpView {

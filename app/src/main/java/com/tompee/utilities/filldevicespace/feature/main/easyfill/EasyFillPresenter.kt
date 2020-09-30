@@ -1,7 +1,7 @@
 package com.tompee.utilities.filldevicespace.feature.main.easyfill
 
 import com.tompee.utilities.filldevicespace.R
-import com.tompee.utilities.filldevicespace.base.BasePresenter
+import com.tompee.utilities.filldevicespace.common.BasePresenter
 import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor

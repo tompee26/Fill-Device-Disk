@@ -1,4 +1,4 @@
-package com.tompee.utilities.filldevicespace.base
+package com.tompee.utilities.filldevicespace.common.factory
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory

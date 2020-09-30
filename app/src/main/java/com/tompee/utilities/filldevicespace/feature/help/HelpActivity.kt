@@ -7,11 +7,8 @@ import android.text.method.LinkMovementMethod
 import com.tompee.utilities.filldevicespace.BuildConfig
 import com.tompee.utilities.filldevicespace.FillDeviceDiskApp
 import com.tompee.utilities.filldevicespace.R
-import com.tompee.utilities.filldevicespace.base.BaseActivity
+import com.tompee.utilities.filldevicespace.common.ui.BaseActivity
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.activity_license.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 class HelpActivity : BaseActivity() {
     companion object {

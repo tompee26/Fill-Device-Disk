@@ -1,7 +1,6 @@
 package com.tompee.utilities.filldevicespace.feature.main
 
-import com.tompee.utilities.filldevicespace.base.BaseMvpView
-import io.reactivex.Completable
+import com.tompee.utilities.filldevicespace.common.BaseMvpView
 
 interface MainView : BaseMvpView {
     fun setupView(adapter: MainViewPagerAdapter)

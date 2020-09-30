@@ -5,7 +5,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.tompee.utilities.filldevicespace.R
-import com.tompee.utilities.filldevicespace.base.BasePresenter
+import com.tompee.utilities.filldevicespace.common.BasePresenter
 import com.tompee.utilities.filldevicespace.core.helper.ContentHelper
 import com.tompee.utilities.filldevicespace.core.helper.FormatHelper
 import com.tompee.utilities.filldevicespace.interactor.FillInteractor
