@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.StatFs
 import com.tompee.utilities.filldevicespace.Constants
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
+import com.tompee.utilities.filldevicespace.core.notification.NotificationManager
 import com.tompee.utilities.filldevicespace.di.qualifiers.FromApplication
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -25,7 +26,8 @@ import javax.inject.Singleton
 @Singleton
 internal class DiskStorageManager @Inject constructor(
     @FromApplication private val context: Context,
-    private val assetManager: AssetManager
+    private val assetManager: AssetManager,
+    private val notificationManager: NotificationManager
 ) : StorageManager {
 
     /**
@@ -124,8 +126,8 @@ internal class DiskStorageManager @Inject constructor(
                 if (limit == 0L) freeFill(it) else Single.just(0.0)
             }
             .onErrorResumeNext(Observable.just(0.0))
-//            .doOnSubscribe { notificationManager.showNotification() }
-//            .doFinally { notificationManager.cancelNotification() }
+            .doOnSubscribe { notificationManager.showNotification() }
+            .doFinally { notificationManager.cancelNotification() }
     }
 
     /**

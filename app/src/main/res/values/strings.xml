@@ -40,6 +40,6 @@
     <string name="banner_ad_unit_id_easy_screen">ca-app-pub-1411804566429951/3832212620</string>
     <string name="banner_ad_unit_id_advance_screen">ca-app-pub-1411804566429951/9599544628</string>
 
-    <string name="notification_title">Filling ongoing</string>
+    <string name="notification_title">Fill ongoing</string>
     <string name="notification_body">Did you forget to stop it?</string>
 </resources>
