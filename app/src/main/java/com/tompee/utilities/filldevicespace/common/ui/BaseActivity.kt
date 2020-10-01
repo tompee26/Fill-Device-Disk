@@ -3,6 +3,7 @@ package com.tompee.utilities.filldevicespace.common.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
@@ -26,6 +27,12 @@ internal abstract class BaseActivity<T : ViewDataBinding> : BaseShadowActivity()
         super.onCreate(savedInstanceState)
         viewBinding = DataBindingUtil.setContentView(this, layoutId)
         viewBinding.lifecycleOwner = this
+    }
+
+    protected fun setToolbar(toolbar: Toolbar, homeButtonEnable: Boolean = false) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(homeButtonEnable)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
