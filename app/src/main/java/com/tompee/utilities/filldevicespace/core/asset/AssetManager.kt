@@ -3,6 +3,9 @@ package com.tompee.utilities.filldevicespace.core.asset
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.tompee.utilities.filldevicespace.di.qualifiers.FromApplication
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -64,5 +67,24 @@ internal class AssetManager @Inject constructor(
     fun getDrawable(filename: String): Drawable {
         val ims = context.assets.open(filename)
         return Drawable.createFromStream(ims, null)
+    }
+
+    /**
+     * Returns a string from a given asset
+     *
+     * @param filename asset file name
+     * @return a string from a given asset
+     */
+    fun getText(filename: String): String {
+        val buffer = StringBuilder()
+        val inputStream: InputStream = context.assets.open(filename)
+        BufferedReader(InputStreamReader(inputStream, "UTF-8")).use {
+            var str = it.readLine()
+            while (str != null) {
+                buffer.append(str)
+                str = it.readLine()
+            }
+        }
+        return buffer.toString()
     }
 }

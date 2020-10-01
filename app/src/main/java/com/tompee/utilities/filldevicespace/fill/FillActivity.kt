@@ -10,6 +10,8 @@ import com.tompee.utilities.filldevicespace.about.AboutActivity
 import com.tompee.utilities.filldevicespace.common.ui.BaseActivity
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.databinding.ActivityFillBinding
+import com.tompee.utilities.filldevicespace.legal.LicenseActivity
+import com.tompee.utilities.filldevicespace.legal.PrivacyPolicyActivity
 import kotlinx.android.synthetic.main.activity_fill.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -46,17 +48,12 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
         val intent = when (item.itemId) {
             R.id.menu_about -> {
                 Intent(this, AboutActivity::class.java)
-                    .apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    }
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             }
-//            R.id.menu_privacy_policy -> {
-//                intent = Intent(this, HelpActivity::class.java)
-//                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.PRIVACY)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                startActivity(intent)
-//                return true
-//            }
+            R.id.menu_privacy_policy -> {
+                Intent(this, PrivacyPolicyActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
             R.id.menu_contact -> {
                 Intent(Intent.ACTION_SEND).apply {
                     type = "message/rfc822"
@@ -65,14 +62,10 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
                     putExtra(Intent.EXTRA_TEXT, "")
                 }.let { Intent.createChooser(it, getString(R.string.ids_lbl_contact)) }
             }
-//            R.id.menu_os -> {
-//                intent = Intent(this, HelpActivity::class.java)
-//                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.LICENSE)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                startActivity(intent)
-//                return true
-//            }
-//        }
+            R.id.menu_os -> {
+                Intent(this, LicenseActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         startActivity(intent)
