@@ -31,7 +31,7 @@ internal class AssetManager @Inject constructor(
     /**
      * Mapping between asset and its inherent size
      */
-    private val assetMap: MutableMap<String, Long> = linkedMapOf(
+    private val assetMap = mapOf(
         ASSET_5MB to ASSET_5MB_SIZE,
         ASSET_1MB to ASSET_1MB_SIZE,
         ASSET_100KB to ASSET_100KB_SIZE,

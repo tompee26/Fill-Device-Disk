@@ -37,6 +37,19 @@ internal interface StorageManager {
     fun getDirectory(): String
 
     /**
+     * Starts the fill operation
+     *
+     * @param limit the target fill size
+     * @return an observable that emits the discreet fill speed
+     */
+    fun startFill(limit: Long = 0): Observable<Double>
+
+    /**
+     * Deletes all the fillers
+     */
+    fun clearFill()
+
+    /**
      * Invalidates all information
      */
     fun invalidate()

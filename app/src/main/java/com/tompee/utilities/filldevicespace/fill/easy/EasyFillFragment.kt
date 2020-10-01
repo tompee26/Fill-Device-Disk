@@ -22,7 +22,14 @@ internal class EasyFillFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.viewModel = viewModel
-        viewModel.percentage.observeBy { viewBinding.circleView.setValue(it) }
+        with(viewModel) {
+            percentage.observeBy { viewBinding.circleView.setValue(it) }
+            isFilling.observeBy {
+                viewBinding.start.setImageResource(if (it) R.drawable.ic_stop else R.drawable.ic_play)
+                if (it) viewBinding.start.setOnClickListener { viewModel.stopFill() }
+                else viewBinding.start.setOnClickListener { viewModel.startFill() }
+            }
+        }
     }
 
     override fun onResume() {
