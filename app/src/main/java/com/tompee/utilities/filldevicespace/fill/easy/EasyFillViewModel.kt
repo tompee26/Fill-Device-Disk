@@ -40,6 +40,15 @@ internal class EasyFillViewModel @Inject constructor(
         .toLiveData()
 
     /**
+     * Occupied space percentage
+     */
+    val percentage = Observables.combineLatest(
+        storageManager.getTotalStorageSize().toObservable(),
+        sharedFreeSize
+    ) { total, free -> (total - free).toFloat() * 100 / total }
+        .toLiveData()
+
+    /**
      * Emits the storage space occupied by the system
      */
     val systemSize = Observables.combineLatest(

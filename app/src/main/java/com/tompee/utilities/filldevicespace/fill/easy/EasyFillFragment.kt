@@ -22,6 +22,7 @@ internal class EasyFillFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.viewModel = viewModel
+        viewModel.percentage.observeBy { viewBinding.circleView.setValue(it) }
     }
 
     override fun onResume() {

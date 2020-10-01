@@ -137,6 +137,58 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/bottom_separator" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/start"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="54dp"
+            android:scaleType="centerCrop"
+            app:borderWidth="0dp"
+            app:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/circle_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            app:cpv_autoTextSize="true"
+            app:cpv_barColor="@color/colorAccent"
+            app:cpv_barWidth="5dp"
+            app:cpv_innerContourSize="0dp"
+            app:cpv_maxValue="100"
+            app:cpv_outerContourSize="0dp"
+            app:cpv_rimColor="@color/colorPrimaryLight"
+            app:cpv_rimWidth="5dp"
+            app:cpv_showUnit="true"
+            app:cpv_spinColor="@color/colorPrimary"
+            app:cpv_textColor="@color/colorLight"
+            app:cpv_textScale="1"
+            app:cpv_unit="%"
+            app:cpv_unitColor="@color/colorLight"
+            app:cpv_unitPosition="right_top"
+            app:cpv_unitScale="1"
+            app:cpv_value="0"
+            app:layout_constraintBottom_toTopOf="@+id/clear_fill"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fill" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
