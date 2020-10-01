@@ -30,12 +30,16 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
     @Inject
     lateinit var assetManager: AssetManager
 
+    @Inject
+    lateinit var viewPagerAdapter: FillViewPagerAdapter
+
     override val layoutId: Int = R.layout.activity_fill
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbar(viewBinding.toolbar)
         background.setImageDrawable(assetManager.getDrawable("bg.jpg"))
+        viewBinding.pager.adapter = viewPagerAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

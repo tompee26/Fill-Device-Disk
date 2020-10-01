@@ -11,11 +11,7 @@
 
     <color name="colorDark">#000000</color>
 
-
-    <color name="colorPrimaryAlpha">#70373535</color>
-    <color name="colorAccentLight">#ACA373</color>
-    <color name="button">#454344</color>
-    <color name="button_alpha">#50454344</color>
-
+    <color name="colorButtonBackground">#454344</color>
+    <color name="colorButtonBackgroundAlpha">#50454344</color>
 
 </resources>

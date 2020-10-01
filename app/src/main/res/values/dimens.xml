@@ -2,15 +2,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="margin">12dp</dimen>
 
     <!-- Toolbar dimensions -->
     <dimen name="toolbar_right_padding">16dp</dimen>
     <dimen name="toolbar_top_padding">0dp</dimen>
     <dimen name="toolbar_bottom_padding">0dp</dimen>
-
-    <!-- Top Menu dimensions-->
-    <dimen name="top_menu_padding">4dp</dimen>
 
     <!-- Progress bar dimensions-->
     <dimen name="progressbar_radius">0dp</dimen>
@@ -22,5 +18,8 @@
     <!-- About -->
     <dimen name="about_image_dimension">60dp</dimen>
     <dimen name="about_view_separator">8dp</dimen>
+
+    <!-- Storage dimensions   -->
+    <dimen name="storage_indicator_margins">16dp</dimen>
 
 </resources>

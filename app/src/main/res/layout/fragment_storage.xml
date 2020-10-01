@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/label_free"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/ids_legend_free"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLightDisabled"
+            app:layout_constraintEnd_toStartOf="@id/label_fill"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_fill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/ids_legend_fill"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLightDisabled"
+            app:layout_constraintEnd_toStartOf="@id/label_system"
+            app:layout_constraintStart_toEndOf="@id/label_free"
+            app:layout_constraintTop_toTopOf="@id/label_free" />
+
+        <TextView
+            android:id="@+id/label_system"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/ids_legend_system"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLightDisabled"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/label_fill"
+            app:layout_constraintTop_toTopOf="@id/label_free" />
+
+        <TextView
+            android:id="@+id/free"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLight"
+            app:layout_constraintEnd_toStartOf="@id/fill"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_free"
+            tools:text="111 GB" />
+
+        <TextView
+            android:id="@+id/fill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLight"
+            app:layout_constraintEnd_toStartOf="@id/system"
+            app:layout_constraintStart_toEndOf="@id/free"
+            app:layout_constraintTop_toTopOf="@id/free"
+            tools:text="2 GB" />
+
+        <TextView
+            android:id="@+id/system"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fill"
+            app:layout_constraintTop_toTopOf="@id/free"
+            tools:text="6.29 GB" />
+
+        <View
+            android:id="@+id/indicator_free"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="@dimen/storage_indicator_margins"
+            android:layout_marginLeft="@dimen/storage_indicator_margins"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/storage_indicator_margins"
+            android:layout_marginRight="@dimen/storage_indicator_margins"
+            android:background="@color/colorPrimaryLight"
+            app:layout_constraintEnd_toStartOf="@id/indicator_fill"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/free" />
+
+        <View
+            android:id="@+id/indicator_fill"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="@dimen/storage_indicator_margins"
+            android:layout_marginLeft="@dimen/storage_indicator_margins"
+            android:layout_marginEnd="@dimen/storage_indicator_margins"
+            android:layout_marginRight="@dimen/storage_indicator_margins"
+            android:background="@color/colorAccent"
+            app:layout_constraintEnd_toStartOf="@id/indicator_system"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/indicator_free"
+            app:layout_constraintTop_toTopOf="@id/indicator_free" />
+
+        <View
+            android:id="@+id/indicator_system"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="@dimen/storage_indicator_margins"
+            android:layout_marginLeft="@dimen/storage_indicator_margins"
+            android:layout_marginEnd="@dimen/storage_indicator_margins"
+            android:layout_marginRight="@dimen/storage_indicator_margins"
+            android:background="@color/colorLightDisabled"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@id/indicator_fill"
+            app:layout_constraintTop_toTopOf="@id/indicator_free" />
+
+        <TextView
+            android:id="@+id/refresh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorButtonBackgroundAlpha"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:text="@string/ids_lbl_refresh"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLightDisabled"
+            app:drawableTopCompat="@drawable/ic_refresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bottom_separator"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/bottom_separator"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/refresh" />
+
+        <TextView
+            android:id="@+id/sdCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorButtonBackgroundAlpha"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:text="@string/ids_lbl_external_storage"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorLightDisabled"
+            app:drawableTopCompat="@drawable/ic_sd_storage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bottom_separator" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/indicator_fill" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
