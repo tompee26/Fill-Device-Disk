@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_about"
+        android:title="@string/ids_lbl_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_privacy_policy"
+        android:title="@string/ids_lbl_privacy_policy"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_contact"
+        android:title="@string/ids_lbl_contact"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_os"
+        android:title="@string/ids_title_open_source"
+        app:showAsAction="never" />
+</menu>

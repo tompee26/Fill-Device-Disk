@@ -1,8 +1,12 @@
 package com.tompee.utilities.filldevicespace.fill
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.tompee.utilities.filldevicespace.R
+import com.tompee.utilities.filldevicespace.about.AboutActivity
 import com.tompee.utilities.filldevicespace.common.ui.BaseActivity
 import com.tompee.utilities.filldevicespace.core.asset.AssetManager
 import com.tompee.utilities.filldevicespace.databinding.ActivityFillBinding
@@ -30,6 +34,50 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
         super.onCreate(savedInstanceState)
         setToolbar(viewBinding.toolbar)
         background.setImageDrawable(assetManager.getDrawable("bg.jpg"))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_fill, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent = when (item.itemId) {
+            R.id.menu_about -> {
+                Intent(this, AboutActivity::class.java)
+                    .apply {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    }
+            }
+//            R.id.menu_privacy_policy -> {
+//                intent = Intent(this, HelpActivity::class.java)
+//                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.PRIVACY)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                startActivity(intent)
+//                return true
+//            }
+//            R.id.menu_contact -> {
+//                intent = Intent(Intent.ACTION_SEND)
+//                intent.type = "message/rfc822"
+//                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("tompee26@gmail.com"))
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "Re: Fill Device Disk")
+//                intent.putExtra(Intent.EXTRA_TEXT, "")
+//                startActivity(Intent.createChooser(intent, getString(R.string.ids_lbl_contact)))
+//                return true
+//            }
+//            R.id.menu_os -> {
+//                intent = Intent(this, HelpActivity::class.java)
+//                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.LICENSE)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                startActivity(intent)
+//                return true
+//            }
+//        }
+            else -> return super.onOptionsItemSelected(item)
+        }
+        startActivity(intent)
+        return true
     }
 
     override fun onStart() {
