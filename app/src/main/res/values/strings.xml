@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Fill Device Disk</string>
-    <string name="default_content_description">Content description</string>
 
     <!-- Labels -->
     <string name="ids_lbl_easy_fill">Easy Fill</string>

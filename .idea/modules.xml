@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Fill-Device-Disk.iml" filepath="$PROJECT_DIR$/.idea/modules/Fill-Device-Disk.iml" group="Fill-Device-Disk" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Fill-Device-Disk-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Fill-Device-Disk-app.iml" group="Fill-Device-Disk/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Fill-Device-Disk/app" />
     </modules>
   </component>

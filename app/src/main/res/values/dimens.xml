@@ -5,9 +5,9 @@
     <dimen name="margin">12dp</dimen>
 
     <!-- Toolbar dimensions -->
-    <dimen name="toolbar_print_title_rightpadding">16dp</dimen>
-    <dimen name="toolbar_print_title_toppadding">0dp</dimen>
-    <dimen name="toolbar_print_title_bottompadding">0dp</dimen>
+    <dimen name="toolbar_right_padding">16dp</dimen>
+    <dimen name="toolbar_top_padding">0dp</dimen>
+    <dimen name="toolbar_bottom_padding">0dp</dimen>
 
     <!-- Top Menu dimensions-->
     <dimen name="top_menu_padding">4dp</dimen>

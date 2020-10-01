@@ -1,35 +1,39 @@
 <resources>
 
-    <!-- Base Toolbar Style -->
+    <!-- Toolbar Style -->
     <style name="ToolBarStyle">
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
-    <!-- Base toolbar title text style -->
+    <!-- Toolbar title text style -->
     <style name="ToolbarTitleTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:layout_gravity">left</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:textColor">@color/light_text</item>
-        <item name="android:paddingRight">@dimen/toolbar_print_title_rightpadding</item>
-        <item name="android:paddingTop">@dimen/toolbar_print_title_toppadding</item>
-        <item name="android:paddingBottom">@dimen/toolbar_print_title_bottompadding</item>
+        <item name="android:paddingRight">@dimen/toolbar_right_padding</item>
+        <item name="android:paddingTop">@dimen/toolbar_top_padding</item>
+        <item name="android:paddingBottom">@dimen/toolbar_bottom_padding</item>
     </style>
 
-<!--    <style name="TabLayout" parent="Widget.Design.TabLayout">-->
-<!--        <item name="tabTextAppearance">@style/TabTextAppearance</item>-->
-<!--        <item name="tabIndicatorColor">@color/tabSelected</item>-->
-<!--    </style>-->
+    <!-- Toolbar title text style -->
+    <style name="ToolbarTitleTextAppearance">
+        <item name="android:textColor">@color/colorLight</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
-<!--    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">-->
-<!--        <item name="textAllCaps">false</item>-->
-<!--        <item name="android:textColor">@color/light_text</item>-->
-<!--    </style>-->
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabIndicatorColor">@color/colorLightSelected</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/colorLight</item>
+    </style>
 
     <style name="SpinnerItemStyle">
         <item name="android:textColor">@color/dark_text</item>
