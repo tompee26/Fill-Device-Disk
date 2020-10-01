@@ -57,15 +57,14 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
 //                startActivity(intent)
 //                return true
 //            }
-//            R.id.menu_contact -> {
-//                intent = Intent(Intent.ACTION_SEND)
-//                intent.type = "message/rfc822"
-//                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("tompee26@gmail.com"))
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "Re: Fill Device Disk")
-//                intent.putExtra(Intent.EXTRA_TEXT, "")
-//                startActivity(Intent.createChooser(intent, getString(R.string.ids_lbl_contact)))
-//                return true
-//            }
+            R.id.menu_contact -> {
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "message/rfc822"
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf("tompee26@gmail.com"))
+                    putExtra(Intent.EXTRA_SUBJECT, "Re: Fill Device Disk")
+                    putExtra(Intent.EXTRA_TEXT, "")
+                }.let { Intent.createChooser(it, getString(R.string.ids_lbl_contact)) }
+            }
 //            R.id.menu_os -> {
 //                intent = Intent(this, HelpActivity::class.java)
 //                intent.putExtra(HelpActivity.TAG_MODE, HelpActivity.LICENSE)
