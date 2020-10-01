@@ -99,4 +99,11 @@ internal class DiskStorageManager @Inject constructor(@FromApplication private v
      * @return the inherent directory
      */
     override fun getDirectory(): String = context.filesDir.absolutePath
+
+    /**
+     * Invalidates all information
+     */
+    override fun invalidate() {
+        //TODO
+    }
 }

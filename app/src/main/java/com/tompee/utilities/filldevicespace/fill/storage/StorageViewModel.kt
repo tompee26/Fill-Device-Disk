@@ -63,6 +63,11 @@ internal class StorageViewModel @Inject constructor(
     ) { free, fill, total -> createPieData(free, fill, total) }
         .toLiveData()
 
+    /**
+     * Invalidates the information
+     */
+    fun invalidate() = storageManager.invalidate()
+
     private fun createPieData(free: Long, fill: Long, total: Long): PieData {
         val entries = listOfNotNull(
             if (fill != 0L) {

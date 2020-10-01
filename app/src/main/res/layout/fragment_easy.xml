@@ -29,16 +29,16 @@
             android:text="@string/ids_legend_fill"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLightDisabled"
-            app:layout_constraintEnd_toStartOf="@id/label_system"
+            app:layout_constraintEnd_toStartOf="@id/label_speed"
             app:layout_constraintStart_toEndOf="@id/label_free"
             app:layout_constraintTop_toTopOf="@id/label_free" />
 
         <TextView
-            android:id="@+id/label_system"
+            android:id="@+id/label_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/ids_legend_system"
+            android:text="@string/ids_legend_speed"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLightDisabled"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,69 +68,25 @@
             android:text="@{viewModel.fillSize}"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLight"
-            app:layout_constraintEnd_toStartOf="@id/system"
+            app:layout_constraintEnd_toStartOf="@id/speed"
             app:layout_constraintStart_toEndOf="@id/free"
             app:layout_constraintTop_toTopOf="@id/free"
             tools:text="2 GB" />
 
         <TextView
-            android:id="@+id/system"
+            android:id="@+id/speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@{viewModel.systemSize}"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fill"
             app:layout_constraintTop_toTopOf="@id/free"
-            tools:text="6.29 GB" />
-
-        <View
-            android:id="@+id/indicator_free"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_marginStart="@dimen/storage_indicator_margins"
-            android:layout_marginLeft="@dimen/storage_indicator_margins"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="@dimen/storage_indicator_margins"
-            android:layout_marginRight="@dimen/storage_indicator_margins"
-            android:background="@color/colorPrimaryLight"
-            app:layout_constraintEnd_toStartOf="@id/indicator_fill"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/free" />
-
-        <View
-            android:id="@+id/indicator_fill"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_marginStart="@dimen/storage_indicator_margins"
-            android:layout_marginLeft="@dimen/storage_indicator_margins"
-            android:layout_marginEnd="@dimen/storage_indicator_margins"
-            android:layout_marginRight="@dimen/storage_indicator_margins"
-            android:background="@color/colorAccent"
-            app:layout_constraintEnd_toStartOf="@id/indicator_system"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/indicator_free"
-            app:layout_constraintTop_toTopOf="@id/indicator_free" />
-
-        <View
-            android:id="@+id/indicator_system"
-            android:layout_width="0dp"
-            android:layout_height="4dp"
-            android:layout_marginStart="@dimen/storage_indicator_margins"
-            android:layout_marginLeft="@dimen/storage_indicator_margins"
-            android:layout_marginEnd="@dimen/storage_indicator_margins"
-            android:layout_marginRight="@dimen/storage_indicator_margins"
-            android:background="@color/colorLightDisabled"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/indicator_fill"
-            app:layout_constraintTop_toTopOf="@id/indicator_free" />
+            tools:text="0.0 MB/sec" />
 
         <TextView
-            android:id="@+id/refresh"
+            android:id="@+id/clear_fill"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -138,13 +94,12 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.invalidate()}"
             android:paddingTop="8dp"
             android:paddingBottom="16dp"
-            android:text="@string/ids_lbl_refresh"
+            android:text="@string/ids_lbl_clear"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLightDisabled"
-            app:drawableTopCompat="@drawable/ic_refresh"
+            app:drawableTopCompat="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/bottom_separator"
             app:layout_constraintStart_toStartOf="parent" />
@@ -163,7 +118,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/refresh" />
+            app:layout_constraintTop_toTopOf="@+id/clear_fill" />
 
         <TextView
             android:id="@+id/sdCard"
@@ -182,30 +137,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/bottom_separator" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/refresh"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indicator_fill"
-            app:pieData="@{viewModel.chartData}" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.tompee.utilities.filldevicespace.fill.storage.StorageViewModel" />
+            type="com.tompee.utilities.filldevicespace.fill.easy.EasyFillViewModel" />
     </data>
 </layout>

@@ -35,4 +35,9 @@ internal interface StorageManager {
      * @return the inherent directory
      */
     fun getDirectory(): String
+
+    /**
+     * Invalidates all information
+     */
+    fun invalidate()
 }

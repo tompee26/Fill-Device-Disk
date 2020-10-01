@@ -42,4 +42,9 @@ internal class StorageFragment @Inject constructor(
             setEntryLabelTextSize(12f)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.invalidate()
+    }
 }
