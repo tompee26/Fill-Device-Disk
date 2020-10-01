@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
+            android:text="@{viewModel.freeSize}"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLight"
             app:layout_constraintEnd_toStartOf="@id/fill"
@@ -64,6 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="@{viewModel.fillSize}"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLight"
             app:layout_constraintEnd_toStartOf="@id/system"
@@ -76,6 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="@{viewModel.systemSize}"
             android:textAppearance="?android:attr/textAppearanceListItem"
             android:textColor="@color/colorLight"
             app:layout_constraintEnd_toEndOf="parent"
@@ -193,7 +196,15 @@
             app:layout_constraintBottom_toTopOf="@+id/refresh"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indicator_fill" />
+            app:layout_constraintTop_toBottomOf="@+id/indicator_fill"
+            app:pieData="@{viewModel.chartData}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.tompee.utilities.filldevicespace.fill.storage.StorageViewModel" />
+    </data>
 </layout>

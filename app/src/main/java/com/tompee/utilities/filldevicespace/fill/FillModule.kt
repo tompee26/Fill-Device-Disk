@@ -3,10 +3,14 @@ package com.tompee.utilities.filldevicespace.fill
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
 import com.tompee.utilities.filldevicespace.common.factory.FragmentFactory
+import com.tompee.utilities.filldevicespace.common.factory.ViewModelFactory
 import com.tompee.utilities.filldevicespace.di.keys.FragmentKey
+import com.tompee.utilities.filldevicespace.di.keys.ViewModelKey
 import com.tompee.utilities.filldevicespace.di.scopes.ActivityScope
 import com.tompee.utilities.filldevicespace.fill.storage.StorageFragment
+import com.tompee.utilities.filldevicespace.fill.storage.StorageViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,6 +27,12 @@ internal abstract class FillModule {
         fun provideFragmentFactory(providerMap: Map<Class<out Fragment>, @JvmSuppressWildcards Provider<Fragment>>): FragmentFactory {
             return FragmentFactory(providerMap)
         }
+
+        @Provides
+        @ActivityScope
+        fun provideViewModelFactory(providerMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): ViewModelFactory {
+            return ViewModelFactory(providerMap)
+        }
     }
 
     @Binds
@@ -35,4 +45,9 @@ internal abstract class FillModule {
     @IntoMap
     @FragmentKey(StorageFragment::class)
     abstract fun bindStorageFragment(storageFragment: StorageFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(StorageViewModel::class)
+    abstract fun bindStorageViewModel(storageViewModel: StorageViewModel): ViewModel
 }
