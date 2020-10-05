@@ -18,10 +18,10 @@ internal class AssetManager @Inject constructor(
     @FromApplication private val context: Context
 ) {
     companion object {
-        private const val ASSET_5MB = "filler_5MB"
-        private const val ASSET_1MB = "filler_1MB"
-        private const val ASSET_100KB = "filler_100KB"
-        private const val ASSET_8KB = "filler_8KB"
+        private const val ASSET_5MB = "filler_5MB.dat"
+        private const val ASSET_1MB = "filler_1MB.dat"
+        private const val ASSET_100KB = "filler_100KB.dat"
+        private const val ASSET_8KB = "filler_8KB.dat"
         private const val ASSET_5MB_SIZE = 5242880L
         private const val ASSET_1MB_SIZE = 1048576L
         private const val ASSET_100KB_SIZE = 102400L

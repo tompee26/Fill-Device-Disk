@@ -122,7 +122,7 @@ internal class DiskStorageManager @Inject constructor(
         val initialFileCount = getFileCount()
         return Observable.interval(10, TimeUnit.MILLISECONDS)
             .map { initialFileCount + it }
-            .switchMapSingle {
+            .concatMapSingle {
                 if (limit == 0L) freeFill(it) else Single.just(0.0)
             }
             .onErrorResumeNext(Observable.just(0.0))
@@ -153,7 +153,7 @@ internal class DiskStorageManager @Inject constructor(
         File(outputPath).mkdirs()
         context.assets.open(assetsFileName).use { input ->
             FileOutputStream(File(outputPath, outputFileName)).use { out ->
-                val data = ByteArray(4096)
+                val data = ByteArray(65536)
                 var count = input.read(data)
                 while (count != -1) {
                     out.write(data, 0, count)

@@ -55,6 +55,10 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    aaptOptions {
+        noCompress "dat"
+    }
 }
 
 dependencies {
