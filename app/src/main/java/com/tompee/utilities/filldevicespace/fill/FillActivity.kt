@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.material.tabs.TabLayoutMediator
 import com.tompee.utilities.filldevicespace.R
 import com.tompee.utilities.filldevicespace.about.AboutActivity
 import com.tompee.utilities.filldevicespace.common.ui.BaseActivity
@@ -40,6 +41,13 @@ internal class FillActivity : BaseActivity<ActivityFillBinding>(),
         setToolbar(viewBinding.toolbar)
         background.setImageDrawable(assetManager.getDrawable("bg.jpg"))
         viewBinding.pager.adapter = viewPagerAdapter
+        TabLayoutMediator(viewBinding.tabs, viewBinding.pager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.ids_lbl_easy_fill)
+                1 -> getString(R.string.ids_lbl_check_storage)
+                else -> getString(R.string.ids_lbl_advance_fill)
+            }
+        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -9,6 +9,8 @@ import com.tompee.utilities.filldevicespace.common.factory.ViewModelFactory
 import com.tompee.utilities.filldevicespace.di.keys.FragmentKey
 import com.tompee.utilities.filldevicespace.di.keys.ViewModelKey
 import com.tompee.utilities.filldevicespace.di.scopes.ActivityScope
+import com.tompee.utilities.filldevicespace.fill.advance.AdvanceFillFragment
+import com.tompee.utilities.filldevicespace.fill.advance.AdvanceFillViewModel
 import com.tompee.utilities.filldevicespace.fill.easy.EasyFillFragment
 import com.tompee.utilities.filldevicespace.fill.easy.EasyFillViewModel
 import com.tompee.utilities.filldevicespace.fill.storage.StorageFragment
@@ -55,6 +57,11 @@ internal abstract class FillModule {
 
     @Binds
     @IntoMap
+    @FragmentKey(AdvanceFillFragment::class)
+    abstract fun bindAdvanceFillFragment(advanceFillFragment: AdvanceFillFragment): Fragment
+
+    @Binds
+    @IntoMap
     @ViewModelKey(StorageViewModel::class)
     abstract fun bindStorageViewModel(storageViewModel: StorageViewModel): ViewModel
 
@@ -62,4 +69,9 @@ internal abstract class FillModule {
     @IntoMap
     @ViewModelKey(EasyFillViewModel::class)
     abstract fun bindEasyFillViewModel(easyFillViewModel: EasyFillViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AdvanceFillViewModel::class)
+    abstract fun bindAdvanceFillViewModel(advanceFillViewModel: AdvanceFillViewModel): ViewModel
 }

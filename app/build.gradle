@@ -75,7 +75,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayout"
 
     implementation "androidx.viewpager2:viewpager2:$viewPager"
-    implementation "com.android.support:design:$support"
+    implementation "com.google.android.material:material:$support"
 
     implementation "com.google.dagger:dagger:$dagger"
     implementation "com.google.dagger:dagger-android:$dagger"
@@ -96,7 +96,6 @@ dependencies {
 
     def mpAndroidChart = "v3.0.0-beta1"
     implementation "com.github.PhilJay:MPAndroidChart:$mpAndroidChart"
-
 
     def circleProgressView = "v1.2.9.1"
     implementation "com.github.jakob-grabner:Circle-Progress-View:$circleProgressView"

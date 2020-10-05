@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.tompee.utilities.filldevicespace.common.factory.FragmentFactory
+import com.tompee.utilities.filldevicespace.fill.advance.AdvanceFillFragment
 import com.tompee.utilities.filldevicespace.fill.easy.EasyFillFragment
 import com.tompee.utilities.filldevicespace.fill.storage.StorageFragment
 import javax.inject.Inject
@@ -17,7 +18,7 @@ internal class FillViewPagerAdapter @Inject constructor(
     private val fragmentFactory: FragmentFactory
 ) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -28,6 +29,10 @@ internal class FillViewPagerAdapter @Inject constructor(
             1 -> fragmentFactory.instantiate(
                 fragmentActivity.classLoader,
                 StorageFragment::class.java.name
+            )
+            2 -> fragmentFactory.instantiate(
+                fragmentActivity.classLoader,
+                AdvanceFillFragment::class.java.name
             )
             else -> throw IllegalStateException("Position not found")
         }
